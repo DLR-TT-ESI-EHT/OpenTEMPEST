@@ -1,16 +1,12 @@
-within OpenTEMPEST.SOC.Cell.CrossFlow;
+﻿within OpenTEMPEST.SOC.Cell.CrossFlow;
 model PEN2D
   extends Heat.BaseClasses.Solid2DBase(        redeclare package SolidMat =
-        TEMPEST.Solid.Material.Custom,
-        cpCustom=500,
-    rhoCustom(displayUnit="kg/m3") = 5900,
-    kCustom_trans=2,
-    lX=9.0e-2,
-    lY=1.42e-1,
-    lZ=1.51e-4);
+        OpenTEMPEST.Solid.Material.Custom);
 
-  parameter Modelica.SIunits.CurrentDensity Jstart=0;
-  constant Modelica.SIunits.AbsolutePressure p0=1e5 "Standard Pressure";
+  import SI = Modelica.SIunits;
+
+  parameter SI.CurrentDensity Jstart=0;
+  constant SI.AbsolutePressure p0=1e5 "Standard Pressure";
 
   replaceable model Electrochem =
        OpenTEMPEST.SOC.Electrochem.Components.Crossflow_Electrochem     constrainedby
@@ -19,12 +15,12 @@ model PEN2D
 
    Electrochem electrochem[nX, nY](Tpen=T, J=J, P_A=PEN_ina.P, P_F=PEN_in.P, p0=fill(p0, nX, nY), yA=PEN_ina.Y, yF=PEN_in.Y);
 
-   Modelica.SIunits.Voltage Uop[nX,nY] "Operating Voltage of Cell";
-   Modelica.SIunits.CurrentDensity J[nX,nY](each start=Jstart) "Current Density of Control Volume";
-   Modelica.SIunits.Current Icell "Total current into Cell";
-   Modelica.SIunits.Current Iv[nX, nY];
-   Modelica.SIunits.EnergyFlowRate q_electrochem[nX, nY] = electrochem.q_electroChem*dx*lY;
-   Modelica.SIunits.MolarFlowRate rEl[nX, nY] = electrochem.r*dx*lY;
+   SI.Voltage Uop[nX,nY] "Operating Voltage of Cell";
+   SI.CurrentDensity J[nX,nY](each start=Jstart) "Current Density of Control Volume";
+   SI.Current Icell "Total current into Cell";
+   SI.Current Iv[nX, nY];
+   SI.EnergyFlowRate q_electrochem[nX, nY] = electrochem.q_electroChem*dx*lY;
+   SI.MolarFlowRate rEl[nX, nY] = electrochem.r*dx*lY;
 
   OpenTEMPEST.SOC.Electrochem.Interfaces.VariablesStream PEN_ina[nX,nY](each
       nspecies=Medium.Air_Medium.nXi) annotation (Placement(transformation(
@@ -74,5 +70,19 @@ equation
   PEN_ina.I_H = zeros(nX,nY);
   PEN_ina.I_C = zeros(nX,nY);
 
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(coordinateSystem(preserveAspectRatio=false)));
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(coordinateSystem(preserveAspectRatio=false)),
+    Documentation(info="<html>
+<h2>PEN2D</h2>
+
+<p>
+The model represents a two-dimensional discretized 
+Positive Electrode–Electrolyte–Negative Electrode (PEN) structure. The model couples:
+</p>
+
+<ul>
+<li>Electrochemical reactions in each control volume</li>
+<li>Electrical current distribution</li>
+<li>Species and mass transport through electrochemical interfaces</li>
+</ul>
+</html>"));
 end PEN2D;

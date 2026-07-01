@@ -197,8 +197,5 @@ equation
           fillPattern=FillPattern.Solid)}),                      Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
-<li><i>04 May 2022</i>
-by Santiago Salas Ventura:<br>
-Define parameters pStartFuel and pStartAir which default to pStart; merge request !240.</li>
 </html>"));
 end FlowInterpolator1D;

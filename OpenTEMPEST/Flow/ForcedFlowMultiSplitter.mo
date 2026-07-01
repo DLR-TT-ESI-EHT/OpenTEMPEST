@@ -22,8 +22,8 @@ model ForcedFlowMultiSplitter
     annotation (Placement(transformation(extent={{-100,32},{-80,52}})));
   Modelica.Blocks.Math.Product product
     annotation (Placement(transformation(extent={{-42,26},{-22,46}})));
-  OpenTEMPEST.Flow.MultiSplitter multiSplitter(nOutlets=nOutlets, redeclare
-      package Medium = Medium)
+  OpenTEMPEST.Flow.MultiSplitter multiSplitter(nOutlets=nOutlets, redeclare package
+              Medium = Medium)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Modelica.Blocks.Math.Product productVar[nOutlets - 1]
     annotation (Placement(transformation(extent={{-10,32},{10,52}})));

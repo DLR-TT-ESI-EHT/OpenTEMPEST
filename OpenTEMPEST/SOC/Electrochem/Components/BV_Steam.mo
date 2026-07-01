@@ -5,13 +5,13 @@ model BV_Steam "Steam Electrolysis with B-V, Ohmic ASR and Diffusion"
 import SI = Modelica.SIunits;
 
   SI.MolarEnthalpy H_h2o, H_o2, H_h2;
-  SI.CurrentDensity Jo_FE;
-  SI.MolarEnthalpy dHr;
+  SI.CurrentDensity Jo_FE "Fuel electrode exchange current density";
+  SI.MolarEnthalpy dHr "Enthalpy change of reaction";
 
-  replaceable Real E_fe = 95160;
+  replaceable Real E_fe = 95160 "Activation energy fuel electrode";
   replaceable Real a = 0.04;
   replaceable Real b = 0.18;
-  replaceable Real gammaFE = 1.52e5;
+  replaceable Real gammaFE = 1.52e5 "Pre-exponential factor fuel electrode Jo";
 
 equation
   J_H = J;
@@ -46,6 +46,8 @@ equation
     exclEnthForm=false,
     refChoice=Modelica.Media.Interfaces.Choices.ReferenceEnthalpy.ZeroAt25C,
     data=Modelica.Media.IdealGases.Common.SingleGasesData.H2);
+
+  // Enthalpy change of reaction calculation
   dHr = H_h2o - 0.5*H_o2 - H_h2;
   q_electroChem = -r*dHr;
 
@@ -63,4 +65,12 @@ equation
     yF_tpb = yF;
   end if;
 
+  annotation (Documentation(info="<html>
+  <body>
+    <p>References for parameters:</p>
+    <ul>
+      <li>DOI: 10.1149/1945-7111/ad5e01</li>
+    </ul>
+  </body>
+</html>"));
 end BV_Steam;

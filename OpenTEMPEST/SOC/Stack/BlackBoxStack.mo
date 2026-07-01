@@ -1,49 +1,47 @@
-within OpenTEMPEST.SOC.Stack;
+﻿within OpenTEMPEST.SOC.Stack;
 model BlackBoxStack
   "0D stack based on lumped ASR expression assuming full internal steam reforming (CH4 outlet is 0) with no pressure loss."
 
   import SI = Modelica.SIunits;
 
-  parameter Integer nCells = 30;
-  parameter Integer nParallel = 1 "parallel stacks with equal voltage";
-  parameter SI.Area ACell = 127.8/100^2;
-  parameter SI.HeatCapacity C = 1 "capacity of each stack if nParallel>=1";
+  parameter Integer nCells = 30 "Number of electrochemical cells connected in series";
+  parameter Integer nParallel = 1 "Parallel stacks with equal voltage";
+  parameter SI.Area ACell = 130/100^2 "Active area per single cell";
+  parameter SI.HeatCapacity C = 1 "Capacity of each stack if nParallel>=1";
   parameter Units.AreaSpecificResistance alphaASR=728;
   parameter SI.LinearTemperatureCoefficient betaASR=-8.29e-3;
 
-  parameter Integer n(min = 1)=10 "number of axially discretisized units in heat ports";
-  parameter Integer intermediatePlateDistance = 10 "number of cells between two intermediate plates, set to >nCellPerStack to have none" annotation (Dialog(tab="Intermediate and end plates properties"));
-  parameter Boolean calcPressureDrop = false "define if pressure drop calculation needed";
-  parameter Boolean useDhtInletOutlet = true "define if dht at inlet and outlet are needed. For FMU, scaling nCells in DHT generates error 'the start values for the following variables could not be set: Ncell' when changing Ncell param";
+  parameter Integer n(min = 1)=10 "Number of axially discretisized units in heat ports";
+  parameter Integer intermediatePlateDistance = 10 "Number of cells between two intermediate plates, set to >nCellPerStack to have none" annotation (Dialog(tab="Intermediate and end plates properties"));
+  parameter Boolean calcPressureDrop = false "Define if pressure drop calculation needed";
+  parameter Boolean useDhtInletOutlet = true "Define if dht at inlet and outlet are needed. For FMU, scaling nCells in DHT generates error 'the start values for the following variables could not be set: Ncell' when changing Ncell param";
 
-  replaceable model ASRobj =
-      Electrochem.ASR.ASR_Exponential                                   constrainedby
-    Electrochem.ASR.ASR_Base                                                                                                              annotation(choicesAllmatching=true);
+  // Electrochemistry model
+  replaceable model Electrochem = OpenTEMPEST.SOC.Electrochem.Components.ASR_Steam (redeclare model ASRobj =
+          OpenTEMPEST.SOC.Electrochem.ASR.ASR_Exponential (A=alphaASR, B=betaASR))
+                                                                           constrainedby
+    OpenTEMPEST.SOC.Electrochem.Components.ASR_Steam                               annotation(Placement(transformation(extent={{78,50},{98,70}})), choicesAllMatching=true, dialog(group="Electrochemistry"));
 
-  ASRobj asr(Tpen= TASR, A=alphaASR, B=betaASR);
+  Electrochem electrochem(Tpen=TASR, J=J, P_A=(sensAirIn.p + sensAirOut.p)/2, P_F=(sensFuelIn.p + sensFuelOut.p)/2, p0=Po, yA=(sensAirIn.y + sensAirOut.y)/2, yF=(sensFuelIn.y + sensFuelOut.y)/2);
 
   parameter SI.MassFraction [Fuel.nXi] XStartGas=Fuel.X_default;
   parameter SI.MassFraction [Air.nXi] XStartAir=Air.X_default;
 
-  replaceable package Fuel =
-      Medium.Fuel_CH4         annotation(choicesAllMatching = true);
-  replaceable package Air =
-      Medium.Air_Medium         annotation(choicesAllMatching = true);
+  replaceable package Fuel = OpenTEMPEST.Medium.Fuel_CH4 constrainedby Medium.Fuel_CH4
+                              annotation(choicesAllMatching = true);
+  replaceable package Air = OpenTEMPEST.Medium.Air_Medium constrainedby Medium.Air_Medium
+                                annotation(choicesAllMatching = true);
 
-  SI.Voltage UOp;
-  SI.Voltage UId;
-  SI.Temperature TASR(start=825); // = sensAirOut.T;
+  SI.Temperature TASR(start=825);
   SI.MassFlowRate mfO2cr;
-  Real XOutGas[6];
-  Real XOutAir[Air.nXi];
+  SI.MassFraction XOutGas[6];
+  SI.MassFraction XOutAir[Air.nXi];
   Real YOutGuess[6];
-  SI.Current I;
-  Real RC;
-  Real z;
-  Real ASR "Area specific resistance in ohm cm^2";
+  SI.Current I " Stack current";
+  SI.CurrentDensity J "Current density";
+  Real RC "Reactant conversion";
+  Real z "Effective electron number depending on FC or EC mode";
 
-  SI.SpecificGibbsFreeEnergy go_T_H;
-  SI.SpecificGibbsFreeEnergy delGr_H "Specific gibbs free energy change of reaction H2/H2O electrochem reaction";
   SI.AbsolutePressure Po = 1e5;
   parameter Real eps=Modelica.Constants.eps "compare vs. 0 in a conform way, needed for FMU import since other environments implement it differently with different eps. eps=1e-6 needed for simulink import as model exchange";
 
@@ -96,7 +94,7 @@ model BlackBoxStack
     annotation (Placement(transformation(extent={{-52,-36},{-32,-16}})));
   OpenTEMPEST.Flow.SensGasProperty sensFuelIn(
     mfOutput=true,
-    pOutput=false,
+    pOutput=true,
     hOutput=false,
     XOutput=true,
     YOutput=true,
@@ -212,18 +210,20 @@ model BlackBoxStack
     if calcPressureDrop
     annotation (Placement(transformation(extent={{-16,-60},{4,-40}})));
 protected
-  parameter Real zFC[Fuel.nX] = {2,8,0,2,0,0};
-  parameter Real zEC[Fuel.nX] = {0,0,2,0,2,0};
+  parameter Real zFC[Fuel.nX] = {2,8,0,2,0,0} "Stoichiometric coefficients for fuel cell mode";
+  parameter Real zEC[Fuel.nX] = {0,0,2,0,2,0} "Stoichiometric coefficients for electrolysis mode";
 
 equation
 
   // Electric connections
-  nCells*UOp = pinP.v - pinN.v;
+  nCells*electrochem.Uop = pinP.v - pinN.v;
   0 = pinP.i + pinN.i;
   I = pinP.i;
 
+  J = I/ACell;
+
   // Energy balance
-  C*nParallel * der(TASR) = sensFuelIn.Hf + sensAirIn.Hf - sensFuelOut.Hf - sensAirOut.Hf - I * nCells*UOp*nParallel +
+  C*nParallel * der(TASR) = sensFuelIn.Hf + sensAirIn.Hf - sensFuelOut.Hf - sensAirOut.Hf - I * nCells*electrochem.Uop*nParallel +
                     htSideLeft.Q_flow + htSideRight.Q_flow + sum(dhtBottom.Q)+ sum(dhtTop.Q) +
                    sum(dhtInlet.Q) + sum(htPlatesInlet.Q_flow) + sum(dhtOutlet.Q) + sum(htPlatesOutlet.Q_flow);
 
@@ -243,18 +243,6 @@ equation
   mfO2cr = Air.MMX[1] * I * nCells*nParallel / 4 / Modelica.Constants.F;
   XOutAir[1] = (sensAirIn.x[1] * sensAirIn.mf - mfO2cr) / (sensAirIn.mf - mfO2cr + 1e-12);
   XOutAir[2] = 1 - XOutAir[1];
-
-  // Gibbs energy calculation
-  go_T_H = (0.05354*(TASR) -245.9767)*1e3; // linear relationship from NASA polynomials
-  delGr_H = if z>eps then go_T_H + Modelica.Constants.R*TASR*(0.5*Modelica.Math.log( ((sensFuelIn.y[5]+sensFuelOut.y[5])/2)^2)
-    - 0.5*Modelica.Math.log(((sensFuelIn.y[1]+sensFuelOut.y[1])/2)^2)  - 0.5*Modelica.Math.log((sensAirIn.y[1]+sensAirOut.y[1])/2)
-    - 0.5*Modelica.Math.log((sensAirIn.p+sensAirOut.p)/2/Po)) else 0;
-
-  // Voltage calculation
-  UId = (-delGr_H/(2*Modelica.Constants.F));
-  ASR = asr.ASR;
-  //alphaASR*exp(betaASR*(TASR-273.15)); // Riedel, 2020, https://doi.org/10.1016/j.jpowsour.2020.228682
-  UOp =  (UId - I/(ACell*100^2) * ASR);
 
   // External heat transfer
   htSideLeft.Q_flow = 0.15 * (htSideLeft.T-TASR);
@@ -329,10 +317,29 @@ equation
             fillPattern =                                                                                                                                                                                                        FillPattern.Solid, extent = {{40, 40}, {-40, -40}}, textString = "0D-Stack")}),                              Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
+</html>", info="<html>
+<h2>BlackBoxStack</h2>
+
+<p>
+0D stack model based on a lumped 
+Area Specific Resistance (ASR) formulation. The model assumes:
+</p>
+
 <ul>
-<li>03-02-2023 by Santiago Salas Ventura<br>for FMU import into simulink, compare vs. eps instead of 0, since simulink has different machine precision and &quot;I&gt;0 or I&lt;0&quot; is not triggered if 0 is not replaced by ~1e-10 (though dymola is more forgiving, and that works).</li>
-<li>31-01-2022 by Santiago Salas Ventura<br>add ASR class for different ASR expression options, avoid cooling when I=0 with small amount of CH4 by adding conditional.</li>
-<li>23-09-2021 by Marius Tomberg<br>New model.</li>
+<li>Zero-dimensional thermal behavior (uniform stack temperature TASR).</li>
+<li>Full internal steam reforming (CH4 outlet concentration assumed zero after equilibrium correction).</li>
+<li>No internal pressure losses unless <code>calcPressureDrop=true</code>.</li>
+<li>Uniform current density across all cells.</li>
+</ul>
+
+<h3>Main Modeling Assumptions</h3>
+
+<ul>
+<li>Electrochemical losses are represented by a temperature-dependent ASR:
+<br>ASR = A · exp(B · T)</li>
+<li>All cells operate at the same temperature.</li>
+<li>Fuel-side composition is corrected using a simplified WGS equilibrium.</li>
+<li>Lumped heat capacity represents the full stack.</li>
 </ul>
 </html>"));
 end BlackBoxStack;

@@ -4,15 +4,13 @@ model Crossflow_Electrochem
   extends OpenTEMPEST.SOC.Electrochem.Components.ElectrochemBase;
   import SI = Modelica.SIunits;
 
-  replaceable model ASRobj = OpenTEMPEST.SOC.Electrochem.ASR.ASR_Ohm_SF(A = 35.316e4,B = -1.264e-2,Yo = 27.266e-2)
+  replaceable model ASRobj = OpenTEMPEST.SOC.Electrochem.ASR.ASR_Ohm_ESC (
+                                                                        A = 35.316e4,B = -1.264e-2,Yo = 27.266e-2)
     constrainedby OpenTEMPEST.SOC.Electrochem.ASR.ASR_OhmBase annotation(choicesAllMatching=true);
 
   ASRobj asrobj(Tpen=Tpen);
 
-  // Cell parameters taken from << Modeling and analysis of cross-flow solid oxide electrolysis cell
-  // with oxygen electrode/electrolyte interface oxygen pressure
-  // characteristic for hydrogen production >>, Zhiping Xia
-
+  // Geometric parameters
   parameter SI.Length tauFE=312.5e-6 "Fuel electrode thickness",
                       tauAE=17.5e-6 "Air electrode thickness",
                       tauEl=12.5e-6 "Electrolyte thickness";
@@ -233,4 +231,12 @@ equation
     yF_tpb = yF;
   end if;
 
+  annotation (Documentation(info="<html>
+  <body>
+    <p>References for parameters:</p>
+    <ul>
+      <li>DOI: 10.1149/1945-7111/ad5e01</li>
+    </ul>
+  </body>
+</html>"));
 end Crossflow_Electrochem;

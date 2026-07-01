@@ -63,11 +63,5 @@ equation
           textString="xN")}),                                         Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
-<ul>
-<li><i>27 Aug 2021</i> by <a href=\"faisal.sedeqi@dlr.de\">Faisal Sedeqi</a>:<br>Modified Conduction Between CVs including Direction Dependent Conductivity. </li>
-<li><i>03 Aug 2021</i> by <a href=\"faisal.sedeqi@dlr.de\">Faisal Sedeqi</a>:<br>Changed port names. Will change conduction between CVs next.</li>
-<li><i>23 Jul 2021</i> by <a href=\"hans.wiggenhauser@dlr.de\">Hans Wiggenhauser</a>:<br>finished and tested.</li>
-<li><i>20 Jul 2021</i> by <a href=\"faisal.sedeqi@dlr.de\">Faisal Sedeqi</a>:<br>created, edge energy balance missinge. </li>
-</ul>
 </html>"));
 end Solid2D;

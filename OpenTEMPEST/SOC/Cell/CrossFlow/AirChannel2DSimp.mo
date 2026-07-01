@@ -4,23 +4,19 @@ model AirChannel2DSimp "Air channel model 1D discretised with 2D interfaces"
   import SI = Modelica.SIunits;
 
   extends Channel2DBaseSimp(
-    Nu_IC=7.54,
-    Nu_PEN=8.235,
-    redeclare package Medium = OpenTEMPEST.Medium.Air_Medium,
-    channelFac=-1);
-
-  // Selections
-  parameter Boolean LUDS=false "Set true if Linear Upwind difference wanted (more accuracy), false for Upwind difference scheme (more speed and stability)";
-  parameter Boolean heatTransferCorrelationFormDuct=true "true for Nusselt correlation duct geometry with characteristic length=2*lZ (default), false for plate geometry with characteristic length=lX";
+    redeclare package Medium = OpenTEMPEST.Medium.Air_Medium);
 
   // Pressure Drop
-  SI.PressureDifference dp[nX]=Blocks.Functions.pressureDropDarcy(        mfv[1:nX], eta, Gas.d, dx, lZ*lY, 2.5e-9) "pressure loss";
+  SI.PressureDifference dp[nX]=Blocks.Functions.pressureDropDarcy(mfv[1:nX], eta, Gas.d, dx, lZ*lY, 3e-9) "pressure loss";
   parameter Real pDrop(max=0.99) "pressure drop as a factor of inlet pressure (between 0 and 0.99)";
   SI.DynamicViscosity eta[nX]=Medium.dynamicViscosity(Gas.state);
 
   // Kinetics
   SI.MolarFlowRate rEl[nX];
+
+  SI.EnergyFlowRate Qcond[nX];
   SI.EnergyFlowRate q_electrochem[nX] = rEl .* (0.5*H_o2);
+
 protected
   Real a[2] = {-0.5, 0};
   SI.MolarEnthalpy H_o2[nX]=Medium.MMX[1]*Modelica.Media.IdealGases.Common.Functions.h_T(
@@ -30,14 +26,23 @@ protected
     data=Modelica.Media.IdealGases.Common.SingleGasesData.O2);
 
 equation
+  // Energy Balance
+  Emg[:] = Gas[:].d.*Gas[:].u.*por*dV;
 
-   // External heat flow 2D
-   for i in 1:nX loop
-     QgasExt[i] = sum(Q_PEN.Q[i,:]) .+ sum(Q_IC.Q[i,:]) .- q_electrochem[i];
-   end for;
+  Qcond[1] = (kRibs/dx)*(1-por)*lY*lZ.*(T[2] .- T[1]);
+  Qcond[2:nX-1] = (kRibs/dx)*(1-por)*lY*lZ.*(T[3:nX] .- 2.*T[2:nX-1] .+ T[1:nX-2]);
+  Qcond[nX] = (kRibs/dx)*(1-por)*lY*lZ.*(T[nX-1] .- T[nX]);
+
+  // External heat flow 2D
+  for i in 1:nX loop
+    QgasExt[i] = sum(Q_PEN.Q[i,:]) .+ sum(Q_IC.Q[i,:]) .+ Qcond[i] .- q_electrochem[i];
+  end for;
+
+  Gas.T = T;
 
   // Reaction kinetics
   for i in 1:nX loop
+    massTransfer[i] = -sum(PEN_in[i,:].I)./(4*Modelica.Constants.F).*Modelica.Media.IdealGases.SingleGases.O2.data.MM;
     rEl[i] = sum(PEN_in[i,:].I)./(2*Modelica.Constants.F); // 2D variables stream interface
 
     // Mass flow rate calculation
@@ -60,9 +65,21 @@ equation
           fillColor={134,134,134})}),                            Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
+</html>", info="<html>
+<h2>AirChannel2DSimp</h2>
+
+<p>
+Top-level air channel simplified model.
+The model extends <code>Channel2DBaseSimp</code> and represents the
+oxygen electrode side including electrochemical oxygen
+reduction/evolution and axial pressure losses.
+</p>
+
+<h3>Spatial Discretisation</h3>
 <ul>
-<li><i>2 Feb 2025</i> by Anis Taissir</a>:<br>
-       First release.</li>
+<li>1D finite-volume discretisation in streamwise direction (X)</li>
+<li>2D thermal and electrochemical coupling to PEN and interconnect (Y)</li>
+<li>Uniform gas properties across Y within each X control volume</li>
 </ul>
 </html>"));
 end AirChannel2DSimp;

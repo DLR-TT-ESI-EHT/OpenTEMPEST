@@ -4,62 +4,62 @@ partial model BV_ElectrochemBase
   extends OpenTEMPEST.SOC.Electrochem.Components.ElectrochemBase;
   import SI = Modelica.SIunits;
 
-  replaceable model ASRobj = ASR.ASR_Ohm_SF (
+  replaceable model ASRobj = ASR.ASR_Ohm_ESC (
       A=35.316e4,
       B=-1.264e-2,
       Yo=27.266e-2) constrainedby ASR.ASR_OhmBase                           annotation(choicesAllMatching=true);
 
   ASRobj asrobj(Tpen=Tpen);
 
-  // Gemoetric parameters for the stack used for the measurements by Srikanth 2018 Transient reversible solid oxide cell reactor operation
-  parameter SI.Length tauFE_Measure = 30e-6 "[m]",
-                      tauAE_Measure = 55e-6 "[m]",
-                      tauEl_Measure = 90e-6 "[m]";
+  // Geometric parameters
+  parameter SI.Length tauFE_Measure = 30e-6 "Measured fuel electrode thickness in m",
+                      tauAE_Measure = 55e-6 "Measured air electrode thickness in m",
+                      tauEl_Measure = 90e-6 "Measured electrolyte thickness in m";
 
-  parameter SI.Length tauFE=30e-6,
-                      tauAE=55e-6,
-                      tauEl=90e-6;
+  parameter SI.Length tauFE=30e-6 "Fuel electrode thickness in m",
+                      tauAE=55e-6 "Air electrode thickness in m",
+                      tauEl=90e-6 "Electrolyte thickness in m";
 
-  parameter Real ASROhmDegrationRate=0 "degradation rate of the ohmic resitance in Ohm.cm²/kh";
+  parameter Real ASROhmDegrationRate=0 "Degradation rate of the ohmic resitance in Ohm.cm²/kh";
   parameter Real ROhmFac=1 "Constant factor for ohmic resistance (e. g. for sensitivity analysis)";
 
-  parameter Real alphaFE=0.5 "transfer coefficient for fuel electrode H2/H2O";
-  parameter Real alphaAE=0.5;
-  parameter SI.Length dpFE=4e-6 "pore diameter of porous fuel electrode",
-                     dpAE=4e-6 "pore diameter of porous air electrode";
-  parameter Real PhsiFE=3.39845 "fitting parameter for fuel electrode - effective tortousity";
-  parameter Real PhsiAE=7.51231 "fitting parameter for air electrode - effective tortousity";
-  parameter Real epsiFE=0.4 "porosity of fuel electrode";
-  parameter Real epsiAE=0.4 "porosity of air electrode";
+  parameter Real alphaFE=0.5 "Transfer coefficient for fuel electrode H2/H2O";
+  parameter Real alphaAE=0.5 "Transfer coefficient for air electrode";
+  parameter SI.Length dpFE=4e-6 "Pore diameter of porous fuel electrode",
+                     dpAE=4e-6 "Pore diameter of porous air electrode";
+  parameter Real PhsiFE=3.39845 "Fitting parameter for fuel electrode - effective tortousity";
+  parameter Real PhsiAE=7.51231 "Fitting parameter for air electrode - effective tortousity";
+  parameter Real epsiFE=0.4 "Porosity of fuel electrode";
+  parameter Real epsiAE=0.4 "Porosity of air electrode";
 
   parameter Boolean diffusionActive=true;
   parameter Real Xstart[MediumF.nX] = {0.1, 1e-5, 1e-5, 1e-5, 0.9, 1e-5};
 
-  replaceable Real E_ae= 106810;
-  replaceable Real d=0.298;
-  replaceable Real gammaAE = 2.44e6;
+  replaceable Real E_ae= 106810 "Activation energy air electrode";
+  replaceable Real d=0.298 "Exponent for air electrode Jo calculation";
+  replaceable Real gammaAE = 2.44e6 "Pre-exponential factor";
 
 
-  Real ROhm "ohmic Resistance";
+  Real ROhm "Ohmic resistance";
 
-  SI.Voltage Uideal;
-  SI.Voltage UactFE(start=-0.02);
-  SI.Voltage UDiffFE;
-  SI.Voltage Uohm;
-  SI.Voltage UactAE(start=0.05);
-  SI.Voltage UDiffAE;
+  SI.Voltage Uideal "Ideal voltage";
+  SI.Voltage UactFE(start=-0.02) "Fuel electrode activation overpotential";
+  SI.Voltage UDiffFE "Fuel electrode diffusion overpotential";
+  SI.Voltage Uohm "Ohmic overpotential";
+  SI.Voltage UactAE(start=0.05) "Air electrode activation overpotential";
+  SI.Voltage UDiffAE "Air electrode diffusion overpotential";
 
   //SI.SpecificEnthalpy dHr;
-  SI.SpecificGibbsFreeEnergy delGr "Specific gibbs free energy change of reaction Defined in level above";
-  SI.SpecificGibbsFreeEnergy go_T "Gibbs Energy change with Temperature, defined above";
-  Real yF_tpb[nSpeciesF](start=Xstart);
-  Real yA_tpb[nSpeciesA](start={0.21, 0.79});
+  SI.SpecificGibbsFreeEnergy delGr "Specific gibbs free energy change of reaction (defined in level above)";
+  SI.SpecificGibbsFreeEnergy go_T "Gibbs Energy change with temperature (defined in level above)";
+  Real yF_tpb[nSpeciesF](start=Xstart) "Initial molar composition at the fuel electrode triple-phase boundary";
+  Real yA_tpb[nSpeciesA](start={0.21, 0.79}) "Initial molar composition at the air electrode triple-phase boundary";
 
-  Real sigma_a "conductivity of fuel electrode",
-       sigma_e "conductivity of electrolyte",
-       sigma_c "conductivity of cathode";
+  Real sigma_a "Conductivity of fuel electrode",
+       sigma_e "Conductivity of electrolyte",
+       sigma_c "Conductivity of cathode";
 
-  Real Jo_AE;
+  SI.CurrentDensity Jo_AE "Air electrode exchange current density";
 
  // Diffusivities - Knudssen
    SI.DiffusionCoefficient Deff_h2_k "Knudsen diff coeff of h2";
@@ -180,4 +180,13 @@ equation
     UDiffAE = 0;
   end if;
 
+  annotation (Documentation(info="<html>
+  <body>
+    <p>References for parameters:</p>
+    <ul>
+      <li>DOI: 10.1149/1945-7111/ab6820</li>
+      <li>DOI: 10.1149/1945-7111/ad5e01</li>
+    </ul>
+  </body>
+</html>"));
 end BV_ElectrochemBase;

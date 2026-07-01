@@ -2,12 +2,12 @@ within OpenTEMPEST.SOC.Electrochem.Components;
 model ASR_Steam
   extends OpenTEMPEST.SOC.Electrochem.Components.ASR_ElectrochemBase(redeclare replaceable model
                         ASRobj = OpenTEMPEST.SOC.Electrochem.ASR.ASR_log (A=
-            6464.7, B=6.8416));
+            6000, B=7));
 
-    import SI = Modelica.SIunits;
-    SI.MolarEnthalpy H_h2o, H_o2, H_h2;
+  import SI = Modelica.SIunits;
+  SI.MolarEnthalpy H_h2o, H_o2, H_h2;
 
-    Real go_T;
+  SI.SpecificGibbsFreeEnergy go_T "Gibbs energy change with temperature";
 
 equation
   J_H = J;

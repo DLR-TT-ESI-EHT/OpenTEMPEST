@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Cell.Cell1D;
-model SimplifiedCellBlock "Model for SF simple cell block"
+model SimplifiedCellBlock
   import SI = Modelica.SIunits;
   parameter Integer N(min=3)=5 "number of CVs in each layer";
   //parameter TEMPEST.ECReactorModels.Cell.baseModelsFV_SOC.solidMaterialOptions matOpt=TEMPEST.ECReactorModels.Cell.baseModelsFV_SOC.solidMaterialOptions.Crofer22APU "options for interconnect material";
@@ -22,10 +22,9 @@ model SimplifiedCellBlock "Model for SF simple cell block"
           TEMPEST.ECReactorModels.Cell.BaseModelsFV.solidMaterialOptions.Other));
 
   OpenTEMPEST.Heat.Solid1D solid1D(
-    redeclare package SolidMat = TEMPEST.Solid.Material.Custom,
+    redeclare package SolidMat = OpenTEMPEST.Solid.Material.Custom,
     N=N,
-    TstartX0=TStart,
-    TstartXN=TStart,
+    Tstartbar=TStart,
     lX=lX,
     lY=lY,
     lZ=lZ*nCellVertMult,
@@ -120,8 +119,13 @@ equation
           fillColor={28,108,200},
           fillPattern=FillPattern.Solid)}), Diagram(coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
-<ul>
-<li><i>23 Dez 2021</i> by Hans Wiggenhauser</a>:<br>First release. </li>
-</ul>
+</html>", info="<html>
+<h2>Simplified 1D Cell Block</h2>
+
+<p>
+This model represents a simplified 1D block of cells and associated thermal volumes. It discretizes 
+the block of cells into N control volumes along the x-direction and optionally represents 
+multiple cells stacked in the z-direction.
+</p>
 </html>"));
 end SimplifiedCellBlock;

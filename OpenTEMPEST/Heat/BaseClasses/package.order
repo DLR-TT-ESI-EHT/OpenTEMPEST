@@ -1,5 +1,7 @@
 HeatTransferNodeBase
+Solid0DBase
 Solid1DBase
 Solid2DBase
+Solid3DBase
 Element1D
 TempSource2DBase

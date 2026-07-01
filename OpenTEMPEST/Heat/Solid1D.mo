@@ -64,11 +64,6 @@ equation
           textString="%name")}),                                    Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
-<ul>
-<li><i>27 Aug 2021</i> by <a href=\"faisal.sedeqi@dlr.de\">Faisal Sedeqi</a>:<br>Fixed error in Energy balance in last control volume, now flippable as intended. Aslo added direction dependent conductivity.</li>
-<li><i>03 Aug 2021</i> by <a href=\"faisal.sedeqi@dlr.de\">Faisal Sedeqi</a>:<br>Changed port names. Included average conductivity between CV for non constant conductivity.</li>
-<li><i>20 Jul 2021</i> by <a href=\"faisal.sedeqi@dlr.de\">Faisal Sedeqi</a>:<br>First clean version complete.</li>
-</ul>
 </html>
 
 "));

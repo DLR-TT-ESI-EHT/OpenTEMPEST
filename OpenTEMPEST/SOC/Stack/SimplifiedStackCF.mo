@@ -1,6 +1,5 @@
 within OpenTEMPEST.SOC.Stack;
 model SimplifiedStackCF
-  "Stack based on the crossflow cells with simplification approach. From a total of Ncells, Ndetailed cells are calculated fully and the rest approximated through simplified heat transfer blocks, with flow and voltage interpolation."
   import SI = Modelica.SIunits;
 
   parameter Integer nX(min=3)=5   "Number of control volumes in the x-direction" annotation (Dialog(tab = "General"));
@@ -48,24 +47,24 @@ model SimplifiedStackCF
 
   // FC parameters
   replaceable package FCMedium = Medium.Fuel_CH4         annotation(Dialog(tab="Fuel Channel"));
-  parameter Real porFC = 0.4172 "Porosity in fuel channel" annotation(Dialog(tab="Fuel Channel"));
+  parameter Real porFC = 0.4 "Porosity in fuel channel" annotation(Dialog(tab="Fuel Channel"));
   parameter Real NuFCPEN = 12 "Nusselt number fuel channel on PEN side" annotation(Dialog(tab="Fuel Channel"));
-  parameter Real NuFCIC = 9.86 "Nusselt number fuel channel on IC side" annotation(Dialog(tab="Fuel Channel"));
+  parameter Real NuFCIC = 10 "Nusselt number fuel channel on IC side" annotation(Dialog(tab="Fuel Channel"));
   parameter SI.ThermalConductivity lambdaFuel = 0.0935 "Themal conductivity of the gas in the fuel channel" annotation(Dialog(tab="Fuel Channel"));
 
   // AC parameters
   replaceable package ACMedium = Medium.Air_Medium         annotation(Dialog(tab="Air Channel"));
   parameter Real pDrop(max=0.99) = 0.04 "pressure drop as a factor of inlet pressure (between 0 and 0.99)" annotation(Dialog(tab="Air Channel"));
-  parameter Real NuACPEN = 8.235 "Nusselt number air channel on PEN side" annotation(Dialog(tab="Air Channel"));
-  parameter Real NuACIC = 7.54 "Nusselt number air channel on IC side" annotation(Dialog(tab="Air Channel"));
+  parameter Real NuACPEN = 8 "Nusselt number air channel on PEN side" annotation(Dialog(tab="Air Channel"));
+  parameter Real NuACIC = 7.5 "Nusselt number air channel on IC side" annotation(Dialog(tab="Air Channel"));
   parameter SI.ThermalConductivity lambdaAir = 72.98e-3 "Thermal conductivity of gas in air channel" annotation(Dialog(tab="Air Channel"));
-  parameter Real porAC = 0.4172 "Porosity in air channel" annotation(Dialog(tab="Air Channel"));
+  parameter Real porAC = 0.4 "Porosity in air channel" annotation(Dialog(tab="Air Channel"));
 
   // IC parameters
-  parameter SI.Density rhoIC = 7700 "Density of IC" annotation(Dialog(tab="Interconnects"));
-  parameter SI.SpecificHeatCapacity cpIC = 663.65 "Specific heat capacity of IC" annotation(Dialog(tab="Interconnects"));
+  parameter SI.Density rhoIC = 8000 "Density of IC" annotation(Dialog(tab="Interconnects"));
+  parameter SI.SpecificHeatCapacity cpIC = 500 "Specific heat capacity of IC" annotation(Dialog(tab="Interconnects"));
   parameter SI.SpectralEmissivity epsilonIC = 0.1 "Emissivity of interconnects" annotation(Dialog(tab="Interconnects"));
-  parameter SI.ThermalConductivity lambdaIC = 23.77 "Thermal conductivity of interconnects" annotation(Dialog(tab="Interconnects"));
+  parameter SI.ThermalConductivity lambdaIC = 27 "Thermal conductivity of interconnects" annotation(Dialog(tab="Interconnects"));
   parameter SI.Temperature TICRad=1088.15 "IC temperature assumption for radiative heat transfer" annotation(Dialog(tab="Interconnects"));
 
   // Thermal conductivities for the simplified block
@@ -262,7 +261,7 @@ public
     annotation (Placement(transformation(extent={{-10,-2},{10,18}})));
 
   OpenTEMPEST.Heat.Solid2D plates[2 + nIMPs](
-    redeclare package SolidMat = TEMPEST.Solid.Material.Crofer22APU,
+    redeclare package SolidMat = OpenTEMPEST.Solid.Material.Crofer22APU,
     each nX=nX,
     each nY=nY,
     each Tstartbar=TStart,
@@ -718,5 +717,16 @@ equation
           fillColor={0,127,127},
           fillPattern=FillPattern.CrossDiag,
           lineThickness=0.5)}),                                 Diagram(
-        coordinateSystem(preserveAspectRatio=false, extent={{-120,-140},{120,100}})));
+        coordinateSystem(preserveAspectRatio=false, extent={{-120,-140},{120,100}})),
+    Documentation(info="<html>
+<h2>SimplifiedStackCF</h2>
+
+<p>
+This model represents a crossflow fuel cell stack with a simplified approach. Out of a total of 
+<code>Ncell</code> cells, <code>NdetailedCell</code> are modeled in full detail, while the remaining 
+cells are approximated using simplified heat transfer blocks. The model includes thermal, 
+fluid, and electrical interactions and supports interpolation of flow and voltage between 
+detailed and simplified cells.
+</p>
+</html>"));
 end SimplifiedStackCF;

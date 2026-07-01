@@ -1,4 +1,4 @@
-within OpenTEMPEST.SOC.Cell.CrossFlow;
+﻿within OpenTEMPEST.SOC.Cell.CrossFlow;
 model CellCFSimp
   "Simplified crossflow cell with 1D fuel and air channels, 2D heat ports and variable stream connectors directly in channel models."
 
@@ -49,25 +49,23 @@ model CellCFSimp
 
   // FC parameters
   replaceable package FCMedium = Medium.Fuel_CH4         annotation(Dialog(tab="Fuel Channel"));
-  parameter Real porFC = 0.4172 "Porosity in fuel channel" annotation(Dialog(tab="Fuel Channel"));
+  parameter Real porFC = 0.4 "Porosity in fuel channel" annotation(Dialog(tab="Fuel Channel"));
   parameter Real NuFCPEN = 12 "Nusselt number fuel channel on PEN side" annotation(Dialog(tab="Fuel Channel"));
   parameter Real NuFCIC = 9.86 "Nusselt number fuel channel on IC side" annotation(Dialog(tab="Fuel Channel"));
-  parameter Real alfafc=0.01528182
-                               "Weight for 2D temperature in z-direction convection for fuel channel" annotation(Dialog(tab="Fuel Channel"));
+  parameter Real alfafc=0.015  "Weight for 2D temperature in z-direction convection for fuel channel" annotation(Dialog(tab="Fuel Channel"));
 
   // AC parameters
   replaceable package ACMedium = Medium.Air_Medium         annotation(Dialog(tab="Air Channel"));
-  parameter Real porAC = 0.4172 "Porosity in air channel" annotation(Dialog(tab="Air Channel"));
+  parameter Real porAC = 0.4 "Porosity in air channel" annotation(Dialog(tab="Air Channel"));
   parameter Real pDrop(max=0.99) = 0.04 "Pressure drop as a factor of inlet pressure (between 0 and 0.99)" annotation(Dialog(tab="Air Channel"));
-  parameter Real NuACPEN = 8.235 "Nusselt number air channel on PEN side" annotation(Dialog(tab="Air Channel"));
-  parameter Real NuACIC = 7.54 "Nusselt number air channel on IC side" annotation(Dialog(tab="Air Channel"));
-  parameter Real alfaac=0.11955708
-                               "Weight for 2D temperature in z-direction convection for air channel" annotation(Dialog(tab="Air Channel"));
+  parameter Real NuACPEN = 8 "Nusselt number air channel on PEN side" annotation(Dialog(tab="Air Channel"));
+  parameter Real NuACIC = 7.5 "Nusselt number air channel on IC side" annotation(Dialog(tab="Air Channel"));
+  parameter Real alfaac=0.12   "Weight for 2D temperature in z-direction convection for air channel" annotation(Dialog(tab="Air Channel"));
 
   // IC parameters
-  parameter SI.ThermalConductivity kIC = 23.77 "Thermal conductivity of ribs in W/mK" annotation(Dialog(tab="Interconnects"));
-  parameter SI.SpecificHeatCapacity cpIC = 663.65 "Ribs heat capacity in W/mK" annotation(Dialog(tab="Interconnects"));
-  parameter SI.Density rhoIC=7700   "Ribs density in kg/m3" annotation(Dialog(tab="Interconnects"));
+  parameter SI.ThermalConductivity kIC = 40 "Thermal conductivity of CFY (35-45 W/mK for 20-900 °C)" annotation(Dialog(tab="Interconnects"));
+  parameter SI.SpecificHeatCapacity cpIC = 451.8 "Interconnect heat capacity" annotation(Dialog(tab="Interconnects"));
+  parameter SI.Density rhoIC = 7233   "Interconnect density" annotation(Dialog(tab="Interconnects"));
   parameter SI.SpectralEmissivity epsilonIC = 0.1 "Emissivity of interconnects" annotation(Dialog(tab="Interconnects"));
 
   OpenTEMPEST.SOC.Cell.CrossFlow.FuelChannel2DSimp fuelChannel(
@@ -83,7 +81,6 @@ model CellCFSimp
     Nu_PEN=NuFCPEN,
     Nu_IC=NuFCIC,
     alfa=alfafc,
-    LUDS=LUDS,
     heatTransferCorrelationFormDuct=heatTransferCorrelationFormDuct)
     annotation (Placement(transformation(extent={{-34,68},{34,116}})));
 
@@ -101,12 +98,11 @@ model CellCFSimp
     Nu_IC=NuACIC,
     alfa=alfaac,
     pDrop=0.01,
-    LUDS=LUDS,
     heatTransferCorrelationFormDuct=heatTransferCorrelationFormDuct)
     annotation (Placement(transformation(extent={{-36,-48},{34,-96}})));
 
   OpenTEMPEST.Heat.Solid2D iCFuel(
-    redeclare package SolidMat = TEMPEST.Solid.Material.Crofer22APU,
+    redeclare package SolidMat = OpenTEMPEST.Solid.Material.Crofer22APU,
     nX=nX,
     nY=nY,
     Tstartbar=TStart,
@@ -115,7 +111,7 @@ model CellCFSimp
     lZ=lZsolid)
     annotation (Placement(transformation(extent={{-16,124},{16,156}})));
   OpenTEMPEST.Heat.Solid2D iCAir(
-    redeclare package SolidMat = TEMPEST.Solid.Material.Crofer22APU,
+    redeclare package SolidMat = OpenTEMPEST.Solid.Material.Crofer22APU,
     nX=nX,
     nY=nY,
     Tstartbar=TStart,
@@ -265,10 +261,5 @@ This simplification approach consists in combining 1D discretised air and fuel c
 The adaptations needed for connecting and interfacing the 2D models with the 1D models are managed internally, specifically inside the channel models.
 </p>
 </html>", revisions="<html>
-<ul>
-<li><i>2 Feb 2025</i>
-    by Anis Taissir</a>:<br>
-       First release.</li>
-</ul>
 </html>"));
 end CellCFSimp;

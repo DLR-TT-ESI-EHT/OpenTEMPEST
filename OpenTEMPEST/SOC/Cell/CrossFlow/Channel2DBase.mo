@@ -1,6 +1,7 @@
-within OpenTEMPEST.SOC.Cell.CrossFlow;
+﻿within OpenTEMPEST.SOC.Cell.CrossFlow;
 partial model Channel2DBase
-  "Base model for 2D SOC cell channels - need to give energy balance and pressure drop at top level"
+
+  import SI = Modelica.SIunits;
 
   replaceable package Medium = Modelica.Media.IdealGases.Common.MixtureGasNasa
     annotation(choicesAllMatching = true);
@@ -15,47 +16,55 @@ partial model Channel2DBase
   parameter Boolean heatTransferCorrelationFormDuct=true "true for Nusselt correlation duct geometry with characteristic length=2*lZ (default), false for plate geometry with characteristic length=lX";
 
   // Initial Values
-  parameter Modelica.SIunits.Temperature TStart=773.15 annotation (Dialog(tab="Initialisation"));
-  parameter Modelica.SIunits.AbsolutePressure pStart=101325 annotation (Dialog(tab="Initialisation"));
-  parameter Modelica.SIunits.MassFraction xStart[nSpecies]=Medium.reference_X annotation (Dialog(tab="Initialisation"));
+  parameter SI.Temperature TStart=773.15 annotation (Dialog(tab="Initialisation"));
+  parameter SI.AbsolutePressure pStart=101325 annotation (Dialog(tab="Initialisation"));
+  parameter SI.MassFraction xStart[nSpecies]=Medium.reference_X annotation (Dialog(tab="Initialisation"));
 
   // Dimensions
-  parameter Modelica.SIunits.Length lX=1 "Length of channel /m" annotation (Dialog(tab="Dimensions"));
-  parameter Modelica.SIunits.Length lY=1 "width of channel" annotation (Dialog(tab="Dimensions"));
-  parameter Modelica.SIunits.Length lZ=1 "Height of channel" annotation (Dialog(tab="Dimensions"));
+  parameter SI.Length lX=1 "Length of channel" annotation (Dialog(tab="Dimensions"));
+  parameter SI.Length lY=1 "Width of channel" annotation (Dialog(tab="Dimensions"));
+  parameter SI.Length lZ=1 "Height of channel" annotation (Dialog(tab="Dimensions"));
   parameter Real por = 0.7 "channel porosity" annotation (Dialog(tab="Dimensions"));
 
   parameter Real Nu_PEN "Nusselt number on PEN side";
   parameter Real Nu_IC "Nusselt Number on IC side";
 
-  // Control Volume sizing
-  parameter Modelica.SIunits.Volume dV=dx*dy*lZ annotation (Dialog(tab="Dimensions"));
-  parameter Modelica.SIunits.Length dx=lX/nX annotation (Dialog(tab="Dimensions"));
-  parameter Modelica.SIunits.Length dy=lY/nY annotation (Dialog(tab="Dimensions"));
+  // Ribs thermophysical parameters - CFY (94.9% Cr, 5% Fe, 0.1% Y)
+  parameter SI.ThermalConductivity kRibs=40 "Thermal conductivity of CFY ribs in W/mK (35-45 W/mK for 20-900 °C)" annotation(Dialog(tab="Ribs"));
+  parameter SI.SpecificHeatCapacity cpRibs = 451.8 "Ribs heat capacity" annotation(Dialog(tab="Ribs"));
+  parameter SI.Density rhoRibs = 7233 "Calculated CFY ribs density in kg/m3" annotation(Dialog(tab="Ribs"));
+
+  // Control volume sizing
+  SI.Volume dV=dx*dy*lZ;
+  SI.Length dx=lX/nX;
+  SI.Length dy=lY/nY;
 
   // Gas Object
-  Modelica.SIunits.Temperature T[nX,nY](each start=TStart) "Average Temperature in CV";
+  SI.Temperature T[nX,nY](each start=TStart) "Average Temperature in CV";
 
   Medium.BaseProperties Gas[nX, nY](
     p(each start=pStart, each stateSelect=StateSelect.prefer),
     T(each start=TStart, each stateSelect=StateSelect.prefer),
     Xi(start=fill(xStart, nX, nY), each stateSelect=StateSelect.prefer))
     "Gas volume properties";
-  Modelica.SIunits.ThermalConductivity[nX,nY] lambdaGas = Medium.thermalConductivity(Gas[:,:].state) "Thermal conductivity of the gas in the CV";
+  SI.ThermalConductivity[nX,nY] lambdaGas = Medium.thermalConductivity(Gas[:,:].state) "Thermal conductivity of the gas in the CV";
 
   // Centre cell values
-  Modelica.SIunits.MassFlowRate mf[nX,nY] "Mass flow rate in and leaving CV";
-  Modelica.SIunits.EnergyFlowRate QgasExt[nX,nY] "Gas phase heat flows in CV";
-  Real Ycell[nX, nY, nSpecies];
-  Modelica.SIunits.DynamicViscosity eta[nX,nY]=Medium.dynamicViscosity(Gas.state);
+  SI.MassFlowRate mf[nX,nY] "Mass flow rate in and leaving CV";
+  SI.EnergyFlowRate QgasExt[nX,nY] "Gas phase heat flows in CV";
+  Modelica.Media.Interfaces.Types.MoleFraction Ycell[nX, nY, nSpecies];
+  SI.DynamicViscosity eta[nX,nY]=Medium.dynamicViscosity(Gas.state);
 
   // Vertex Values
-  Modelica.SIunits.MassFlowRate mfv[nX + 1,nY] "Mass flow rate CV Vertices/Nodes";
-  Modelica.SIunits.SpecificEnthalpy hv[nX + 1,nY] "Enthalpy at Vertices";
-  Modelica.SIunits.MassFraction xiv[nX + 1,nY,nSpecies] "Mass fractions at Vertices";
+  SI.MassFlowRate mfv[nX + 1,nY] "Mass flow rate CV Vertices/Nodes";
+  SI.SpecificEnthalpy hv[nX + 1,nY] "Enthalpy at Vertices";
+  SI.MassFraction xiv[nX + 1,nY,nSpecies] "Mass fractions at Vertices";
 
   // Kinetics
-  Modelica.SIunits.MassFlowRate R[nX,nY,nSpecies] "net Rate of production and consumption of products and reactants in the reactor - from thermochemical AND electrochemical reactions";
+  SI.MassFlowRate R[nX,nY,nSpecies] "Net rate of production and consumption of products and reactants in the reactor - from thermochemical AND electrochemical reactions";
+
+  SI.Energy Emg[nX, nY] "Energy density in control volume";
+  SI.MassFlowRate massTransfer[nX, nY] "Ion transfer rate";
 
   ThermoPower.Gas.FlangeA infl[nY](redeclare package Medium = Medium)  annotation (Placement(transformation(extent={{-100,-8},{-80,12}}),
         iconTransformation(extent={{-108,-16},{-80,12}})));
@@ -75,10 +84,8 @@ partial model Channel2DBase
         extent={{10,-10},{-10,10}},
         rotation=-90,
         origin={-52,-32})));
-  // Differentiating between air and fuel side
-  parameter Integer channelFac "set to +1 for fuel channel, -1 for air channel";
 
-  Modelica.SIunits.Length Dhth = if heatTransferCorrelationFormDuct then (2*lZ) else (dx);
+  SI.Length Dhth = if heatTransferCorrelationFormDuct then (2*lZ) else (dx);
 
 initial equation
   Gas.T = fill(TStart, nX, nY);
@@ -92,7 +99,7 @@ initial equation
 equation
 
   // Total Mass Balance
-  dV.*por.*der(Gas[:,:].d) = (mfv[1:nX, :] .- mfv[2:nX+1, :]) .+ channelFac*PEN_in.I./(4*Modelica.Constants.F).*Modelica.Media.IdealGases.SingleGases.O2.data.MM;
+  dV.*por.*der(Gas[:,:].d) = (mfv[1:nX, :] .- mfv[2:nX+1, :]) .+ massTransfer[:, :];
 
   // Species Mass Balance
   for i in 1:nSpecies loop
@@ -105,15 +112,12 @@ equation
     end for;
   end for;
 
-  // Energy Balance - Thermal Equilibrium between Gas and Solid phase
-  dV.*der(por.*Gas[1,:].d.*Gas[1,:].u)                 = mfv[1,:].*hv[1,:]           .- mfv[2,:].*hv[2,:]       .+ QgasExt[1,:];
-  dV.*der(por.*Gas[2:nX-1,:].d.*Gas[2:nX-1,:].u)  = mfv[2:nX-1,:].*hv[2:nX-1,:] .- mfv[3:nX,:].*hv[3:nX,:] .+ QgasExt[2:nX-1,:];
-  dV.*der(por.*Gas[nX,:].d.*Gas[nX,:].u)              = mfv[nX,:].*hv[nX,:]         .- mfv[nX+1,:].*hv[nX+1,:] .+ QgasExt[nX,:];
+  // Energy Balance
+  der(Emg[:,:]) = mfv[1:nX,:].*hv[1:nX,:] .- mfv[2:nX+1,:].*hv[2:nX+1,:] .+ QgasExt[:,:];
 
-  Gas.T = T;
-
-  Q_PEN.Q[:,:] = Nu_PEN*lambdaGas./Dhth*por*dx*dy.*(Q_PEN.T .- Gas.T);
-  Q_IC.Q[:,:]  = Nu_IC *lambdaGas./Dhth*por*dx*dy.*(Q_IC.T .-  Gas.T); // First simplifying assumption (for the time being): neglegible convective HT from the sides of the IC
+  // Ribs conduction considered
+  Q_PEN.Q = Nu_PEN*lambdaGas./Dhth*dx*(por*dy).*(Q_PEN.T .- Gas.T) + (kRibs/(lZ/2))*(1-por)*dy*dx.*(Q_PEN.T .- Q_IC.T);
+  Q_IC.Q  = Nu_IC *lambdaGas./Dhth*dx*(por*dy).*(Q_IC.T  .- Gas.T) + (kRibs/(lZ/2))*(1-por)*dy*dx.*(Q_IC.T  .- Q_PEN.T);
 
   // Boundary conditions
   outfl.m_flow = -mfv[nX+1,:];
@@ -147,5 +151,23 @@ equation
           lineColor={28,108,200},
           fillColor={28,108,200},
           fillPattern=FillPattern.HorizontalCylinder)}),         Diagram(
-        coordinateSystem(preserveAspectRatio=false)));
+        coordinateSystem(preserveAspectRatio=false)),
+    Documentation(info="<html>
+<h2>Channel2DBase</h2>
+
+<p>
+Partial finite-volume base model for 2D gas flow channels in SOC cells.
+The model discretizes a rectangular channel in the two planar directions using a structured grid of <code>nX × nY</code>
+control volumes.
+</p>
+
+<h3>Governing Equations</h3>
+<ul>
+<li>Total mass conservation (finite-volume form)</li>
+<li>Species mass conservation for each gas component</li>
+<li>Gas-phase energy conservation (internal energy formulation)</li>
+<li>Convective fluxes computed via replaceable interpolation scheme</li>
+<li>Heat exchange with PEN and interconnect via distributed heat ports</li>
+</ul>
+</html>"));
 end Channel2DBase;

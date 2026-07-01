@@ -2,52 +2,51 @@ within OpenTEMPEST.Heat.BaseClasses;
 partial model Solid2DBase
 
   import SI = Modelica.SIunits;
-  replaceable package SolidMat = TEMPEST.Solid.SolidMatBase annotation(choicesAllMatching = true);
+  replaceable package SolidMat = OpenTEMPEST.Solid.SolidMatBase annotation(choicesAllMatching = true);
 
   parameter Integer nX(min=3) = 5 "Number of CVs in the solid in x-direction";
   parameter Integer nY(min=3) = 5 "Number of CVs in the solid in y-direction";
 
   // Initial Values
-  parameter Modelica.SIunits.Temperature Tstartbar=1073.15 "uniform start temperature" annotation(Dialog(group="Initialisation"));
+  parameter SI.Temperature Tstartbar=1073.15 "Uniform initial temperature of the solid" annotation(Dialog(group="Initialisation"));
 
   // Dimensions
-  parameter SI.Length lX = 1  "Total length of solid" annotation(Dialog(group="Dimensions"));
-  parameter SI.Length lY = 1 "width of solid" annotation(Dialog(group="Dimensions"));
-  parameter SI.Length lZ = 1 "thickness of solid" annotation(Dialog(group="Dimensions"));
+  parameter SI.Length lX = 1  "Total length of solid in x-direction" annotation(Dialog(group="Dimensions"));
+  parameter SI.Length lY = 1 "Total length of solid in y-direction" annotation(Dialog(group="Dimensions"));
+  parameter SI.Length lZ = 1 "Total thickness of solid in z-direction" annotation(Dialog(group="Dimensions"));
 
-  Real dx = lX/nX "x-Length of a CV";
-  Real dy = lY/nY "y-Length of a CV";
-  Real dV = dx*dy*lZ "Volume of a CV";
-  Real Ax = dy*lZ "cross sectional area in x plane";
-  Real Ay = dx*lZ "cross sectional area in y-plane";
-  Real Az = dx*dy "cross sectional area in z-plane";
+  SI.Length dx = lX/nX "x-Length of a CV" annotation(Dialog(group="Dimensions Extra"));
+  SI.Length dy = lY/nY "y-Length of a CV" annotation(Dialog(group="Dimensions Extra"));
+  SI.Volume dV = dx*dy*lZ "Volume of a CV" annotation(Dialog(group="Dimensions Extra"));
+  SI.Area Ax = dy*lZ "Cross sectional area in x-plane" annotation(Dialog(group="Dimensions Extra"));
+  SI.Area Ay = dx*lZ "Cross sectional area in y-plane" annotation(Dialog(group="Dimensions Extra"));
+  SI.Area Az = dx*dy "Cross sectional area in z-plane" annotation(Dialog(group="Dimensions Extra"));
 
-  SI.Temperature T[nX, nY];
+  SI.Temperature T[nX, nY] "Temperature in each CV";
 
   SolidMat.BaseProperties Solid[nX,nY](
     T=T,
     each kCustom_trans=kCustom_trans,
     each kCustom_long=kCustom_long,
     each rhoCustom=rhoCustom,
-    each cpCustom=cpCustom);
+    each cpCustom=cpCustom) "Material properties object for each CV";
 
   // Solid Properties
-  SI.ThermalConductivity k_trans[nX, nY] = Solid.k_trans "Thermal conductivities in CV";
-  SI.ThermalConductivity k_long[nX, nY] = Solid.k_long "Thermal conductivities in CV";
-  SI.Density rho[nX, nY] = Solid.rho;
-  SI.SpecificHeatCapacity cp[nX, nY] = Solid.cp;
+  SI.ThermalConductivity k_trans[nX, nY] = Solid.k_trans "Thermal conductivity in z-direction";
+  SI.ThermalConductivity k_long[nX, nY] = Solid.k_long "Thermal conductivity in x/y-plane";
+  SI.Density rho[nX, nY] = Solid.rho "Density of each CV";
+  SI.SpecificHeatCapacity cp[nX, nY] = Solid.cp "Specific heat capacity of each CV";
 
-  SI.ThermalConductivity kx[nX-1, nY]  "Thermal conductivities CV";
-  SI.ThermalConductivity ky[nX, nY-1]  "Thermal conductivities between CV";
+  SI.ThermalConductivity kx[nX-1, nY]  "Interface thermal conductivity in x direction";
+  SI.ThermalConductivity ky[nX, nY-1]  "Interface thermal conductivity in y direction";
 
-  SI.HeatFlowRate Qext[nX, nY];
+  SI.HeatFlowRate Qext[nX, nY] "User-defined heat source or sink for each CV";
 
   // Custom material properties
-  parameter SI.ThermalConductivity kCustom_trans = 1 "Thermal Conductivity across layers" annotation(Dialog(group="Custom Material Only"));
-  //parameter SI.ThermalConductivity kCustom_long = 1 "Thermal Conductivity in plane of layers (=k_trans for homogeneous materials)" annotation(Dialog(group="Custom Material Only"));
-  parameter SI.ThermalConductivity kCustom_long = kCustom_trans annotation(Dialog(group="Custom Material Only"));
-  parameter SI.Density rhoCustom = 1 annotation(Dialog(group="Custom Material Only"));
-  parameter SI.SpecificHeatCapacity cpCustom = 1 annotation(Dialog(group="Custom Material Only"));
+  parameter SI.ThermalConductivity kCustom_trans = 1 "Custom thermal conductivity across layers (z-direction)" annotation(Dialog(group="Custom Material Only"));
+  parameter SI.ThermalConductivity kCustom_long = kCustom_trans "Custom thermal conductivity in-plane (x/y); defaults to kCustom_trans" annotation(Dialog(group="Custom Material Only"));
+  parameter SI.Density rhoCustom = 1 "Custom density" annotation(Dialog(group="Custom Material Only"));
+  parameter SI.SpecificHeatCapacity cpCustom = 1 "Custom specific heat capacity" annotation(Dialog(group="Custom Material Only"));
 
   // Thermal ports
   ThermoPower.Thermal.DHTVolumes dhT_x0(N=nY) annotation (Placement(transformation(extent={{-120,
@@ -179,11 +178,13 @@ equation
           textString="xN")}),                                         Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
-<ul>
-<li><i>27 Aug 2021</i> by <a href=\"faisal.sedeqi@dlr.de\">Faisal Sedeqi</a>:<br>Modified Conduction Between CVs including Direction Dependent Conductivity. </li>
-<li><i>03 Aug 2021</i> by <a href=\"faisal.sedeqi@dlr.de\">Faisal Sedeqi</a>:<br>Changed port names. Will change conduction between CVs next.</li>
-<li><i>23 Jul 2021</i> by <a href=\"hans.wiggenhauser@dlr.de\">Hans Wiggenhauser</a>:<br>finished and tested.</li>
-<li><i>20 Jul 2021</i> by <a href=\"faisal.sedeqi@dlr.de\">Faisal Sedeqi</a>:<br>created, edge energy balance missinge. </li>
-</ul>
+</html>", info="<html>
+<h2>Solid2DBase</h2>
+<p>
+The model represents a two-dimensional solid discretized into control volumes (CVs)
+in the x- and y-directions. It computes the transient temperature distribution 
+within the solid based on conduction in x-, y-, and z-directions, as well as user-defined 
+external heat fluxes. The model supports anisotropic and custom material properties.
+</p>
 </html>"));
 end Solid2DBase;

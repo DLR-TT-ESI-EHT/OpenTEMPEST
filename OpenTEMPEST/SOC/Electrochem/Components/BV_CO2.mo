@@ -4,14 +4,14 @@ model BV_CO2 "CO2 Electrolysis with B-V, Ohmic ASR and Diffusion"
 
 import SI = Modelica.SIunits;
 
-  replaceable Real E_fe_C = 1.12*111700;
+  replaceable Real E_fe_C = 1.12*111700 "Activation energy fuel electrode for CO/CO2";
   replaceable Real a_C = 0.04;
   replaceable Real b_C = 0.18;
-  replaceable Real gammaFE_C = 6.63e5;
+  replaceable Real gammaFE_C = 6.63e5 "Pre-exponential factor fuel electrode CO/CO2 Jo";
 
   SI.MolarEnthalpy H_o2, H_co2, H_co;
-  SI.CurrentDensity Jo_FE;
-  SI.MolarEnthalpy dHr;
+  SI.CurrentDensity Jo_FE "Fuel electrode exchange current density";
+  SI.MolarEnthalpy dHr "Enthalpy change of reaction";
 
 equation
   J_C = J;
@@ -63,4 +63,12 @@ equation
   else
     yF_tpb = yF;
   end if;
+  annotation (Documentation(info="<html>
+  <body>
+    <p>References for parameters:</p>
+    <ul>
+      <li>DOI: 10.1149/1945-7111/ad5e01</li>
+    </ul>
+  </body>
+</html>"));
 end BV_CO2;
