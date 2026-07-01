@@ -16,8 +16,8 @@ model BlackBoxHexGeneric
       annotation (choicesAllMatching=true);
 
   etaType eta(C_min=Cmin, C_max=Cmax, mf_A=sensAIn.mf, mf_B=sensBIn.mf, lambda_A=sensAIn.lambda, lambda_B=sensBIn.lambda, mu_A=sensAIn.eta, mu_B=sensBIn.eta,
-              cp_A=sensAIn.cp, cp_B=sensBIn.cp, redeclare package MediumA = MediumA, redeclare
-      package MediumB =                                                                                          MediumB);
+              cp_A=sensAIn.cp, cp_B=sensBIn.cp, redeclare package MediumA = MediumA, redeclare package
+              MediumB =                                                                                          MediumB);
   Real Cmin(start=1);
   Real Cmax(start=1);
 

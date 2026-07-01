@@ -1,6 +1,5 @@
-within OpenTEMPEST.SOC.Stack;
+﻿within OpenTEMPEST.SOC.Stack;
 model SimplifiedCellBlockCF
-  "Model for CF simple cell block. Solid 2D block that represents the block of simplified cells with equivalent conductivities."
   import SI = Modelica.SIunits;
   parameter Integer nX=5    "number of CVs in the x-direction";
   parameter Integer nY=5    "number of CVs in the y-direction";
@@ -32,22 +31,22 @@ model SimplifiedCellBlockCF
 
   // FC parameters
   parameter Real NuFCPEN = 12 "Nusselt number fuel channel on PEN side" annotation(Dialog(tab="Fuel Channel"));
-  parameter Real NuFCIC = 9.86 "Nusselt number fuel channel on IC side" annotation(Dialog(tab="Fuel Channel"));
+  parameter Real NuFCIC = 10 "Nusselt number fuel channel on IC side" annotation(Dialog(tab="Fuel Channel"));
   parameter SI.ThermalConductivity lambdaFuel = 0.0935 "Thermal Conductivity of gas in fuel channel" annotation(Dialog(tab="Fuel Channel"));
-  parameter Real porFC = 0.8 "Fuel channel porosity" annotation(Dialog(tab="Fuel Channel"));
+  parameter Real porFC = 0.4 "Fuel channel porosity" annotation(Dialog(tab="Fuel Channel"));
 
   // AC parameters
   parameter Real pDrop(max=0.99) = 0.04 "Pressure drop as a factor of inlet pressure (between 0 and 0.99)" annotation(Dialog(tab="Air Channel"));
-  parameter Real NuACPEN = 8.235 "Nusselt number air channel on PEN side" annotation(Dialog(tab="Air Channel"));
-  parameter Real NuACIC = 7.54 "Nusselt number air channel on IC side" annotation(Dialog(tab="Air Channel"));
+  parameter Real NuACPEN = 8 "Nusselt number air channel on PEN side" annotation(Dialog(tab="Air Channel"));
+  parameter Real NuACIC = 7.5 "Nusselt number air channel on IC side" annotation(Dialog(tab="Air Channel"));
   parameter SI.ThermalConductivity lambdaAir = 72.98e-3 "Thermal conductivity of gas in air channel" annotation(Dialog(tab="Air Channel"));
-  parameter Real porAC = 0.8 "Channel porosity" annotation(Dialog(tab="Air Channel"));
+  parameter Real porAC = 0.4 "Channel porosity" annotation(Dialog(tab="Air Channel"));
 
   // IC parameters
-  parameter SI.Density rhoIC = 7700   "Density of IC" annotation(Dialog(tab="Interconnects"));
-  parameter SI.SpecificHeatCapacity cpIC = 663.65 "Specific heat capacity of IC" annotation(Dialog(tab="Interconnects"));
+  parameter SI.Density rhoIC = 8000   "Density of IC" annotation(Dialog(tab="Interconnects"));
+  parameter SI.SpecificHeatCapacity cpIC = 500 "Specific heat capacity of IC" annotation(Dialog(tab="Interconnects"));
   parameter SI.SpectralEmissivity epsilonIC = 0.1 "Emissivity of surface of IC" annotation(Dialog(tab="Interconnects"));
-  parameter SI.ThermalConductivity lambdaIC = 23.77 "Thermal conductivity of interconnects" annotation(Dialog(tab="Interconnects"));
+  parameter SI.ThermalConductivity lambdaIC = 27 "Thermal conductivity of interconnects" annotation(Dialog(tab="Interconnects"));
   parameter SI.Temperature TICRad=1088.15        "IC temperature assumption for radiative heat transfer" annotation(Dialog(tab="Interconnects"));
 
   // Thermal conductivities for the simplified block
@@ -103,8 +102,8 @@ model SimplifiedCellBlockCF
   Electrochem.Interfaces.ReactionHeatInfoPort reactionHeatInfoPort[nX,nY]
     annotation (Placement(transformation(extent={{-6,20},{20,46}}),
         iconTransformation(extent={{-6,20},{20,46}})));
-  Electrochem.Interfaces.SimpFlowInfoPort simpFlowInfoPortIn[nX,nY] annotation
-    (Placement(transformation(extent={{-76,20},{-50,46}}), iconTransformation(
+  Electrochem.Interfaces.SimpFlowInfoPort simpFlowInfoPortIn[nX,nY] annotation (
+     Placement(transformation(extent={{-76,20},{-50,46}}), iconTransformation(
           extent={{-76,20},{-50,46}})));
 
   OpenTEMPEST.Heat.HeatSource2DNonUniformFV heatSource2DNonUniformFV(nX=nX, nY=
@@ -142,7 +141,7 @@ model SimplifiedCellBlockCF
         99^3) annotation (Placement(transformation(extent={{64,-10},{84,10}})));
 
   OpenTEMPEST.Heat.Solid2D cellBlock(
-    redeclare package SolidMat = TEMPEST.Solid.Material.Custom,
+    redeclare package SolidMat = OpenTEMPEST.Solid.Material.Custom,
     nX=nX,
     nY=nY,
     Tstartbar=TStart,
@@ -208,5 +207,15 @@ equation
           fillPattern=FillPattern.CrossDiag,
           lineThickness=0.5)}),                                  Diagram(
         coordinateSystem(preserveAspectRatio=false)),
-    experiment(__Dymola_Algorithm="Cvode"));
+    experiment(__Dymola_Algorithm="Cvode"),
+    Documentation(info="<html>
+<h2>SimplifiedCellBlockCF</h2>
+
+<p>
+This model represents a simplified 2D block of crossflow cells with equivalent thermal conductivities. 
+It discretizes the block into <code>nX × nY</code> control volumes and can represent multiple cells stacked 
+in the z-direction via <code>nCellVertMult</code>. Electrical, thermal, and flow interactions are included 
+through simplified ports and heat sources.
+</p>
+</html>"));
 end SimplifiedCellBlockCF;

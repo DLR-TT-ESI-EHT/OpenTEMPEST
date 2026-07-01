@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Electrochem.ASR;
-model ASR_Ohm_SF "Ohmic ASR for SF - No dimensions"
+model ASR_Ohm_ESC "Ohmic ASR for ESC - No dimensions"
 
   extends OpenTEMPEST.SOC.Electrochem.ASR.ASR_OhmBase;
 
@@ -10,5 +10,10 @@ equation
     ASR = (Yo +A*exp(B*Tpen))/100^2;
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
-        coordinateSystem(preserveAspectRatio=false)));
-end ASR_Ohm_SF;
+        coordinateSystem(preserveAspectRatio=false)),
+    Documentation(revisions="<html>
+</html>", info="<html>
+<html><body>
+DOI: 10.1016/j.ijhydene.2018.12.168
+</html>"));
+end ASR_Ohm_ESC;

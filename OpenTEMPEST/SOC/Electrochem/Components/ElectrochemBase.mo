@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Electrochem.Components;
-partial model ElectrochemBase
+partial model ElectrochemBase "Base model for electrochemical models"
 
   import SI = Modelica.SIunits;
 

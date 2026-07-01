@@ -17,8 +17,8 @@ model Manifold
     Dialog(connectorSizing = true));
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium = Medium) annotation (
     Placement(transformation(extent = {{-50, -10}, {-30, 10}}, rotation = 0)));
-  Modelica.Fluid.Interfaces.FluidPorts_b ports_b[nPorts_b](redeclare each
-      package Medium =                                                                     Medium) annotation (
+  Modelica.Fluid.Interfaces.FluidPorts_b ports_b[nPorts_b](redeclare each package
+              Medium =                                                                     Medium) annotation (
     Placement(transformation(extent = {{30, 40}, {50, -40}}, rotation = 0)));
   Medium.MassFraction ports_b_Xi_inStream[nPorts_b, Medium.nXi]
     "inStream mass fractions at ports_b";

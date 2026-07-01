@@ -1,5 +1,5 @@
-within OpenTEMPEST.SOC.Cell.Cell1D;
-model PEN1D "1D FV PEN model for extending Solid1D"
+﻿within OpenTEMPEST.SOC.Cell.Cell1D;
+model PEN1D
   extends Heat.BaseClasses.Solid1DBase;
 
   import SI = Modelica.SIunits;
@@ -73,5 +73,19 @@ equation
   PEN_ina.I = 2*Modelica.Constants.F*rEl;
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
-        coordinateSystem(preserveAspectRatio=false)));
+        coordinateSystem(preserveAspectRatio=false)),
+    Documentation(info="<html>
+<h2>PEN1D</h2>
+
+<p>
+The model represents a one-dimensional discretized 
+Positive Electrode–Electrolyte–Negative Electrode (PEN) structure. The model couples:
+</p>
+
+<ul>
+<li>Electrochemical reactions in each control volume</li>
+<li>Electrical current distribution</li>
+<li>Species and mass transport through electrochemical interfaces</li>
+</ul>
+</html>"));
 end PEN1D;

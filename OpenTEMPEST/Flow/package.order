@@ -3,14 +3,10 @@ Manifold
 FluxInterpolators
 BaseClasses
 gasHeaterAndJoiner
-ForcedFlowSplitter2
 MultiSplitter
 ForcedFlowMultiSplitter
 MultiJoin
-Decoupler
 GasHeatedSplitter
-HeatedPipeGas
-DecouplerSplit
 SensGasFlow
 SensGasProperty
 LambdaSensor

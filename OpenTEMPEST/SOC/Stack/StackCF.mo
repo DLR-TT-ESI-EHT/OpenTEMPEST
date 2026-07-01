@@ -1,6 +1,8 @@
 within OpenTEMPEST.SOC.Stack;
-model StackCF "Stack based on the Crossflow cell"
+model StackCF
+
   import SI = Modelica.SIunits;
+
   parameter Integer nX=5 "Number of control volumes in the x-direction";
   parameter Integer nY=5 "Number of control volumes in the y-direction";
   parameter Integer Ncell(min=1)=5 "Total number of cells in the stack";
@@ -10,14 +12,14 @@ model StackCF "Stack based on the Crossflow cell"
   parameter SI.Length lY = 0.1 "Width of solid" annotation(Dialog(tab="Dimensions"));
   parameter SI.Length lXpen = lX "Length of pen" annotation(Dialog(tab="Dimensions"));
   parameter SI.Length lYpen = lY "Width of pen" annotation(Dialog(tab="Dimensions"));
-  parameter SI.Length lZpen "Thickness of pen" annotation(Dialog(tab="Dimensions"));
+  parameter SI.Length lZpen = 3.425e-4 "Thickness of pen" annotation(Dialog(tab="Dimensions"));
   parameter SI.Length lXac = lX "Length of air channel" annotation(Dialog(tab="Dimensions"));
   parameter SI.Length lYac = lY "Width of air channel" annotation(Dialog(tab="Dimensions"));
-  parameter SI.Length lZac "Height of air channel" annotation(Dialog(tab="Dimensions"));
+  parameter SI.Length lZac = 1e-3 "Height of air channel" annotation(Dialog(tab="Dimensions"));
   parameter SI.Length lXfc = lX "Length of fuel channel" annotation(Dialog(tab="Dimensions"));
   parameter SI.Length lYfc = lY "Width of fuel channel" annotation(Dialog(tab="Dimensions"));
-  parameter SI.Length lZfc "Height of fuel channel" annotation(Dialog(tab="Dimensions"));
-  parameter SI.Length lZsolid "Height of interconnector" annotation(Dialog(tab="Dimensions"));
+  parameter SI.Length lZfc = 1e-3 "Height of fuel channel" annotation(Dialog(tab="Dimensions"));
+  parameter SI.Length lZsolid = 0.2e-3 "Height of interconnector" annotation(Dialog(tab="Dimensions"));
   parameter SI.Length Bac = porAC*lYac "Width of air channel without ribs" annotation(Dialog(tab="Dimensions"));
   parameter SI.Length Bfc = porFC*lYfc "Width of fuel channel without ribs" annotation(Dialog(tab="Dimensions"));
 
@@ -35,38 +37,30 @@ model StackCF "Stack based on the Crossflow cell"
   Dialog(tab="PEN"),
   Placement(transformation(extent={{78,50},{98,70}})),
   choicesAllMatching=true);
-  parameter SI.ThermalConductivity kCustom_trans "Thermal Conductivity across layers of PEN in W/mK" annotation(Dialog(tab="PEN"));
-  parameter SI.ThermalConductivity kCustom_long "Thermal Conductivity in plane of layers of PEN in W/mK" annotation(Dialog(tab="PEN"));
-  parameter SI.Density rhoPEN "Density of PEN in kg/m3" annotation(Dialog(tab="PEN"));
-  parameter SI.SpecificHeatCapacity cpPEN "Specific heat capacity of PEN in J/kgK" annotation(Dialog(tab="PEN"));
-  parameter SI.SpectralEmissivity epsilonPEN "Emissivity of Anode-Electrolyte-Cathode unit" annotation(Dialog(tab="PEN"));
+  parameter SI.ThermalConductivity kCustom_trans = 2.16 "Thermal Conductivity across layers of PEN in W/mK" annotation(Dialog(tab="PEN"));
+  parameter SI.ThermalConductivity kCustom_long = 2.16 "Thermal Conductivity in plane of layers of PEN in W/mK" annotation(Dialog(tab="PEN"));
+  parameter SI.Density rhoPEN = 5900 "Density of PEN in kg/m3" annotation(Dialog(tab="PEN"));
+  parameter SI.SpecificHeatCapacity cpPEN = 500 "Specific heat capacity of PEN in J/kgK" annotation(Dialog(tab="PEN"));
+  parameter SI.SpectralEmissivity epsilonPEN = 0.8 "Emissivity of Anode-Electrolyte-Cathode unit" annotation(Dialog(tab="PEN"));
 
   // FC parameters
   replaceable package FCMedium = Medium.Fuel_CH4         annotation(Dialog(tab="Fuel Channel"));
-  parameter Real porFC "Porosity in fuel channel" annotation(Dialog(tab="Fuel Channel"));
-  parameter Real NuFCPEN "Nusselt number fuel channel on PEN side" annotation(Dialog(tab="Fuel Channel"));
-  parameter Real NuFCIC "Nusselt number fuel channel on IC side" annotation(Dialog(tab="Fuel Channel"));
-  parameter Real A_WGSf
-                       annotation(Dialog(tab="Fuel Channel", group="Kinetics"));
-  parameter Real Ea_WGSf
-                        annotation(Dialog(tab="Fuel Channel", group="Kinetics"));
-  parameter Real A_MSRf
-                       annotation(Dialog(tab="Fuel Channel", group="Kinetics"));
-  parameter Real Ea_MSRf
-                        annotation(Dialog(tab="Fuel Channel", group="Kinetics"));
+  parameter Real porFC = 0.4 "Porosity in fuel channel" annotation(Dialog(tab="Fuel Channel"));
+  parameter Real NuFCPEN = 12 "Nusselt number fuel channel on PEN side" annotation(Dialog(tab="Fuel Channel"));
+  parameter Real NuFCIC = 10 "Nusselt number fuel channel on IC side" annotation(Dialog(tab="Fuel Channel"));
 
   // AC parameters
   replaceable package ACMedium = Medium.Air_Medium         annotation(Dialog(tab="Air Channel"));
   parameter Real porAC "Porosity in air channel" annotation(Dialog(tab="Air Channel"));
-  parameter Real pDrop(max=0.99) "Pressure drop as a factor of inlet pressure (between 0 and 0.99)" annotation(Dialog(tab="Air Channel"));
-  parameter Real NuACPEN "Nusselt number air channel on PEN side" annotation(Dialog(tab="Air Channel"));
-  parameter Real NuACIC "Nusselt number air channel on IC side" annotation(Dialog(tab="Air Channel"));
+  parameter Real pDrop(max=0.99) = 0.04 "Pressure drop as a factor of inlet pressure (between 0 and 0.99)" annotation(Dialog(tab="Air Channel"));
+  parameter Real NuACPEN = 8 "Nusselt number air channel on PEN side" annotation(Dialog(tab="Air Channel"));
+  parameter Real NuACIC = 7.5 "Nusselt number air channel on IC side" annotation(Dialog(tab="Air Channel"));
 
   // Interconnect parameters
-  parameter SI.ThermalConductivity kIC "Thermal conductivity of ribs in W/mK" annotation(Dialog(tab="Interconnects"));
-  parameter SI.SpecificHeatCapacity cpIC "Ribs heat capacity in W/mK" annotation(Dialog(tab="Interconnects"));
-  parameter SI.Density rhoIC   "Ribs density in kg/m3" annotation(Dialog(tab="Interconnects"));
-  parameter SI.SpectralEmissivity epsilonIC "Emissivity of interconnects" annotation(Dialog(tab="Interconnects"));
+  parameter SI.ThermalConductivity kIC = 27 "Thermal conductivity of ribs in W/mK" annotation(Dialog(tab="Interconnects"));
+  parameter SI.SpecificHeatCapacity cpIC = 500 "Ribs heat capacity in W/mK" annotation(Dialog(tab="Interconnects"));
+  parameter SI.Density rhoIC = 8000   "Ribs density in kg/m3" annotation(Dialog(tab="Interconnects"));
+  parameter SI.SpectralEmissivity epsilonIC = 0.1 "Emissivity of interconnects" annotation(Dialog(tab="Interconnects"));
 
   Cell.CrossFlow.Cell cell[Ncell](
     each nX=nX,
@@ -97,10 +91,6 @@ model StackCF "Stack based on the Crossflow cell"
     each porFC=porFC,
     each NuFCPEN=NuFCPEN,
     each NuFCIC=NuFCIC,
-    each A_WGSf=A_WGSf,
-    each Ea_WGSf=Ea_WGSf,
-    each A_MSRf=A_MSRf,
-    each Ea_MSRf=Ea_MSRf,
     each kIC=kIC,
     each cpIC=cpIC,
     each rhoIC=rhoIC,
@@ -111,7 +101,7 @@ model StackCF "Stack based on the Crossflow cell"
     each epsilonIC=epsilonIC)
     annotation (Placement(transformation(extent={{-28,-24},{32,32}})));
   OpenTEMPEST.Heat.Solid2D topPlate(
-    redeclare package SolidMat = TEMPEST.Solid.Material.Crofer22APU,
+    redeclare package SolidMat = OpenTEMPEST.Solid.Material.Crofer22APU,
     nX=nX,
     nY=nY,
     Tstartbar=TStart,
@@ -120,7 +110,7 @@ model StackCF "Stack based on the Crossflow cell"
     lZ=lZsolid)
     annotation (Placement(transformation(extent={{-16,76},{16,102}})));
   OpenTEMPEST.Heat.Solid2D bottomPlate(
-    redeclare package SolidMat = TEMPEST.Solid.Material.Crofer22APU,
+    redeclare package SolidMat = OpenTEMPEST.Solid.Material.Crofer22APU,
     nX=nX,
     nY=nY,
     Tstartbar=TStart,
@@ -263,5 +253,13 @@ equation
         coordinateSystem(preserveAspectRatio=false)),
     experiment(__Dymola_Algorithm="Cvode"),
     Documentation(info="<html>
+<h2>2D Crossflow Stack</h2>
+
+<p>
+This model represents a two-dimensional crossflow stack composed of multiple 
+SOC cells arranged in the z-direction. Each cell includes discretized PEN, air 
+and fuel channels, and interconnects. The stack integrates top and bottom 
+plates and gas manifolds to distribute reactants to all cells.
+</p>
 </html>"));
 end StackCF;

@@ -4,18 +4,20 @@ model BV_Co "Co-Electrolysis with B-V, Ohmic ASR and Diffusion"
 
 import SI = Modelica.SIunits;
 
-  replaceable Real E_fe = 95160;
-  replaceable Real E_fe_C = 1.12*111700;
+  replaceable Real E_fe = 95160 "Activation energy fuel electrode for H2/H2O";
+  replaceable Real E_fe_C = 1.12*111700 "Activation energy fuel electrode for CO/CO2";
   replaceable Real a = 0.04;
   replaceable Real b = 0.18;
   replaceable Real a_C = 0.04;
   replaceable Real b_C = 0.18;
-  replaceable Real gammaFE = 1.52e5;
-  replaceable Real gammaFE_C = 6.63e5;
+  replaceable Real gammaFE = 1.52e5 "Pre-exponential factor fuel electrode H2/H2O Jo";
+  replaceable Real gammaFE_C = 6.63e5 "Pre-exponential factor fuel electrode CO/CO2 Jo";
 
   SI.MolarEnthalpy H_o2, H_co2, H_co, H_h2o, H_h2;
-  SI.CurrentDensity Jo_FEC, Jo_FEH;
-  SI.MolarEnthalpy dHr_H, dHr_C;
+  SI.CurrentDensity Jo_FEC "Fuel electrode current density for CO/CO2",
+                    Jo_FEH "Fuel electrode current density for H2/H2O";
+  SI.MolarEnthalpy dHr_H "Enthalpy change of reaction for H2/H2O electrochemical reaction",
+                   dHr_C "Enthalpy change of reaction for CO/CO2 electrochemical reaction";
 
   Units.MolarFlux r_H=J_H/(2*Modelica.Constants.F) "reaction rate of H2/H2O electrochemical reactions mol/m^2 S";
   Units.MolarFlux r_C=J_C/(2*Modelica.Constants.F) "reaction rate of CO/CO2 electrochemical reactions mol/m^2 S";
@@ -83,4 +85,12 @@ equation
   else
     yF_tpb = yF;
   end if;
+  annotation (Documentation(info="<html>
+  <body>
+    <p>References for parameters:</p>
+    <ul>
+      <li>DOI: 10.1149/1945-7111/ad5e01</li>
+    </ul>
+  </body>
+</html>"));
 end BV_Co;

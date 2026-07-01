@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Cell.Cell1D;
-model Cell "restructured model"
+model Cell
   import SI = Modelica.SIunits;
   replaceable package FCMedium = OpenTEMPEST.Medium.Fuel_CH4
                                                          annotation (Dialog(tab="Fuel Channel"));
@@ -8,12 +8,12 @@ model Cell "restructured model"
 
   // General parameters
   parameter Integer N(min=3) "number of CVs in each layer" annotation (Dialog(tab="General"));
-  parameter SI.Length lX=9.0e-2 annotation (Dialog(tab="General"));
-  parameter SI.Length lY=1.42e-1 annotation (Dialog(tab="General"));
+  parameter SI.Length lX=0.1 annotation (Dialog(tab="General"));
+  parameter SI.Length lY=0.15 annotation (Dialog(tab="General"));
   constant SI.AbsolutePressure p0=1e5 annotation (Dialog(tab="General"));
   replaceable function fluxInterp =
-      OpenTEMPEST.Flow.FluxInterpolators.UDSinterp  constrainedby
-    OpenTEMPEST.Flow.FluxInterpolators.DifferencingSchemeInterpBase                      annotation(choicesAllMatching = true, Dialog(tab="General"));
+      OpenTEMPEST.Flow.FluxInterpolators.UDSinterp  constrainedby OpenTEMPEST.Flow.FluxInterpolators.DifferencingSchemeInterpBase
+                                                                                         annotation(choicesAllMatching = true, Dialog(tab="General"));
 
   //initialization
   parameter SI.Temperature TStart=1073.15 annotation (Dialog(tab="Initialization"));
@@ -46,29 +46,29 @@ model Cell "restructured model"
   // FC parameters
   parameter SI.Length lXfc=lX annotation (Dialog(tab="Fuel Channel"));
   parameter SI.Length lYfc=lY annotation (Dialog(tab="Fuel Channel"));
-  parameter SI.Length lZfc=1.23e-3 annotation (Dialog(tab="Fuel Channel"));
-  parameter Real porFC=0.867 annotation (Dialog(tab="Fuel Channel"));
+  parameter SI.Length lZfc=1e-3 annotation (Dialog(tab="Fuel Channel"));
+  parameter Real porFC=0.9 annotation (Dialog(tab="Fuel Channel"));
   parameter Real Nu_PENfc=12 "Nusselt number fuel channel on PEN side" annotation (Dialog(tab="Fuel Channel"));
-  parameter Real Nu_ICfc=9.86 "Nusselt Number fuel channel on IC side" annotation (Dialog(tab="Fuel Channel"));
-  parameter SI.ThermalConductivity kFoam=3.576 annotation (Dialog(tab="Fuel Channel"));
-  parameter SI.SpecificHeatCapacity cpFoam=440 annotation (Dialog(tab="Fuel Channel"));
-  parameter SI.Density rhoFoam=8908 annotation (Dialog(tab="Fuel Channel"));
-  parameter ThermoPower.Units.HydraulicResistance HyR_Fuel=48991852 "Hydraulic resistance of fuel channel of each single cell in stack"
+  parameter Real Nu_ICfc=10 "Nusselt Number fuel channel on IC side" annotation (Dialog(tab="Fuel Channel"));
+  parameter SI.ThermalConductivity kFoam=4 annotation (Dialog(tab="Fuel Channel"));
+  parameter SI.SpecificHeatCapacity cpFoam=400 annotation (Dialog(tab="Fuel Channel"));
+  parameter SI.Density rhoFoam=9000 annotation (Dialog(tab="Fuel Channel"));
+  parameter ThermoPower.Units.HydraulicResistance HyR_Fuel=50000000 "Hydraulic resistance of fuel channel of each single cell in stack"
     annotation (Dialog(tab="Fuel Channel"));
 
   // AC parameters
   parameter SI.Length lXac=lX annotation (Dialog(tab="Air Channel"));
-  parameter SI.Length lYac=0.0844 annotation (Dialog(tab="Air Channel"));
-  parameter SI.Length lZac=1.2e-3 annotation (Dialog(tab="Air Channel"));
+  parameter SI.Length lYac=0.08 annotation (Dialog(tab="Air Channel"));
+  parameter SI.Length lZac=1e-3 annotation (Dialog(tab="Air Channel"));
   parameter Real porAC=1 annotation (Dialog(tab="Air Channel"));
   parameter Real pDropAC=0.04 annotation (Dialog(tab="Air Channel"));
-  parameter Real Nu_PENac=8.235 "Nusselt number air channel on PEN side" annotation (Dialog(tab="Air Channel"));
-  parameter Real Nu_ICac=7.54 "Nusselt Number air channel on IC side" annotation (Dialog(tab="Air Channel"));
-  parameter ThermoPower.Units.HydraulicResistance HyR_Air=5593470 "Hydraulic resistance of air channel of each single cell in stack" annotation (Dialog(tab="Air Channel"));
+  parameter Real Nu_PENac=8 "Nusselt number air channel on PEN side" annotation (Dialog(tab="Air Channel"));
+  parameter Real Nu_ICac=8 "Nusselt Number air channel on IC side" annotation (Dialog(tab="Air Channel"));
+  parameter ThermoPower.Units.HydraulicResistance HyR_Air=6000000 "Hydraulic resistance of air channel of each single cell in stack" annotation (Dialog(tab="Air Channel"));
 
   //IC parameters
   parameter SI.SpectralEmissivity epsilon_ic=0.1 "emissivity of surface of IC" annotation (Dialog(tab="Interconnect"));
-  parameter SI.Length lZIC=2.5e-4 "half of IC height" annotation (Dialog(tab="Interconnect"));
+  parameter SI.Length lZIC=3e-4 "half of IC height" annotation (Dialog(tab="Interconnect"));
   parameter SI.Density rhoIC=8000 "Density of IC unit" annotation (Dialog(tab="Interconnect"));
   parameter SI.SpecificHeatCapacity cpIC=500 "specific heat capcity of IC" annotation (Dialog(tab="Interconnect"));
   parameter SI.ThermalConductivity LambdaIC=25 "thermal conductivity of IC" annotation (Dialog(tab="Interconnect"));
@@ -129,10 +129,9 @@ model Cell "restructured model"
     annotation (Placement(transformation(extent={{-10,28},{10,48}})));
 
   OpenTEMPEST.SOC.Cell.Cell1D.PEN1D pen(
-    redeclare package SolidMat = TEMPEST.Solid.Material.Custom,
+    redeclare package SolidMat = OpenTEMPEST.Solid.Material.Custom,
     N=N,
-    TstartX0=TStart_pen,
-    TstartXN=TStart_pen,
+    Tstartbar=TStart_pen,
     kCustom_trans=kPen,
     kCustom_long=kPen,
     rhoCustom=rhoPen,
@@ -158,10 +157,9 @@ model Cell "restructured model"
             {-32,-22}})));
 
   OpenTEMPEST.Heat.Solid1D ICAir(
-    redeclare package SolidMat = TEMPEST.Solid.Material.Custom,
+    redeclare package SolidMat = OpenTEMPEST.Solid.Material.Custom,
     N=N,
-    TstartX0=TStart_IC,
-    TstartXN=TStart_IC,
+    Tstartbar=TStart_IC,
     lX=lX,
     lY=lY,
     lZ=lZIC,
@@ -171,10 +169,9 @@ model Cell "restructured model"
     annotation (Placement(transformation(extent={{8,-50},{28,-70}})));
 
   OpenTEMPEST.Heat.Solid1D ICFuel(
-    redeclare package SolidMat = TEMPEST.Solid.Material.Custom,
+    redeclare package SolidMat = OpenTEMPEST.Solid.Material.Custom,
     N=N,
-    TstartX0=TStart_IC,
-    TstartXN=TStart_IC,
+    Tstartbar=TStart_IC,
     lX=lX,
     lY=lY,
     lZ=lZIC,
@@ -225,5 +222,22 @@ equation
           lineColor={0,0,0},
           fillColor={0,127,127},
           fillPattern=FillPattern.CrossDiag)}),
-    Diagram(coordinateSystem(preserveAspectRatio=false)));
+    Diagram(coordinateSystem(preserveAspectRatio=false)),
+    Documentation(info="<html>
+<h2>1D Cell</h2>
+
+<p>
+The model represents a one-dimensional discretized 
+into N control volumes along the channel direction.
+</p>
+
+<p>
+The cell consists of a discretized PEN with electrochemistry, axial fuel and air channels, 
+and metallic interconnects. Heat transfer between PEN, channels, and interconnects 
+is modeled via convective and radiative elements. Gas manifolds supply the 
+reactants, while Darcy-based pressure drop and electrochemical reactions are 
+computed along the channels. Geometrical dimensions, material properties, 
+discretization, and transport parameters are fully parameterized.
+</p>
+</html>"));
 end Cell;

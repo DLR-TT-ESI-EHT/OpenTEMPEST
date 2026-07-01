@@ -1,6 +1,5 @@
 within OpenTEMPEST.SOC.Cell.Cell1D;
 partial model Channel1DBase
-  "Base model for SOC cell channels - need to give energy balance and pressure drop at top level"
 
   import SI = Modelica.SIunits;
   replaceable package Medium = Modelica.Media.IdealGases.Common.MixtureGasNasa
@@ -146,5 +145,22 @@ equation
           lineColor={28,108,200},
           fillColor={28,108,200},
           fillPattern=FillPattern.HorizontalCylinder)}),         Diagram(
-        coordinateSystem(preserveAspectRatio=false)));
+        coordinateSystem(preserveAspectRatio=false)),
+    Documentation(info="<html>
+<h2>Channel1DBase</h2>
+
+<p>
+Partial finite-volume base model for one-dimensional gas flow channels. The channel is discretized into N control volumes 
+(CVs) along its length.
+</p>
+
+<h3>Governing Equations</h3>
+<ul>
+<li>Total mass conservation (finite-volume form)</li>
+<li>Species mass conservation for each gas component</li>
+<li>Gas-phase energy conservation (internal energy formulation)</li>
+<li>Convective fluxes computed via replaceable interpolation scheme</li>
+<li>Heat exchange with PEN and interconnect via distributed heat ports</li>
+</ul>
+</html>"));
 end Channel1DBase;

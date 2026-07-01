@@ -3,7 +3,7 @@ model Solid1DvarArea
   "solid 1D volume with area variation along the x-axis (truncated pyramid with base area in y-z-plane)"
 
   import SI = Modelica.SIunits;
-  replaceable package SolidMat = TEMPEST.Solid.SolidMatBase annotation(choicesAllMatching = true);
+  replaceable package SolidMat = OpenTEMPEST.Solid.SolidMatBase annotation(choicesAllMatching = true);
 
   SolidMat.BaseProperties Solid[N](T=T, each kCustom_trans=kCustom_trans, each kCustom_long=kCustom_long, each rhoCustom=rhoCustom, each cpCustom=cpCustom);
 
@@ -107,10 +107,6 @@ equation
           rotation=90)}),                                           Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
-<ul>
-<li><i>03 Aug 2021</i> by <a href=\"faisal.sedeqi@dlr.de\">Faisal Sedeqi</a>:<br>Modified Energy balance to use harmonic mean of k at interface between CV.</li>
-<li><i>27 Jul 2021</i> by <a href=\"hans.wiggenhauser@dlr.de\">Hans Wiggenhauser</a> and <a href=\"faisal.sedeqi@dlr.de\">Faisal Sedeqi</a>:<br>First release. </li>
-</ul>
 </html>", info="<html>
 <p>truncated pyramid volume with heat transfer along x-direction. Pyramid base area is y0*z0.</p>
 </html>"));

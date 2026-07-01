@@ -48,23 +48,23 @@ model StackCFSimpCell
 
   // FC parameters
   replaceable package FCMedium = Medium.Fuel_CH4         annotation(Dialog(tab="Fuel Channel"));
-  parameter Real porFC = 0.4172 "Porosity in fuel channel" annotation(Dialog(tab="Fuel Channel"));
+  parameter Real porFC = 0.4 "Porosity in fuel channel" annotation(Dialog(tab="Fuel Channel"));
   parameter Real NuFCPEN = 12 "Nusselt number fuel channel on PEN side" annotation(Dialog(tab="Fuel Channel"));
-  parameter Real NuFCIC = 9.86 "Nusselt number fuel channel on IC side" annotation(Dialog(tab="Fuel Channel"));
-  parameter Real alfafc = 0.01528182 "Weight for 2D temperature in z-direction convection for fuel channel" annotation(Dialog(tab="Fuel Channel"));
+  parameter Real NuFCIC = 10 "Nusselt number fuel channel on IC side" annotation(Dialog(tab="Fuel Channel"));
+  parameter Real alfafc = 0.015 "Weight for 2D temperature in z-direction convection for fuel channel" annotation(Dialog(tab="Fuel Channel"));
 
   // AC parameters
   replaceable package ACMedium = Medium.Air_Medium         annotation(Dialog(tab="Air Channel"));
-  parameter Real porAC = 0.4172 "Porosity in air channel" annotation(Dialog(tab="Air Channel"));
+  parameter Real porAC = 0.4 "Porosity in air channel" annotation(Dialog(tab="Air Channel"));
   parameter Real pDrop(max=0.99) = 0.04 "Pressure drop as a factor of inlet pressure (between 0 and 0.99)" annotation(Dialog(tab="Air Channel"));
-  parameter Real NuACPEN = 8.235 "Nusselt number air channel on PEN side" annotation(Dialog(tab="Air Channel"));
-  parameter Real NuACIC = 7.54 "Nusselt number air channel on IC side" annotation(Dialog(tab="Air Channel"));
-  parameter Real alfaac = 0.11955708 "Weight for 2D temperature in z-direction convection for air channel" annotation(Dialog(tab="Air Channel"));
+  parameter Real NuACPEN = 8 "Nusselt number air channel on PEN side" annotation(Dialog(tab="Air Channel"));
+  parameter Real NuACIC = 7.5 "Nusselt number air channel on IC side" annotation(Dialog(tab="Air Channel"));
+  parameter Real alfaac = 0.12 "Weight for 2D temperature in z-direction convection for air channel" annotation(Dialog(tab="Air Channel"));
 
   // IC parameters
-  parameter SI.ThermalConductivity kIC = 23.77 "Thermal conductivity of ribs in W/mK" annotation(Dialog(tab="Interconnects"));
-  parameter SI.SpecificHeatCapacity cpIC = 663.65 "Ribs heat capacity in W/mK" annotation(Dialog(tab="Interconnects"));
-  parameter SI.Density rhoIC=7700   "Ribs denisty in kg/m3" annotation(Dialog(tab="Interconnects"));
+  parameter SI.ThermalConductivity kIC = 27 "Thermal conductivity of ribs in W/mK" annotation(Dialog(tab="Interconnects"));
+  parameter SI.SpecificHeatCapacity cpIC = 500 "Ribs heat capacity in W/mK" annotation(Dialog(tab="Interconnects"));
+  parameter SI.Density rhoIC=8000   "Ribs denisty in kg/m3" annotation(Dialog(tab="Interconnects"));
   parameter SI.SpectralEmissivity epsilonIC = 0.1 "Emissivity of interconnects" annotation(Dialog(tab="Interconnects"));
 
   OpenTEMPEST.SOC.Cell.CrossFlow.CellCFSimp cell[Ncell](
@@ -110,7 +110,7 @@ model StackCFSimpCell
     each alfaac=alfaac)
     annotation (Placement(transformation(extent={{-28,-24},{32,32}})));
   OpenTEMPEST.Heat.Solid2D topPlate(
-    redeclare package SolidMat = TEMPEST.Solid.Material.Crofer22APU,
+    redeclare package SolidMat = OpenTEMPEST.Solid.Material.Crofer22APU,
     nX=nX,
     nY=nY,
     Tstartbar=TStart,
@@ -119,7 +119,7 @@ model StackCFSimpCell
     lZ=lZsolid)
     annotation (Placement(transformation(extent={{-16,76},{16,102}})));
   OpenTEMPEST.Heat.Solid2D bottomPlate(
-    redeclare package SolidMat = TEMPEST.Solid.Material.Crofer22APU,
+    redeclare package SolidMat = OpenTEMPEST.Solid.Material.Crofer22APU,
     nX=nX,
     nY=nY,
     Tstartbar=TStart,
@@ -262,15 +262,17 @@ equation
         coordinateSystem(preserveAspectRatio=false)),
     experiment(__Dymola_Algorithm="Cvode"),
     Documentation(info="<html>
-<p>
-This model represents a simplified crossflow stack model based on the simplified crossflow cell model with 1D channels
-<a href=\"TEMPEST.Development.AnisTesting.CellModels.CellCFSimp2D\">Simplified CF Cell Model</a>.
-</p>
+<html>
+<body>
+<!--StartFragment-->&lt;h2&gt;SimplifiedStack1D&lt;/h2&gt;
+&lt;p&gt;
+This model represents a 1D stack of solid oxide fuel cells using a combination of detailed and simplified cells. 
+It consists of &lt;code&gt;Ncell&lt;/code&gt; total cells, where &lt;code&gt;NdetailedCell&lt;/code&gt; are calculated in detail and the remaining are grouped into &lt;code&gt;nSimpMult&lt;/code&gt; simplified vertical blocks. 
+The model includes thermal, electrical, and flow interactions for each cell, fuel and air manifolds, interconnects, and stack plates. 
+Simplified cells receive averaged information from corresponding detailed cells to reduce computational cost while preserving stack-level accuracy.
+&lt;/p&gt;<!--EndFragment-->
+</body>
+</html>
 </html>", revisions="<html>
-<ul>
-<li><i>2 Feb 2025</i>
-    by Anis Taissir</a>:<br>
-       First release.</li>
-</ul>
 </html>"));
 end StackCFSimpCell;

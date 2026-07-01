@@ -1,6 +1,5 @@
 within OpenTEMPEST.SOC.Stack;
 model Stack1D
-  "detailed stack based on Sunfire cell. Each cell is fully calculated"
   import SI = Modelica.SIunits;
 
   parameter Integer N(min=3)=3;
@@ -32,29 +31,29 @@ model Stack1D
   parameter SI.Temperature TStart_IntermediatePlate= TStart "starting Temperature in Bottom Plate" annotation (Dialog(tab = "Initialization"));
 
   //Dimensions
-  parameter SI.Length lY=0.142 "Width of FC"
+  parameter SI.Length lY=0.15 "Width of FC"
     annotation (Dialog(tab="Cell Dimensions"));
   parameter SI.Length lYfc=lY "Width of FC"
     annotation (Dialog(tab="Cell Dimensions"));
-  parameter SI.Length lZfc=1.23e-3 "Height of FC"
+  parameter SI.Length lZfc=1e-3 "Height of FC"
     annotation (Dialog(tab="Cell Dimensions"));
-  parameter SI.Length lX=0.09 "Length of PEN"
+  parameter SI.Length lX=0.1 "Length of PEN"
     annotation (Dialog(tab="Cell Dimensions"));
   parameter SI.Length lXac=lX "Length of AC"
     annotation (Dialog(tab="Cell Dimensions"));
-  parameter SI.Length lYac=0.08448 "Width of AC"
+  parameter SI.Length lYac=0.08 "Width of AC"
     annotation (Dialog(tab="Cell Dimensions"));
-  parameter SI.Length lZac=1.2e-3 "Height of AC"
+  parameter SI.Length lZac=1e-3 "Height of AC"
     annotation (Dialog(tab="Cell Dimensions"));
   parameter SI.Length lYpen=lY "Width of PEN"
     annotation (Dialog(tab="Cell Dimensions"));
-  parameter SI.Length lZpen=150e-6 "Thickness of PEN including GDC layer"
+  parameter SI.Length lZpen=200e-6 "Thickness of PEN including GDC layer"
     annotation (Dialog(tab="Cell Dimensions"));
-  parameter SI.Length lZIC=250e-6 "Thickness of IC over the active part of cell"
+  parameter SI.Length lZIC=300e-6 "Thickness of IC over the active part of cell"
     annotation (Dialog(tab="Cell Dimensions"));
-  parameter SI.Length lZTopPlate=11e-3 "Top Plate thickness" annotation (Dialog(tab="Cell Dimensions"));
-  parameter SI.Length lZBottomPlate=11e-3 "Bottom Plate thickness" annotation (Dialog(tab="Cell Dimensions"));
-  parameter SI.Length lZIntermediatePlate=11e-3 "Bottom Plate thickness" annotation (Dialog(tab="Cell Dimensions"));
+  parameter SI.Length lZTopPlate=10e-3 "Top Plate thickness" annotation (Dialog(tab="Cell Dimensions"));
+  parameter SI.Length lZBottomPlate=10e-3 "Bottom Plate thickness" annotation (Dialog(tab="Cell Dimensions"));
+  parameter SI.Length lZIntermediatePlate=10e-3 "Bottom Plate thickness" annotation (Dialog(tab="Cell Dimensions"));
 
   // PEN parameters
   replaceable model Electrochem =
@@ -67,22 +66,22 @@ model Stack1D
   parameter SI.SpectralEmissivity epsilon_pen=0.8 "emissivity of Anode-Electrolyte-Cathode unit" annotation (Dialog(tab="PEN"));
   // FC parameters
   replaceable package FCMedium = Medium.Fuel_CH4          annotation (Dialog(tab="Fuel Channel"));
-  parameter Real porFC=0.867 "Porosity in FC" annotation (Dialog(tab="Fuel Channel"));
+  parameter Real porFC=0.9 "Porosity in FC" annotation (Dialog(tab="Fuel Channel"));
   parameter Real Nu_PENfc=12 "Nusselt number fuel channel on PEN side" annotation (Dialog(tab="Fuel Channel"));
-  parameter Real Nu_ICfc=9.86 "Nusselt Number fuel channel on IC side" annotation (Dialog(tab="Fuel Channel"));
+  parameter Real Nu_ICfc=10 "Nusselt Number fuel channel on IC side" annotation (Dialog(tab="Fuel Channel"));
   parameter SI.ThermalConductivity kFoam=3.576 "Thermal Conductivity of Ni Foam" annotation (Dialog(tab="Fuel Channel"));
   parameter SI.SpecificHeatCapacity cpFoam=440       "Specific heat capacity of Ni in FC" annotation (Dialog(tab="Fuel Channel"));
   parameter SI.Density rhoFoam(displayUnit="kg/m3")=8908 "Density of Ni in FC" annotation (Dialog(tab="Fuel Channel"));
-  parameter ThermoPower.Units.HydraulicResistance HyR_Fuel=48991852 "Hydraulic resistance of fuel channel of each single cell in stack"
+  parameter ThermoPower.Units.HydraulicResistance HyR_Fuel=50000000 "Hydraulic resistance of fuel channel of each single cell in stack"
     annotation (Dialog(tab="Fuel Channel"));
 
   // AC parameters
   replaceable package ACMedium = Medium.Air_Medium         annotation (Dialog(tab="Air Channel"));
   parameter Real porAC=1 "Porosity in AC" annotation (Dialog(tab="Air Channel"));
   parameter Real pDropAC=0 "Pressure drop factor, pOut=(1-pDropAC)*pIn" annotation (Dialog(tab="Air Channel"));
-  parameter Real Nu_PENac=8.235 "Nusselt number air channel on PEN side" annotation (Dialog(tab="Air Channel"));
-  parameter Real Nu_ICac=7.54 "Nusselt Number air channel on IC side" annotation (Dialog(tab="Air Channel"));
-  parameter ThermoPower.Units.HydraulicResistance HyR_Air=5593470 "Hydraulic resistance of air channel of each single cell in stack" annotation (Dialog(tab="Air Channel"));
+  parameter Real Nu_PENac=8 "Nusselt number air channel on PEN side" annotation (Dialog(tab="Air Channel"));
+  parameter Real Nu_ICac=7.5 "Nusselt Number air channel on IC side" annotation (Dialog(tab="Air Channel"));
+  parameter ThermoPower.Units.HydraulicResistance HyR_Air=6000000 "Hydraulic resistance of air channel of each single cell in stack" annotation (Dialog(tab="Air Channel"));
 
   // Interconnect parameters
   parameter SI.ThermalConductivity k_solidCustom=0.2812 "Thermal Conductivity of solid parallel to windows" annotation (Dialog(tab="Interconnect"));
@@ -214,10 +213,9 @@ model Stack1D
     annotation (Placement(transformation(extent={{-20,-14},{16,22}})));
 
   OpenTEMPEST.Heat.Solid1D plates[2 + nIMPs](
-    redeclare package SolidMat = TEMPEST.Solid.Material.Custom,
+    redeclare package SolidMat = OpenTEMPEST.Solid.Material.Custom,
     each N=N,
-    each TstartX0=TStart_IntermediatePlate,
-    each TstartXN=TStart_IntermediatePlate,
+    each Tstartbar=TStart_IntermediatePlate,
     each lX=lX,
     each lY=lY,
     lZ=cat(
@@ -349,8 +347,12 @@ equation
       OutputCPUtime=true,
       OutputFlatModelica=false),
     Documentation(revisions="<html>
-<ul>
-<li><i>23 Dez 2021</i> by Faisal Sedeqi</a>:<br>First release. </li>
-</ul>
+</html>", info="<html>
+<h2>Stack1D</h2>
+
+<p>
+This model represents a detailed 1D stack composed of <code>Ncell</code> cells, each discretized in the x-direction with <code>N</code> control volumes. 
+It includes full thermal, electrical, and gas flow interactions for fuel and air channels, as well as interconnects and end/intermediate plates.
+</p>
 </html>"));
 end Stack1D;

@@ -1,5 +1,5 @@
-within OpenTEMPEST.SOC.Cell.CrossFlow;
-model Cell "2D crossflow cell model"
+﻿within OpenTEMPEST.SOC.Cell.CrossFlow;
+model Cell
 
   import SI = Modelica.SIunits;
 
@@ -11,14 +11,14 @@ model Cell "2D crossflow cell model"
   parameter SI.Length lY = 0.1 "Width of solid" annotation(Dialog(tab="Dimensions"));
   parameter SI.Length lXpen = lX "Length of pen" annotation(Dialog(tab="Dimensions"));
   parameter SI.Length lYpen = lY "Width of pen" annotation(Dialog(tab="Dimensions"));
-  parameter SI.Length lZpen "Thickness of pen" annotation(Dialog(tab="Dimensions"));
+  parameter SI.Length lZpen = 3.425e-4 "Thickness of pen" annotation(Dialog(tab="Dimensions"));
   parameter SI.Length lXac = lX "Length of air channel" annotation(Dialog(tab="Dimensions"));
   parameter SI.Length lYac = lY "Width of air channel" annotation(Dialog(tab="Dimensions"));
-  parameter SI.Length lZac "Height of air channel" annotation(Dialog(tab="Dimensions"));
+  parameter SI.Length lZac = 1e-3 "Height of air channel" annotation(Dialog(tab="Dimensions"));
   parameter SI.Length lXfc = lX "Length of fuel channel" annotation(Dialog(tab="Dimensions"));
   parameter SI.Length lYfc = lY "Width of fuel channel" annotation(Dialog(tab="Dimensions"));
-  parameter SI.Length lZfc "Height of fuel channel" annotation(Dialog(tab="Dimensions"));
-  parameter SI.Length lZsolid "Height of interconnector"  annotation(Dialog(tab="Dimensions"));
+  parameter SI.Length lZfc = 1e-3 "Height of fuel channel" annotation(Dialog(tab="Dimensions"));
+  parameter SI.Length lZsolid = 0.2e-3 "Height of interconnector"  annotation(Dialog(tab="Dimensions"));
   parameter SI.Length Bac = porAC*lYac "Width of air channel without ribs" annotation(Dialog(tab="Dimensions"));
   parameter SI.Length Bfc = porFC*lYfc "Width of fuel channel without ribs" annotation(Dialog(tab="Dimensions"));
 
@@ -36,34 +36,30 @@ model Cell "2D crossflow cell model"
   Dialog(tab="PEN"),
   Placement(transformation(extent={{78,50},{98,70}})),
   choicesAllMatching=true);
-  parameter SI.ThermalConductivity kCustom_trans "Thermal Conductivity across layers of PEN in W/mK" annotation(Dialog(tab="PEN"));
-  parameter SI.ThermalConductivity kCustom_long "Thermal Conductivity in plane of layers of PEN in W/mK (=k_trans for homogeneous materials)" annotation(Dialog(tab="PEN"));
-  parameter SI.Density rhoPEN "Density of PEN in kg/m3" annotation(Dialog(tab="PEN"));
-  parameter SI.SpecificHeatCapacity cpPEN "Specific heat capacity of PEN in J/kgK" annotation(Dialog(tab="PEN"));
-  parameter SI.SpectralEmissivity epsilonPEN "Emissivity of Anode-Electrolyte-Cathode unit" annotation(Dialog(tab="PEN"));
+  parameter SI.ThermalConductivity kCustom_trans = 2.16 "Thermal Conductivity across layers of PEN in W/mK" annotation(Dialog(tab="PEN"));
+  parameter SI.ThermalConductivity kCustom_long = 2.16 "Thermal Conductivity in plane of layers of PEN in W/mK (=k_trans for homogeneous materials)" annotation(Dialog(tab="PEN"));
+  parameter SI.Density rhoPEN = 5900 "Density of PEN in kg/m3" annotation(Dialog(tab="PEN"));
+  parameter SI.SpecificHeatCapacity cpPEN = 500 "Specific heat capacity of PEN in J/kgK" annotation(Dialog(tab="PEN"));
+  parameter SI.SpectralEmissivity epsilonPEN = 0.8 "Emissivity of Anode-Electrolyte-Cathode unit" annotation(Dialog(tab="PEN"));
 
   // FC parameters
   replaceable package FCMedium = Medium.Fuel_CH4         annotation(Dialog(tab="Fuel Channel"));
-  parameter Real porFC "Porosity in fuel channel" annotation(Dialog(tab="Fuel Channel"));
-  parameter Real NuFCPEN "Nusselt number fuel channel on PEN side" annotation(Dialog(tab="Fuel Channel"));
-  parameter Real NuFCIC "Nusselt number fuel channel on IC side" annotation(Dialog(tab="Fuel Channel"));
-  parameter Real A_WGSf annotation(Dialog(tab="Fuel Channel", group="Kinetics"));
-  parameter Real Ea_WGSf annotation(Dialog(tab="Fuel Channel", group="Kinetics"));
-  parameter Real A_MSRf annotation(Dialog(tab="Fuel Channel", group="Kinetics"));
-  parameter Real Ea_MSRf annotation(Dialog(tab="Fuel Channel", group="Kinetics"));
+  parameter Real porFC = 0.4 "Porosity in fuel channel" annotation(Dialog(tab="Fuel Channel"));
+  parameter Real NuFCPEN = 12 "Nusselt number fuel channel on PEN side" annotation(Dialog(tab="Fuel Channel"));
+  parameter Real NuFCIC = 10 "Nusselt number fuel channel on IC side" annotation(Dialog(tab="Fuel Channel"));
 
   // AC parameters
   replaceable package ACMedium = Medium.Air_Medium         annotation(Dialog(tab="Air Channel"));
-  parameter Real porAC "Porosity in air channel" annotation(Dialog(tab="Air Channel"));
-  parameter Real pDrop(max=0.99) "Pressure drop as a factor of inlet pressure (between 0 and 0.99)" annotation(Dialog(tab="Air Channel"));
-  parameter Real NuACPEN "Nusselt number air channel on PEN side" annotation(Dialog(tab="Air Channel"));
-  parameter Real NuACIC "Nusselt number air channel on IC side" annotation(Dialog(tab="Air Channel"));
+  parameter Real porAC = 0.4 "Porosity in air channel" annotation(Dialog(tab="Air Channel"));
+  parameter Real pDrop(max=0.99) = 0.04 "Pressure drop as a factor of inlet pressure (between 0 and 0.99)" annotation(Dialog(tab="Air Channel"));
+  parameter Real NuACPEN = 8 "Nusselt number air channel on PEN side" annotation(Dialog(tab="Air Channel"));
+  parameter Real NuACIC = 7.5 "Nusselt number air channel on IC side" annotation(Dialog(tab="Air Channel"));
 
   // IC parameters
-  parameter SI.ThermalConductivity kIC "Thermal conductivity of ribs in W/mK" annotation(Dialog(tab="Interconnects"));
-  parameter SI.SpecificHeatCapacity cpIC "Ribs heat capacity in W/mK" annotation(Dialog(tab="Interconnects"));
-  parameter SI.Density rhoIC   "Ribs density in kg/m3" annotation(Dialog(tab="Interconnects"));
-  parameter SI.SpectralEmissivity epsilonIC "Emissivity of interconnects" annotation(Dialog(tab="Interconnects"));
+  parameter SI.ThermalConductivity kIC = 40 "Thermal conductivity of CFY (35-45 W/mK for 20-900 °C)" annotation(Dialog(tab="Interconnects"));
+  parameter SI.SpecificHeatCapacity cpIC = 451.8 "Interconnect heat capacity" annotation(Dialog(tab="Interconnects"));
+  parameter SI.Density rhoIC = 7233   "Interconnect density" annotation(Dialog(tab="Interconnects"));
+  parameter SI.SpectralEmissivity epsilonIC = 0.1 "Emissivity of interconnects" annotation(Dialog(tab="Interconnects"));
 
   PEN2D pen(
     nX=nX,
@@ -89,6 +85,9 @@ model Cell "2D crossflow cell model"
     lY=lXac,
     lZ=lZac,
     por=porAC,
+    kRibs=kIC,
+    cpRibs=cpIC,
+    rhoRibs=rhoIC,
     pDrop=pDrop,
     Nu_PEN=NuACPEN,
     Nu_IC=NuACIC)
@@ -111,10 +110,9 @@ model Cell "2D crossflow cell model"
     por=porFC,
     Nu_PEN=NuFCPEN,
     Nu_IC=NuFCIC,
-    A_WGSf=A_WGSf,
-    Ea_WGSf=Ea_WGSf,
-    A_MSRf=A_MSRf,
-    Ea_MSRf=Ea_MSRf)
+    kRibs=kIC,
+    cpRibs=cpIC,
+    rhoRibs=rhoIC)
     annotation (Placement(transformation(extent={{-34,32},{40,86}})));
 
   Flow.Manifold manifold(redeclare package Medium = Medium.Fuel_CH4, nPorts_b=
@@ -143,7 +141,7 @@ model Cell "2D crossflow cell model"
   ThermoPower.Gas.FlangeB airout(redeclare package Medium = Medium.Air_Medium)
     annotation (Placement(transformation(extent={{90,-70},{110,-50}})));
   OpenTEMPEST.Heat.Solid2D iCAir(
-    redeclare package SolidMat = TEMPEST.Solid.Material.Crofer22APU,
+    redeclare package SolidMat = OpenTEMPEST.Solid.Material.Crofer22APU,
     nX=nX,
     nY=nY,
     Tstartbar=TStart,
@@ -152,7 +150,7 @@ model Cell "2D crossflow cell model"
     lZ=lZsolid)
     annotation (Placement(transformation(extent={{-8,-124},{12,-104}})));
   OpenTEMPEST.Heat.Solid2D iCFuel(
-    redeclare package SolidMat = TEMPEST.Solid.Material.Crofer22APU,
+    redeclare package SolidMat = OpenTEMPEST.Solid.Material.Crofer22APU,
     nX=nX,
     nY=nY,
     Tstartbar=TStart,
@@ -204,6 +202,45 @@ model Cell "2D crossflow cell model"
     A2=lX*Bfc) annotation (Placement(transformation(extent={{46,26},{66,46}})));
 equation
 
+  // Pins connections
+  connect(pen.pin_n, pin_n) annotation (Line(points={{-34.34,23.2},{-84,23.2},{-84,
+          50},{-96,50}},                                                                           color={0,0,255}));
+  connect(pen.pin_p, pin_p) annotation (Line(points={{-34.34,-0.48},{-84,-0.48},
+          {-84,10},{-96,10}},                                                                        color={0,0,255}));
+
+  // Flanges connections
+  connect(manifold.port_a, fuelIn) annotation (Line(points={{-76,58},{-88,58},{-88,
+          78},{-102,78}},                                                                          color={0,127,255}));
+  connect(manifold_out.port_b, fuelOut) annotation (Line(points={{69,56},{86,56},{86,60},{100,60}}, color={0,127,255}));
+  connect(manifold_out1.port_b, airout) annotation (Line(points={{67,-60},{100,-60}}, color={0,127,255}));
+  connect(manifold1.port_a, airIn) annotation (Line(points={{-72,-58},{-88,-58},
+          {-88,-100},{-100,-100}},                                                                     color={0,127,255}));
+
+  // x-direction connections
+  connect(dHT_x0, pen.dhT_x0);
+  connect(dHT_xN, pen.dhT_xN);
+
+  // y-direction connections
+  connect(dHT_y0, pen.dhT_y0);
+  connect(dHT_yN, pen.dhT_yN);
+
+  // z-direction connections
+  connect(dHT2_z0, iCAir.dhT2_z0);
+  connect(dHT2_z1, iCFuel.dhT2_z1);
+  connect(iCFuel.dhT2_z0, fuelChannel.Q_IC) annotation (Line(points={{-1,89},{-1,
+          79.5},{3,79.5},{3,69.8}}, color={0,0,0}));
+  connect(fuelChannel.Q_PEN, pen.dhT2_z1) annotation (Line(points={{2.63,49.82},
+          {4,49.82},{4,34.4},{-23.8,34.4}}, color={0,0,0}));
+
+  connect(iCAir.dhT2_int, radHT2DFV.side2) annotation (Line(points={{2,-114},{0,
+          -114},{0,-104},{32,-104},{32,-80},{56,-80},{56,-38.4}}, color={0,0,0}));
+  connect(pen.Qrad_AI, radHT2DFV.side1) annotation (Line(points={{17,6.24},{17,-24},
+          {56,-24},{56,-33.6}}, color={0,0,0}));
+  connect(pen.Qrad_FI, radHT2DFV1.side2)
+    annotation (Line(points={{17,19.04},{56,19.04},{56,35.6}}, color={0,0,0}));
+  connect(iCFuel.dhT2_int, radHT2DFV1.side1) annotation (Line(points={{6,96},{8,
+          96},{8,74},{56,74},{56,40.4}}, color={0,0,0}));
+
   connect(fuelChannel.PEN_in, pen.PEN_in) annotation (Line(points={{-16.24,
           50.36},{-14,50.36},{-14,34.4},{0,34.4}}, color={0,0,0}));
 
@@ -216,20 +253,6 @@ equation
     annotation (Line(points={{-64,-58},{-35.54,-57.32}}, color={0,127,255}));
   connect(airChannel.outfl, manifold_out1.ports_a) annotation (Line(points={{
           41.54,-58},{41.54,-60},{59.4,-60}}, color={159,159,223}));
-
-  // Connect to pins
-  connect(pen.pin_n, pin_n) annotation (Line(points={{-34.34,23.2},{-84,23.2},{-84,
-          50},{-96,50}},                                                                           color={0,0,255}));
-  connect(pen.pin_p, pin_p) annotation (Line(points={{-34.34,-0.48},{-84,-0.48},
-          {-84,10},{-96,10}},                                                                        color={0,0,255}));
-
-  // Connect to Flanges
-  connect(manifold.port_a, fuelIn) annotation (Line(points={{-76,58},{-88,58},{-88,
-          78},{-102,78}},                                                                          color={0,127,255}));
-  connect(manifold_out.port_b, fuelOut) annotation (Line(points={{69,56},{86,56},{86,60},{100,60}}, color={0,127,255}));
-  connect(manifold_out1.port_b, airout) annotation (Line(points={{67,-60},{100,-60}}, color={0,127,255}));
-  connect(manifold1.port_a, airIn) annotation (Line(points={{-72,-58},{-88,-58},
-          {-88,-100},{-100,-100}},                                                                     color={0,127,255}));
 
   // Crossflow topology connections
   connect(crossFlowTopology.dHTT_side1, pen.dhT2_z0) annotation (Line(points={{1,-27},
@@ -246,44 +269,7 @@ equation
   connect(pen.PEN_ina, crossFlowTopology.PEN_side1) annotation (Line(points={{0,-10.4},
           {-6,-10.4},{-6,-27},{-12.5,-27}},        color={0,0,0}));
 
-  // x-direction
-  //connect(dHT_x0, iCFuel.dhT_x0);
-  //connect(dHT_x0, fuelChannel2D.dHTNi_x0);
-  connect(dHT_x0, pen.dhT_x0);
-  //connect(dHT_x0, iCAir.dhT_x0);
 
-  //connect(dHT_xN, iCFuel.dhT_xN);
-  //connect(dHT_xN, fuelChannel2D.dHTNi_xN);
-  connect(dHT_xN, pen.dhT_xN);
-  //connect(dHT_xN, iCAir.dhT_xN);
-
-  // y-direction
-  connect(dHT_y0, pen.dhT_y0);
-  //connect(dHT_y0, iCFuel.dhT_y0);
-  //connect(dHT_y0, iCAir.dhT_y0);
-  //connect(dHT_y0, airChannel2D.dHTNi_x0);
-
-  connect(dHT_yN, pen.dhT_yN);
-  //connect(dHT_yN, iCFuel.dhT_yN);
-  //connect(dHT_yN, iCAir.dhT_yN);
-  //connect(dHT_yN, airChannel2D.dHTNi_xN);
-
-  // z-direction
-  connect(dHT2_z0, iCAir.dhT2_z0);
-  connect(dHT2_z1, iCFuel.dhT2_z1);
-  connect(iCFuel.dhT2_z0, fuelChannel.Q_IC) annotation (Line(points={{-1,89},{-1,
-          79.5},{3,79.5},{3,69.8}}, color={0,0,0}));
-  connect(fuelChannel.Q_PEN, pen.dhT2_z1) annotation (Line(points={{2.63,49.82},
-          {4,49.82},{4,34.4},{-23.8,34.4}}, color={0,0,0}));
-
-  connect(iCAir.dhT2_int, radHT2DFV.side2) annotation (Line(points={{2,-114},{0,
-          -114},{0,-104},{32,-104},{32,-80},{56,-80},{56,-38.4}}, color={0,0,0}));
-  connect(pen.Qrad_AI, radHT2DFV.side1) annotation (Line(points={{17,6.24},{17,-24},
-          {56,-24},{56,-33.6}}, color={0,0,0}));
-  connect(pen.Qrad_FI, radHT2DFV1.side2)
-    annotation (Line(points={{17,19.04},{56,19.04},{56,35.6}}, color={0,0,0}));
-  connect(iCFuel.dhT2_int, radHT2DFV1.side1) annotation (Line(points={{6,96},{8,
-          96},{8,74},{56,74},{56,40.4}}, color={0,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -120},{100,100}}),                                  graphics={Rectangle(
           extent={{-100,100},{100,-120}},
@@ -291,5 +277,20 @@ equation
           fillColor={0,127,127},
           fillPattern=FillPattern.CrossDiag,
           lineThickness=0.5)}),                                  Diagram(coordinateSystem(preserveAspectRatio=false, extent={
-            {-100,-120},{100,100}})));
+            {-100,-120},{100,100}})),
+    Documentation(info="<html>
+<h2>2D Crossflow Cell</h2>
+<p>
+The model represents a two-dimensional crossflow cell discretized 
+into control volumes (CVs) in the x- and y-directions.
+</p>
+
+<p>
+The cell consists of a discretized PEN, perpendicular air and fuel channels, 
+and metallic interconnects. The electrochemistry is provided by a replaceable 
+submodel, and gas manifolds distribute the reactants to the channels. 
+Geometrical dimensions, material properties, discretization, and transport 
+parameters are fully parameterized.
+</p>
+</html>"));
 end Cell;

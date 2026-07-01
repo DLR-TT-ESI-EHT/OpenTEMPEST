@@ -1,8 +1,6 @@
 within OpenTEMPEST.SOC.Cell.Cell1D;
-model FuelChannel "1D fuel channel"
+model FuelChannel
   extends OpenTEMPEST.SOC.Cell.Cell1D.Channel1DBase(
-    Nu_IC=9.86,
-    Nu_PEN=12,
     redeclare package Medium = OpenTEMPEST.Medium.Fuel_CH4);
 
   import SI = Modelica.SIunits;
@@ -10,15 +8,15 @@ model FuelChannel "1D fuel channel"
   SI.Temperature T[N](start = TStart) "Average Temperature in CV";
 
   // Ni Foam Thermophysical parameters
-  parameter SI.ThermalConductivity k_eff_Ni=7.971  "Nickel foam effective thermal conductivity";
-  parameter SI.SpecificHeatCapacity cp_Ni=455  "Nickel heat capacity";
-  parameter SI.Density rho_Ni=4066/(1-0.5437)  "Nickel density";
+  parameter SI.ThermalConductivity k_eff_Ni  "Nickel foam effective thermal conductivity";
+  parameter SI.SpecificHeatCapacity cp_Ni  "Nickel heat capacity";
+  parameter SI.Density rho_Ni  "Nickel density";
 
   // Kinetic parameters
-  constant Real A_WGSf = 0.0171 "";
-  constant Real Ea_WGSf = 103191;
-  constant Real A_MSRf = 2395;
-  constant Real Ea_MSRf = 231266*0.875;
+  constant Real A_WGSf = 0.0171  annotation(Dialog(tab="Kinetics"));
+  constant Real Ea_WGSf = 103191  annotation(Dialog(tab="Kinetics"));
+  constant Real A_MSRf = 2395  annotation(Dialog(tab="Kinetics"));
+  constant Real Ea_MSRf = 231266*0.875  annotation(Dialog(tab="Kinetics"));
 
   // Pressure Drop
   SI.PressureDifference dp[N] "pressure loss";
@@ -80,7 +78,7 @@ equation
    hTNi_x0.Q_flow = (k_eff_Ni/(0.5*dx))*lY*lZ*(hTNi_x0.T - T[1]);
    hTNi_xN.Q_flow = (k_eff_Ni/(0.5*dx))*lY*lZ*(hTNi_xN.T - T[N]);
 
-// Reaction kinetics
+  // Reaction kinetics
   massTransfer[:] = PEN_in[:].I/(4*Modelica.Constants.F)*Modelica.Media.IdealGases.SingleGases.O2.data.MM;
   for i in 1:N loop
     rMSR[i] = kfMSR[i]*(Gas[i].p^2)*(Ycell[i, 2]*Ycell[i, 5] - ((Gas[i].p^2)/Kmsr[i])*(Ycell[i, 1]^3)*(Ycell[i,4]))*dV*por;
@@ -90,11 +88,11 @@ equation
 
     DeltaG_msr[i] = -252.642810968035.*Gas[i].T + 225215.698063031;
     Kmsr[i] = 1.01325^2*1e10*Modelica.Math.exp(-DeltaG_msr[i]/Modelica.Constants.R/Gas[i].T);
-    kfMSR[i] = A_MSRf*Modelica.Math.exp(-Ea_MSRf/(8.314*Gas[i].T));
+    kfMSR[i] = A_MSRf*Modelica.Math.exp(-Ea_MSRf/(Modelica.Constants.R*Gas[i].T));
 
     DeltaG_wgs[i] = 32.1153*(Gas[i].T) - 3.5211E4; // Marius' shortcut from NASA
     Kwgs[i] = Modelica.Math.exp(-DeltaG_wgs[i]/Modelica.Constants.R/Gas[i].T);
-    kfWGS[i] = A_WGSf*Modelica.Math.exp(-Ea_WGSf/(8.314*Gas[i].T));
+    kfWGS[i] = A_WGSf*Modelica.Math.exp(-Ea_WGSf/(Modelica.Constants.R*Gas[i].T));
 
     for j in 1:nSpecies loop
       R[i, j] =  Medium.MMX[j]*(a[1, j]*rMSR[i] .+ a[2, j]*rWGS[i] .+ a[3, j]*rHEL[i] .+ a[4, j]*rCEL[i]);
@@ -116,7 +114,7 @@ equation
       Gas[i].d,
       dx,
       (lZ - hAbsetzen)*lY,
-      2.5e-9);
+      3e-9);
   end for;
 
   Gas[1].p = infl.p - dp[1];
@@ -133,5 +131,32 @@ equation
           lineColor={28,108,200},
           fillPattern=FillPattern.HorizontalCylinder,
           fillColor={134,134,134})}),                            Diagram(
-        coordinateSystem(preserveAspectRatio=false)));
+        coordinateSystem(preserveAspectRatio=false)),
+    Documentation(info="<html>
+<h2>FuelChannel1D</h2>
+
+<p>
+One-dimensional finite-volume fuel channel model extending 
+<code>Channel1DBase</code>. The model describes coupled mass, energy, 
+and momentum balances in a porous nickel foam channel including 
+heterogeneous reforming reactions and electrochemical source terms.
+</p>
+
+<h3>Modeling Assumptions</h3>
+<ul>
+<li>1D discretization in flow direction</li>
+<li>Thermal equilibrium between gas and nickel foam solid phase</li>
+<li>Effective axial heat conduction in the solid matrix</li>
+<li>Darcy-based pressure drop formulation</li>
+</ul>
+
+<h3>Included Phenomena</h3>
+<ul>
+<li>Methane Steam Reforming (MSR)</li>
+<li>Water-Gas Shift (WGS)</li>
+<li>Hydrogen electrochemical reaction</li>
+<li>Carbon dioxide electrochemical reaction</li>
+<li>Axial solid conduction through nickel foam</li>
+<li>Distributed pressure losses</li>
+</html>"));
 end FuelChannel;

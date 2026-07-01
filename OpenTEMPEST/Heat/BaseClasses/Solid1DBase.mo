@@ -2,30 +2,32 @@ within OpenTEMPEST.Heat.BaseClasses;
 partial model Solid1DBase
 
   import SI = Modelica.SIunits;
-  replaceable package SolidMat = TEMPEST.Solid.Material.Custom constrainedby
-    TEMPEST.Solid.SolidMatBase                              annotation(choicesAllMatching = true);
-
-  SolidMat.BaseProperties Solid[N](T=T, each kCustom_trans=kCustom_trans, each kCustom_long=kCustom_long, each rhoCustom=rhoCustom, each cpCustom=cpCustom);
+  replaceable package SolidMat = OpenTEMPEST.Solid.SolidMatBase annotation(choicesAllMatching = true);
 
   parameter Integer N(min=3) = 5 "Number of CVs in the solid";
 
   // Initial Values
-  parameter SI.Temperature TstartX0=773.15 annotation(Dialog(group="Initialisation"));
-  parameter SI.Temperature TstartXN=773.15 annotation(Dialog(group="Initialisation"));
-  parameter SI.Temperature Tstart[N] = linspace(TstartX0, TstartXN, N) annotation(Dialog(group="Initialisation"));
+  parameter SI.Temperature Tstartbar = 1073.15 "Uniform initial temperature of the solid" annotation(Dialog(group="Initialisation"));
 
   // Dimensions
   parameter SI.Length lX = 1  "Total length of solid" annotation(Dialog(group="Dimensions"));
-  parameter SI.Length lY = 1 "width of solid" annotation(Dialog(group="Dimensions"));
-  parameter SI.Length lZ = 1 "thickness of solid" annotation(Dialog(group="Dimensions"));
+  parameter SI.Length lY = 1 "Total width of solid" annotation(Dialog(group="Dimensions"));
+  parameter SI.Length lZ = 1 "Total thickness of solid" annotation(Dialog(group="Dimensions"));
 
-  parameter SI.Length dx =  lX /N "Length of a CV" annotation(Dialog(group="Dimensions Extra"));
-  parameter SI.Area Ax = lY*lZ "coss sectional area in x plane" annotation(Dialog(group="Dimensions Extra"));
+  parameter SI.Length dx =  lX /N "x-Length of a CV" annotation(Dialog(group="Dimensions Extra"));
   parameter SI.Volume dV = Ax*dx "Volume of a CV" annotation(Dialog(group="Dimensions Extra"));
+  parameter SI.Area Ax = lY*lZ "Cross sectional area in x plane" annotation(Dialog(group="Dimensions Extra"));
+  parameter SI.Area Ay = dx*lZ "Cross sectional area in y-plane"  annotation(Dialog(group="Dimensions Extra"));
+  parameter SI.Area Az = dx*lY "Cross sectional area in z-plane"  annotation(Dialog(group="Dimensions Extra"));
 
-  SI.Temperature T[N](start=Tstart) "Average CV temperature";
-  // instantiate only when k_trans not equal k_long
-  SI.ThermalConductivity kv_long[N-1] "Harmonic mean of thermal conductivities at internal CV boundaries";  // https://doi.org/10.1016/S1018-3639(18)30628-7
+  SI.Temperature T[N] "Temperature in each CV";
+
+  SolidMat.BaseProperties Solid[N](
+    T=T,
+    each kCustom_trans=kCustom_trans,
+    each kCustom_long=kCustom_long,
+    each rhoCustom=rhoCustom,
+    each cpCustom=cpCustom) "Material properties object for each CV";
 
   // Solid Properties
   SI.ThermalConductivity k_trans[N] = Solid[:].k_trans "Thermal conductivities in CV";
@@ -33,12 +35,14 @@ partial model Solid1DBase
   SI.Density rho[N] = Solid[:].rho "Density of CV";
   SI.SpecificHeatCapacity cp[N] = Solid[:].cp "heat capacity of CV";
 
+  SI.ThermalConductivity kv_long[N-1] "Harmonic mean of thermal conductivities at internal CV boundaries";  // https://doi.org/10.1016/S1018-3639(18)30628-7
+
   parameter SI.ThermalConductivity kCustom_trans = 1 annotation(Dialog(group="Custom Material Only"));
   parameter SI.ThermalConductivity kCustom_long = kCustom_trans annotation(Dialog(group="Custom Material Only"));
   parameter SI.Density rhoCustom=1   annotation(Dialog(group="Custom Material Only"));
   parameter SI.SpecificHeatCapacity cpCustom = 1 annotation(Dialog(group="Custom Material Only"));
 
-  Real Qext[N];
+  SI.HeatFlowRate Qext[N];
 
   // Thermal ports
   ThermoPower.Thermal.HT hT_x0 annotation (Placement(transformation(extent={{-120,-10},{-100,10}}),
@@ -57,7 +61,7 @@ partial model Solid1DBase
             {10,14}}), iconTransformation(extent={{-10,-6},{10,14}})));
 
 initial equation
-  //T[:] = Tstart[:];
+  T = fill(Tstartbar, N);
 
 equation
   kv_long[:]  = 2.*k_long[1:N-1] .*k_long[2:N] ./(k_long[1:N-1]  .+ k_long[2:N]);
@@ -134,12 +138,16 @@ equation
           textString="%name")}),                                    Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
-<ul>
-<li><i>27 Aug 2021</i> by <a href=\"mailto:faisal.sedeqi@dlr.de\">Faisal Sedeqi</a>:<br>Fixed error in Energy balance in last control volume, now flippable as intended. Also added direction dependent conductivity.</li>
-<li><i>03 Aug 2021</i> by <a href=\"mailto:faisal.sedeqi@dlr.de\">Faisal Sedeqi</a>:<br>Changed port names. Included average conductivity between CV for non constant conductivity.</li>
-<li><i>20 Jul 2021</i> by <a href=\"mailto:faisal.sedeqi@dlr.de\">Faisal Sedeqi</a>:<br>First clean version complete.</li>
-</ul>
 </html>
 
-"));
+", info="<html>
+<h2>Solid1DBase</h2>
+<p>
+The model represents a one-dimensional solid discretized into control volumes (CVs)
+in the x-direction. It computes the transient temperature distribution 
+within the solid based on conduction in the x-direction, as well as heat exchange 
+in the y- and z-directions through thermal ports and user-defined external 
+heat fluxes. The model supports anisotropic and custom material properties.
+</p>
+</html>"));
 end Solid1DBase;

@@ -1,6 +1,5 @@
 within OpenTEMPEST.SOC.Stack;
 model SimplifiedStack1D
-  "Stack based on Sunfire cells with simplification approach. From a total of Ncells, Ndetailed cells are calculated fully and the rest approximated through simplified cell heat transfer blocks, with flow and voltage interpolation."
   import SI = Modelica.SIunits;
   parameter Integer N(min=3)=3 annotation (Dialog(tab = "General"));
   parameter Integer Ncell(min=2)=30 annotation (Dialog(tab = "General"));
@@ -33,25 +32,19 @@ model SimplifiedStack1D
   parameter SI.PressureDifference dpNomFC=0.01 "nominal pressure loss for initialization" annotation (Dialog(tab="Initialization"));
 
   //Dimensions
-  parameter SI.Length lY=0.142 "Width of FC" annotation (Dialog(tab="Cell Dimensions"));
+  parameter SI.Length lY=0.15 "Width of FC" annotation (Dialog(tab="Cell Dimensions"));
   parameter SI.Length lYfc=lY "Width of FC" annotation (Dialog(tab="Cell Dimensions"));
-  parameter SI.Length lZfc=1.23e-3 "Height of FC" annotation (Dialog(tab="Cell Dimensions"));
-  parameter SI.Length lX=0.09 "Length of PEN" annotation (Dialog(tab="Cell Dimensions"));
+  parameter SI.Length lZfc=1e-3 "Height of FC" annotation (Dialog(tab="Cell Dimensions"));
+  parameter SI.Length lX=0.1 "Length of PEN" annotation (Dialog(tab="Cell Dimensions"));
   parameter SI.Length lXac=lX "Length of AC" annotation (Dialog(tab="Cell Dimensions"));
-  parameter SI.Length lYac=0.08448 "Width of AC" annotation (Dialog(tab="Cell Dimensions"));
-  parameter SI.Length lZac=1.2e-3 "Height of AC" annotation (Dialog(tab="Cell Dimensions"));
+  parameter SI.Length lYac=0.08 "Width of AC" annotation (Dialog(tab="Cell Dimensions"));
+  parameter SI.Length lZac=1e-3 "Height of AC" annotation (Dialog(tab="Cell Dimensions"));
   parameter SI.Length lYpen=lY "Width of PEN" annotation (Dialog(tab="Cell Dimensions"));
-  parameter SI.Length lZpen=150e-6 "Thickness of PEN including GDC layer" annotation (Dialog(tab="Cell Dimensions"));
-  parameter SI.Length lZIC=2*250e-6 "Thickness of IC over the active part of cell" annotation (Dialog(tab="Cell Dimensions"));
-  parameter SI.Length lZTopPlate=9.3e-3
-                                       "Top Plate thickness" annotation (Dialog(tab="Cell Dimensions"));
-  parameter SI.Length lZBottomPlate=9.3e-3
-                                          "Bottom Plate thickness" annotation (Dialog(tab="Cell Dimensions"));
-  parameter SI.Length lZIntermediatePlate=2.5e-3
-                                                "Bottom Plate thickness" annotation (Dialog(tab="Cell Dimensions"));
-  parameter SI.Length tau_ae=30e-6 " thickness of fuel electrode" annotation (Dialog(tab="Electrode-Electrolyte parameters"));
-  parameter SI.Length tau_ce=55e-6 "thickness of air electrode" annotation (Dialog(tab="Electrode-Electrolyte parameters"));
-  parameter SI.Length tau_se=90e-6 "thickness of electrolyte" annotation (Dialog(tab="Electrode-Electrolyte parameters"));
+  parameter SI.Length lZpen=200e-6 "Thickness of PEN including GDC layer" annotation (Dialog(tab="Cell Dimensions"));
+  parameter SI.Length lZIC=300e-6 "Thickness of IC over the active part of cell" annotation (Dialog(tab="Cell Dimensions"));
+  parameter SI.Length lZTopPlate=10e-3 "Top Plate thickness" annotation (Dialog(tab="Cell Dimensions"));
+  parameter SI.Length lZBottomPlate=10e-3 "Bottom Plate thickness" annotation (Dialog(tab="Cell Dimensions"));
+  parameter SI.Length lZIntermediatePlate=10e-3 "Bottom Plate thickness" annotation (Dialog(tab="Cell Dimensions"));
 
   // PEN parameters
   replaceable model Electrochem =
@@ -64,22 +57,22 @@ model SimplifiedStack1D
 
     // FC parameters
   replaceable package FCMedium = Medium.Fuel_CH4          annotation (Dialog(tab="Fuel Channel"));
-  parameter Real porFC=0.867 "Porosity in FC" annotation (Dialog(tab="Fuel Channel"));
+  parameter Real porFC=0.9 "Porosity in FC" annotation (Dialog(tab="Fuel Channel"));
   parameter Real Nu_PENfc=12 "Nusselt number fuel channel on PEN side" annotation (Dialog(tab="Fuel Channel"));
-  parameter Real Nu_ICfc=9.86 "Nusselt Number fuel channel on IC side" annotation (Dialog(tab="Fuel Channel"));
+  parameter Real Nu_ICfc=10 "Nusselt Number fuel channel on IC side" annotation (Dialog(tab="Fuel Channel"));
   parameter SI.ThermalConductivity kFoam=3.576 "Thermal Conductivity of Ni Foam" annotation (Dialog(tab="Fuel Channel"));
   parameter SI.SpecificHeatCapacity cpFoam=440       "Specific heat capacity of Ni in FC" annotation (Dialog(tab="Fuel Channel"));
   parameter SI.Density rhoFoam(displayUnit="kg/m3")=8908 "Density of Ni in FC" annotation (Dialog(tab="Fuel Channel"));
-  parameter ThermoPower.Units.HydraulicResistance HyR_Fuel=2000/2     "Hydraulic resistance of fuel channel of each single cell in stack" annotation (Dialog(tab="Fuel Channel"));
+  parameter ThermoPower.Units.HydraulicResistance HyR_Fuel=50000000     "Hydraulic resistance of fuel channel of each single cell in stack" annotation (Dialog(tab="Fuel Channel"));
 
   // AC parameters
   replaceable package ACMedium = Medium.Air_Medium         annotation (Dialog(tab="Air Channel"));
   parameter Real porAC=1 "Porosity in AC" annotation (Dialog(tab="Air Channel"));
   parameter Real pDropAC=0 "Pressure drop factor, pOut=(1-pDropAC)*pIn" annotation (Dialog(tab="Air Channel"));
-  parameter Real Nu_PENac=8.235 "Nusselt number air channel on PEN side" annotation (Dialog(tab="Air Channel"));
-  parameter Real Nu_ICac=7.54 "Nusselt Number air channel on IC side" annotation (Dialog(tab="Air Channel"));
-  parameter SI.ThermalConductivity kAC=0.0262 "Thermal Conductivity of air channel check with Faisal" annotation (Dialog(tab="End / Intermediate plates"));
-  parameter ThermoPower.Units.HydraulicResistance HyR_Air=55000 "Hydraulic resistance of air channel of each single cell in stack" annotation (Dialog(tab="Air Channel"));
+  parameter Real Nu_PENac=8 "Nusselt number air channel on PEN side" annotation (Dialog(tab="Air Channel"));
+  parameter Real Nu_ICac=7.5 "Nusselt Number air channel on IC side" annotation (Dialog(tab="Air Channel"));
+  parameter SI.ThermalConductivity kAC=0.0262 "Thermal Conductivity of air channel" annotation (Dialog(tab="Air Channel"));
+  parameter ThermoPower.Units.HydraulicResistance HyR_Air=6000000 "Hydraulic resistance of air channel of each single cell in stack" annotation (Dialog(tab="Air Channel"));
 
   // Interconnect parameters
   parameter SI.ThermalConductivity kIC=0.2812 "Thermal Conductivity of solid parallel to windows" annotation (Dialog(tab="Interconnect"));
@@ -94,9 +87,9 @@ model SimplifiedStack1D
   parameter SI.ThermalConductivity kBottomPlate=kIC "Thermal Conductivity of solid parallel to windows" annotation (Dialog(tab="End / Intermediate plates"));
   parameter SI.SpecificHeatCapacity cpBottomPlate=cpIC "Specific heat capacity of solid parallel to windows" annotation (Dialog(tab="End / Intermediate plates"));
   parameter SI.Density rhoBottomPlate(displayUnit="kg/m3")=rhoIC "Density of solid parallel to windows" annotation (Dialog(tab="End / Intermediate plates"));
-  parameter SI.ThermalConductivity kIntermediatePlate=kIC "Thermal Conductivity of solid parallel to windows" annotation (Dialog(tab="Intermediate Plates"));
-  parameter SI.SpecificHeatCapacity cpIntermediatePlate=cpIC "Specific heat capacity of solid parallel to windows" annotation (Dialog(tab="Intermediate Plates"));
-  parameter SI.Density rhoIntermediatePlate(displayUnit="kg/m3")=rhoIC "Density of solid parallel to windows" annotation (Dialog(tab="Intermediate Plates"));
+  parameter SI.ThermalConductivity kIntermediatePlate=kIC "Thermal Conductivity of solid parallel to windows" annotation (Dialog(tab="End / Intermediate plates"));
+  parameter SI.SpecificHeatCapacity cpIntermediatePlate=cpIC "Specific heat capacity of solid parallel to windows" annotation (Dialog(tab="End / Intermediate plates"));
+  parameter SI.Density rhoIntermediatePlate(displayUnit="kg/m3")=rhoIC "Density of solid parallel to windows" annotation (Dialog(tab="End / Intermediate plates"));
 
   // Simplification
   parameter SI.Length lzCell=lZpen + lZfc + lZIC + lZac "total height of a cell" annotation (Dialog(tab="Simplification"));
@@ -321,10 +314,9 @@ public
     annotation (Placement(transformation(extent={{-22,-34},{16,2}})));
 
   OpenTEMPEST.Heat.Solid1D plates[nIMPs + 2](
-    redeclare package SolidMat = TEMPEST.Solid.Material.Custom,
+    redeclare package SolidMat = OpenTEMPEST.Solid.Material.Custom,
     each N=N,
-    each TstartX0=TStart,
-    each TstartXN=TStart,
+    each Tstartbar=TStart,
     each lX=lX,
     each lY=lY,
     lZ=cat(
@@ -646,9 +638,14 @@ equation
       OutputCPUtime=true,
       OutputFlatModelica=false),
     Documentation(revisions="<html>
-<ul>
-<li><i>23 Dez 2021</i> by Hans Wiggenhauser</a>:<br>First release. </li>
-<li><i>02 Oct 2024</i> by Anis Taissir</a>:<br> Bugfix: replaced LambdaAir by LambdaFuel in definition of LambdaFCConv in line 120. </li>
-</ul>
+</html>", info="<html>
+<h2>SimplifiedStack1D</h2>
+
+<p>
+This model represents a 1D stack of solid oxide fuel cells using a combination of detailed and simplified cells. 
+It consists of <code>Ncell</code> total cells, where <code>NdetailedCell</code> are calculated in detail and the remaining are grouped into <code>nSimpMult</code> simplified vertical blocks. 
+The model includes thermal, electrical, and flow interactions for each cell, fuel and air manifolds, interconnects, and stack plates. 
+Simplified cells receive averaged information from corresponding detailed cells to reduce computational cost while preserving stack-level accuracy.
+</p>
 </html>"));
 end SimplifiedStack1D;

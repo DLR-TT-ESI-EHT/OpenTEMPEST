@@ -1,11 +1,9 @@
 within OpenTEMPEST.SOC.Cell.Cell1D;
-model AirChannel "Air channel 1D model"
+model AirChannel
   extends OpenTEMPEST.SOC.Cell.Cell1D.Channel1DBase(
-    por=1,
-    Nu_IC=7.54,
-    Nu_PEN=8.235,
     pStartOut=(1 - pDrop)*pStartIn,
     redeclare package Medium = OpenTEMPEST.Medium.Air_Medium);
+
   import SI = Modelica.SIunits;
 
   // Pressure Drop
@@ -60,5 +58,23 @@ equation
           lineColor={28,108,200},
           fillPattern=FillPattern.CrossDiag,
           fillColor={134,134,134})}),                            Diagram(
-        coordinateSystem(preserveAspectRatio=false)));
+        coordinateSystem(preserveAspectRatio=false)),
+    Documentation(info="<html>
+<h2>AirChannel</h2>
+
+<p>
+One-dimensional finite-volume air channel model extending 
+<code>Channel1DBase</code>. The model describes coupled mass, energy, 
+and momentum balances in the channel including oxygen electrochemical reaction 
+and axial pressure drop.
+</p>
+
+<h3>Included Phenomena</h3>
+<ul>
+<li>Oxygen electrochemical reaction via <code>PEN_in</code></li>
+<li>Electrochemical heat source term</li>
+<li>Darcy-based axial pressure drop</li>
+<li>Convective heat exchange with PEN and interconnect</li>
+</ul>
+</html>"));
 end AirChannel;
