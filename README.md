@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./Misc/TEMPESTlogo.svg" alt="TEMPEST logo" width="500">
+</p>
+
 # OpenTempest
 
 Thank you for visiting. We will be adding documentation very soon!
