@@ -1,0 +1,6 @@
+*.diff
+*.c
+*.mat
+*.obj
+*.exe
+*.bak-mo
