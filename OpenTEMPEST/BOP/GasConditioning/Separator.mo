@@ -168,16 +168,5 @@ initial equation
 <p>The actual gas used in the component is determined by the replaceable <tt>Medium</tt> package. In the case of multiple component, variable composition gases, the start composition is given by <tt>Xstart</tt>, whose default value is <tt>Medium.reference_X</tt>.
 </html>",
         revisions="<html>
-<ul>
-<li><i>30 May 2005</i>
-    by <a href=\"mailto:francesco.casella@polimi.it\">Francesco Casella</a>:<br>
-       Initialisation support added.</li>
-<li><i>19 Nov 2004</i>
-    by <a href=\"mailto:francesco.casella@polimi.it\">Francesco Casella</a>:<br>
-       Adapted to Modelica.Media.</li>
-<li><i>5 Mar 2004</i>
-    by <a href=\"mailto:francesco.casella@polimi.it\">Francesco Casella</a>:<br>
-       First release.</li>
-</ul>
 </html>"));
 end Separator;

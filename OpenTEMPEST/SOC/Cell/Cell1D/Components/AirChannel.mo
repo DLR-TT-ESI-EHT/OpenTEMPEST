@@ -1,13 +1,12 @@
-within OpenTEMPEST.SOC.Cell.Cell1D;
+within OpenTEMPEST.SOC.Cell.Cell1D.Components;
 model AirChannel
-  extends OpenTEMPEST.SOC.Cell.Cell1D.Channel1DBase(
+  extends OpenTEMPEST.SOC.Cell.Cell1D.Components.Channel1DBase(
     pStartOut=(1 - pDrop)*pStartIn,
     redeclare package Medium = OpenTEMPEST.Medium.Air_Medium);
 
   import SI = Modelica.SIunits;
 
   // Pressure Drop
-  SI.PressureDifference dp[N] "pressure loss";
   parameter Real pDrop(max=0.99) "pressure drop as a factor of inlet pressure (between 0 and 0.99)";
 
   // Kinetics
@@ -43,10 +42,6 @@ equation
   for i in 1:N loop
     dp[i] = pDrop/N*infl.p;
   end for;
-
-  Gas[1].p = infl.p - dp[1];
-  Gas[2:N].p = Gas[1:N-1].p - dp[2:N];
-  outfl.p = Gas[N].p; // Pressure is upwinded for the last control volume
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
           Rectangle(

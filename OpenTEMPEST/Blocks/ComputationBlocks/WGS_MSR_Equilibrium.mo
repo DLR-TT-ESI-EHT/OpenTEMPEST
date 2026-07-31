@@ -109,11 +109,6 @@ equation
     Calculates the equilibrium for given, yIn, T, p, considering water gas shift and methane reforming reactions.
 </html>",
         revisions="<html>
-<ul>
-<li><i>24-05-2022</i>
-by <a href=\"mailto:rene.lorenz@dlr.de\">Rene Lorenz</a>:<br>
-Block form of TEMPEST.Blocks.Functions.simpleWgsMsrEqn</li>
-</ul>
 </html>"),
     Diagram(graphics={Rectangle(
           extent={{-40,40},{60,-40}},

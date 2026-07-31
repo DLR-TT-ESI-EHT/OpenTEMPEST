@@ -166,29 +166,6 @@ initial equation
 <p>The model can represent an actual header when connected to the model of a bank of tubes (e.g., <tt>Flow1D</tt> with <tt>Nt>1</tt>).</p>
 </HTML>",
         revisions="<html>
-<ul>
-<li><i>30 May 2005</i>
-    by <a href=\"mailto:francesco.casella@polimi.it\">Francesco Casella</a>:<br>
-       Initialisation support added.</li>
-<li><i>12 Apr 2005</i>
-    by <a href=\"mailto:francesco.casella@polimi.it\">Francesco Casella</a>:<br>
-       <tt>InternalSurface</tt> connector added.</li>
-<li><i>16 Dec 2004</i>
-    by <a href=\"mailto:francesco.casella@polimi.it\">Francesco Casella</a>:<br>
-       Standard medium definition added.</li>
-<li><i>28 Jul 2004</i>
-    by <a href=\"mailto:francesco.casella@polimi.it\">Francesco Casella</a>:<br>
-       Added head between inlet and outlet.</li>
-<li><i>7 Jul 2004</i>
-    by <a href=\"mailto:francesco.casella@polimi.it\">Francesco Casella</a>:<br>
-       Changed name from <tt>Collector</tt> to <tt>Header</tt>.</li>
-<li><i>18 Jun 2004</i>
-    by <a href=\"mailto:francesco.casella@polimi.it\">Francesco Casella</a>:<br>
-       Adapted to Modelica.Media.</li>
-<li><i>1 Oct 2003</i>
-    by <a href=\"mailto:francesco.casella@polimi.it\">Francesco Casella</a>:<br>
-       First release.</li>
-</ul>
 </html>
 "), Diagram(graphics));
 end ExpansionTank;

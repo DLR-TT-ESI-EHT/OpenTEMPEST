@@ -1,4 +1,4 @@
-within OpenTEMPEST.SOC.Cell.CrossFlow;
+within OpenTEMPEST.SOC.Cell.CrossFlow.Components;
 model CrossFlowTopology
 
     parameter Integer nX(min=1)=5;

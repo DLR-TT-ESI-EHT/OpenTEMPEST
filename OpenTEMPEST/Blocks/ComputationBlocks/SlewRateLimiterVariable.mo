@@ -56,18 +56,5 @@ with derivative time constant <code>Td</code>. Smaller time constant <code>Td</c
 <p><em>Note: The user has to choose the derivative time constant according to the nature of the input signal.</em></p>
 </html>",
 revisions="<html>
-<table cellspacing=\"0\" cellpadding=\"2\" border=\"1\"><tr>
-<th>Revision</th>
-<th>Date</th>
-<th>Author</th>
-<th>Comment</th>
-</tr>
-<tr>
-<td>0000</td>
-<td>2021-11-21
-<td>Marius Tomberg</td>
-<td><p>Adapted from Modelica SlewRateLimiter</p></td>
-</tr>
-</table>
 </html>"));
 end SlewRateLimiterVariable;

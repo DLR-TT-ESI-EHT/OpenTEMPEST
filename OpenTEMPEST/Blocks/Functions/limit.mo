@@ -14,10 +14,5 @@ algorithm
 This function limits the input variable between two boundaries. 
 </html>",
         revisions="<html>
-<ul>
-<li><i>07 Oct 2021</i>
-by <a href=\"mailto:marius.tomberg@dlr.de\">Marius Tomberg</a>:<br>
-       Created. </li>
-</ul>
 </html>"));
 end limit;

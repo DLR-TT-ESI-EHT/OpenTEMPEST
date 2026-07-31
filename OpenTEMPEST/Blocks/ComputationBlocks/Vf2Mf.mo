@@ -22,8 +22,5 @@ equation
           fillPattern=FillPattern.Solid)}), Diagram(coordinateSystem(
           preserveAspectRatio=false)),
     Documentation(revisions="<html>
-<ul>
-<li>&quot;before versioning&quot; by Marius Tomberg: <br>Created</li>
-</ul>
 </html>"));
 end Vf2Mf;

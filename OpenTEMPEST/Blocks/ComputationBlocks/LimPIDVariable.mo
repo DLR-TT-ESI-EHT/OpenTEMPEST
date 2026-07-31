@@ -396,24 +396,5 @@ The parameter <strong>limitAtInit</strong> is obsolete since MSL 3.2.2 and only 
 </p>
 </html>",
 revisions="<html>
-<table cellspacing=\"0\" cellpadding=\"2\" border=\"1\"><tr>
-<th>Revision</th>
-<th>Date</th>
-<th>Author</th>
-<th>Comment</th>
-</tr>
-<tr>
-<td>0000</td>
-<td>2020
-<td>Marius Tomberg</td>
-<td><p>Adapted from Modelica LimPID</p></td>
-</tr>
-<tr>
-<td>0000</td>
-<td>2020
-<td>Marius Tomberg</td>
-<td><p>Updated to inlcude feed forward</p></td>
-</tr>
-</table>
 </html>"));
 end LimPIDVariable;

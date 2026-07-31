@@ -92,7 +92,7 @@ model Cell
   ThermoPower.Thermal.HT hT_x0 annotation (Placement(transformation(extent={{-106,-10},{-86,10}}), iconTransformation(extent={{-106,-10},{-86,10}})));
   ThermoPower.Thermal.HT hT_xN annotation (Placement(transformation(extent={{88,-10},{108,10}}), iconTransformation(extent={{88,-10},{108,10}})));
 
-  OpenTEMPEST.SOC.Cell.Cell1D.AirChannel airChannel(
+  OpenTEMPEST.SOC.Cell.Cell1D.Components.AirChannel airChannel(
     N=N,
     redeclare function fluxInterp = fluxInterp,
     TStartIn=TStart_ACin,
@@ -105,10 +105,9 @@ model Cell
     por=porAC,
     Nu_PEN=Nu_PENac,
     Nu_IC=Nu_ICac,
-    pDrop=pDropAC)
-    annotation (Placement(transformation(extent={{-8,-32},{12,-52}})));
+    pDrop=pDropAC) annotation (Placement(transformation(extent={{-8,-32},{12,-52}})));
 
-  OpenTEMPEST.SOC.Cell.Cell1D.FuelChannel fuelChannel(
+  OpenTEMPEST.SOC.Cell.Cell1D.Components.FuelChannel fuelChannel(
     N=N,
     redeclare function fluxInterp = fluxInterp,
     TStartIn=TStart_FCin,
@@ -125,10 +124,9 @@ model Cell
     k_eff_Ni=kFoam,
     cp_Ni=cpFoam,
     rho_Ni=rhoFoam,
-    dpNom=dpNomFC)
-    annotation (Placement(transformation(extent={{-10,28},{10,48}})));
+    dpNom=dpNomFC) annotation (Placement(transformation(extent={{-10,28},{10,48}})));
 
-  OpenTEMPEST.SOC.Cell.Cell1D.PEN1D pen(
+  OpenTEMPEST.SOC.Cell.Cell1D.Components.PEN1D pen(
     redeclare package SolidMat = OpenTEMPEST.Solid.Material.Custom,
     N=N,
     Tstartbar=TStart_pen,
@@ -140,8 +138,7 @@ model Cell
     lX=lXpen,
     lY=lYpen,
     lZ=lZpen,
-    redeclare model Electrochem = Electrochem)
-    annotation (Placement(transformation(extent={{-28,-26},{22,20}})));
+    redeclare model Electrochem = Electrochem) annotation (Placement(transformation(extent={{-28,-26},{22,20}})));
 
   OpenTEMPEST.Heat.RadHTFV radHTFV(
     N=N,

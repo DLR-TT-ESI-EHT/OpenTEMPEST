@@ -37,10 +37,6 @@ equation
 
   annotation(choicesAllMatching = true,
         Documentation(revisions="<html>
-<ul>
-<li><i>28 Okt 2021</i> by <a href=\"mailto:Marius.Tomberg@dlr.de\">Marius Tomberg</a>:<br>Created </li>
-<li>12 Aug 2022 by Marius Tomberg:<br>Calculation of ideal voltage and ASR added</li>
-</ul>
 </html>"),
     Diagram(coordinateSystem(extent={{-100,-100},{100,100}})),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}}), graphics={

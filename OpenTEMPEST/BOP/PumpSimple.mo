@@ -1,4 +1,4 @@
-﻿within OpenTEMPEST.BOP;
+within OpenTEMPEST.BOP;
 model PumpSimple "simple pump model for incompressible fluids"
     extends ThermoPower.Icons.Water.Pump;
     import SI = Modelica.SIunits;
@@ -78,11 +78,6 @@ equation
 
     annotation (
       Documentation(revisions="<html>
-<ul>
-<li><i>10 Jan 2022</i>
-by <a href=\"mailto:rene.lorenz@dlr.de\">René Lorenz</a>:<br>
-      Adapted/Simplified from <tt>TEMPEST.Flow.FanSimple</tt> model.</li>
-</ul>
 </html>", info="<html>
 <p>Model for a simple pump, based on assumption: </p>
 <ol>

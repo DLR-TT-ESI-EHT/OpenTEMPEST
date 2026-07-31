@@ -141,16 +141,14 @@ protected
   parameter Integer simpleCellHeatPortIndex[Ncell] = {j-verticalBlockRangesActual[max(1,j_verticalBlock[j]),1]+1 for j in 1:Ncell};
 
 public
-  DummyManifold Fuel_Manifold(
+  Components.DummyManifold Fuel_Manifold(
     redeclare package Medium = Medium.Fuel_CH4,
     final nPorts_b=Ncell,
-    nDummyPorts_b=Ncell - NdetailedCell)
-    annotation (Placement(transformation(extent={{-74,50},{-62,82}})));
-  DummyManifold Air_Manifold(
+    nDummyPorts_b=Ncell - NdetailedCell) annotation (Placement(transformation(extent={{-74,50},{-62,82}})));
+  Components.DummyManifold Air_Manifold(
     redeclare package Medium = Medium.Air_Medium,
     final nPorts_b=Ncell,
-    nDummyPorts_b=Ncell - NdetailedCell)
-    annotation (Placement(transformation(extent={{-76,-80},{-64,-48}})));
+    nDummyPorts_b=Ncell - NdetailedCell) annotation (Placement(transformation(extent={{-76,-80},{-64,-48}})));
   ThermoPower.Gas.FlangeB fuelOut(redeclare package Medium = Medium.Fuel_CH4)
     annotation (Placement(transformation(extent={{110,56},{130,76}}),
         iconTransformation(extent={{110,56},{130,76}})));
@@ -197,7 +195,7 @@ public
   ThermoPower.Thermal.DHTVolumes dHT_xN(N=Ncell)
     annotation (Placement(transformation(extent={{108,-10},{128,10}}),
         iconTransformation(extent={{116,-20},{128,20}})));
-  FlowInterpolator flowInterpolator(
+  Components.FlowInterpolator flowInterpolator(
     nCell=Ncell,
     nSimplified=Ncell - NdetailedCell,
     nNonUnitOrSimpCells=0,
@@ -206,8 +204,7 @@ public
     pStart=pStart,
     XFuelStart=xStartFC,
     redeclare package Fuel = FCMedium,
-    redeclare package Air = ACMedium)
-    annotation (Placement(transformation(extent={{60,-4},{80,16}})));
+    redeclare package Air = ACMedium) annotation (Placement(transformation(extent={{60,-4},{80,16}})));
   OpenTEMPEST.Flow.SensGasProperty sensCpFuel(
     mfOutput=false,
     pOutput=false,

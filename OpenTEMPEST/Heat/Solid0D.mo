@@ -3,6 +3,12 @@ model Solid0D
   extends OpenTEMPEST.Heat.BaseClasses.Solid0DBase;
 
 equation
+  k_trans = solid.k_trans;
+  k_long = solid.k_long;
+  rho = solid.rho;
+  cp = solid.cp;
+
+
   Qext = 0;
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={

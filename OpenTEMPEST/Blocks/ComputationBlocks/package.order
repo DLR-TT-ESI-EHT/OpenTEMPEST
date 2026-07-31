@@ -15,3 +15,5 @@ BumplessTransferController
 WGS_MSR_Equilibrium
 SlewRateLimiterVariable
 FlowSafetyOffsetCalc
+vectorBumplessTransferController
+GainVariable

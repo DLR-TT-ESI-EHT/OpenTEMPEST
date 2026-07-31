@@ -1,9 +1,10 @@
-within OpenTEMPEST.SOC.Stack;
-model FlowInterpolator
+within OpenTEMPEST.SOC.Stack.Components;
+model FlowInterpolator1D
 
   import SI = Modelica.SIunits;
 
   parameter Integer nCell(min = 3) "total number of single cells";
+  parameter Integer N "Number of control volumes";
   parameter Integer nSimplified(min = 1) "number of simplified cells among nCell";
   parameter Integer nNonUnitOrSimpCells = 2 "Number of Top and Bottom Cell models";
   parameter Boolean isRedu[nCell-nNonUnitOrSimpCells] = {true,false,true};
@@ -24,7 +25,8 @@ model FlowInterpolator
   replaceable package Air =
       OpenTEMPEST.Medium.Air_Medium;
 
-  Real TempDistriFactor(start=0);
+  Real TempDistriFactor( start=0);
+
   SI.Temperature TDetailedAvg(start=TStart);
 
   Integer detailedIdx[nCell-nSimplified-nNonUnitOrSimpCells] = Modelica.Math.BooleanVectors.index(not isRedu);
@@ -82,8 +84,9 @@ protected
   Modelica.Blocks.Sources.Constant const(k=nCell/(nCell - nSimplified))
     annotation (Placement(transformation(extent={{-70,-6},{-58,6}})));
 public
-  ThermoPower.Thermal.HT hT[nCell]
-    annotation (Placement(transformation(extent={{-100,-10},{-80,10}}), iconTransformation(extent={{-100,-10},{-80,10}})));
+  ThermoPower.Thermal.DHTVolumes dHT[nCell](each N=N) annotation (Placement(
+        transformation(extent={{-94,-4},{-80,10}}), iconTransformation(extent={{
+            -94,-4},{-80,10}})));
 protected
   OpenTEMPEST.Flow.SensGasProperty sensTFuel(
     mfOutput=true,
@@ -125,22 +128,19 @@ equation
 
   sourceMassFlowAir.in_X = sensW1.outlet.Xi_outflow;
 
-  //assert(sourceMassFlowAir.in_T <= 1, "TAir in interpolator too small", AssertionLevel.error);
-  //assert(sourceMassFlowFuel.in_T <= 1, "TFuel in interpolator too small", AssertionLevel.error);
-
-  for j in 1:nCell loop
-
-    hT[j].Q_flow = 0;
-
+  for i in 1:nCell loop
+    for j in 1:N loop
+      dHT[i].Q[j] = 0;
+    end for;
   end for;
 
-  if nNonUnitOrSimpCells==2 then
-    TDetailedAvg = (sum(hT[detailedIdx].T) + hT[1].T + hT[nCell].T)/(nCell-nSimplified);
+  if nNonUnitOrSimpCells==1 then
+    TDetailedAvg = (sum(dHT[detailedIdx].T) + sum(dHT[1].T) + sum(dHT[nCell].T))/N/(nCell-nSimplified);
   else
-    TDetailedAvg = (sum(hT[detailedIdx].T))/(nCell-nSimplified);
+    TDetailedAvg = (sum(dHT[detailedIdx].T))/N/(nCell-nSimplified);
   end if;
 
-  TempDistriFactor = (TDetailedAvg-sum(hT[:].T)/nCell)/(sum(hT[:].T)/nCell);
+  TempDistriFactor = (TDetailedAvg - sum(dHT[:].T)/N/nCell)/(sum(dHT[:].T)/N/nCell);
 
   connect(airExit, airExit)
     annotation (Line(points={{100,-50},{100,-50}}, color={159,159,223}));
@@ -198,4 +198,4 @@ equation
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
 </html>"));
-end FlowInterpolator;
+end FlowInterpolator1D;

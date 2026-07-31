@@ -1,10 +1,9 @@
-within OpenTEMPEST.SOC.Stack;
-model FlowInterpolator1D
+within OpenTEMPEST.SOC.Stack.Components;
+model FlowInterpolator
 
   import SI = Modelica.SIunits;
 
   parameter Integer nCell(min = 3) "total number of single cells";
-  parameter Integer N "Number of control volumes";
   parameter Integer nSimplified(min = 1) "number of simplified cells among nCell";
   parameter Integer nNonUnitOrSimpCells = 2 "Number of Top and Bottom Cell models";
   parameter Boolean isRedu[nCell-nNonUnitOrSimpCells] = {true,false,true};
@@ -25,8 +24,7 @@ model FlowInterpolator1D
   replaceable package Air =
       OpenTEMPEST.Medium.Air_Medium;
 
-  Real TempDistriFactor( start=0);
-
+  Real TempDistriFactor(start=0);
   SI.Temperature TDetailedAvg(start=TStart);
 
   Integer detailedIdx[nCell-nSimplified-nNonUnitOrSimpCells] = Modelica.Math.BooleanVectors.index(not isRedu);
@@ -77,16 +75,11 @@ protected
 
   ThermoPower.Gas.SensW sensW1(redeclare package Medium = Air)
     annotation (Placement(transformation(extent={{-64,-56},{-44,-36}})));
-  Modelica.Blocks.Math.Product product
-    annotation (Placement(transformation(extent={{-10,52},{0,62}})));
-  Modelica.Blocks.Math.Product product1
-    annotation (Placement(transformation(extent={{-10,-42},{0,-32}})));
   Modelica.Blocks.Sources.Constant const(k=nCell/(nCell - nSimplified))
     annotation (Placement(transformation(extent={{-70,-6},{-58,6}})));
 public
-  ThermoPower.Thermal.DHTVolumes dHT[nCell](each N=N) annotation (Placement(
-        transformation(extent={{-94,-4},{-80,10}}), iconTransformation(extent={{
-            -94,-4},{-80,10}})));
+  ThermoPower.Thermal.HT hT[nCell]
+    annotation (Placement(transformation(extent={{-100,-10},{-80,10}}), iconTransformation(extent={{-100,-10},{-80,10}})));
 protected
   OpenTEMPEST.Flow.SensGasProperty sensTFuel(
     mfOutput=true,
@@ -124,23 +117,31 @@ public
     annotation (Placement(transformation(extent={{-120,78},{-100,98}})));
   Modelica.Blocks.Math.UnitConversions.To_degC to_degC1
     annotation (Placement(transformation(extent={{-168,-56},{-148,-36}})));
+  Modelica.Blocks.Continuous.FirstOrder firstOrder(k=nCell/(nCell - nSimplified),
+      T=0.06) annotation (Placement(transformation(extent={{8,54},{14,60}})));
+  Modelica.Blocks.Continuous.FirstOrder firstOrder1(k=nCell/(nCell -
+        nSimplified), T=0.06)
+    annotation (Placement(transformation(extent={{12,-46},{18,-40}})));
 equation
 
   sourceMassFlowAir.in_X = sensW1.outlet.Xi_outflow;
 
-  for i in 1:nCell loop
-    for j in 1:N loop
-      dHT[i].Q[j] = 0;
-    end for;
+  //assert(sourceMassFlowAir.in_T <= 1, "TAir in interpolator too small", AssertionLevel.error);
+  //assert(sourceMassFlowFuel.in_T <= 1, "TFuel in interpolator too small", AssertionLevel.error);
+
+  for j in 1:nCell loop
+
+    hT[j].Q_flow = 0;
+
   end for;
 
-  if nNonUnitOrSimpCells==1 then
-    TDetailedAvg = (sum(dHT[detailedIdx].T) + sum(dHT[1].T) + sum(dHT[nCell].T))/N/(nCell-nSimplified);
+  if nNonUnitOrSimpCells==2 then
+    TDetailedAvg = (sum(hT[detailedIdx].T) + hT[1].T + hT[nCell].T)/(nCell-nSimplified);
   else
-    TDetailedAvg = (sum(dHT[detailedIdx].T))/N/(nCell-nSimplified);
+    TDetailedAvg = (sum(hT[detailedIdx].T))/(nCell-nSimplified);
   end if;
 
-  TempDistriFactor = (TDetailedAvg - sum(dHT[:].T)/N/nCell)/(sum(dHT[:].T)/N/nCell);
+  TempDistriFactor = (TDetailedAvg-sum(hT[:].T)/nCell)/(sum(hT[:].T)/nCell);
 
   connect(airExit, airExit)
     annotation (Line(points={{100,-50},{100,-50}}, color={159,159,223}));
@@ -160,16 +161,6 @@ equation
                                        color={0,0,127}));
   connect(sinkPressure1.flange, sensW1.outlet)
     annotation (Line(points={{-40,-50},{-48,-50}}, color={159,159,223}));
-  connect(product.y, sourceMassFlowFuel.in_w0) annotation (Line(points={{0.5,57},
-          {23.25,57},{23.25,55},{24,55}}, color={0,0,127}));
-  connect(sensW1.w, product1.u2)
-    annotation (Line(points={{-47,-40},{-11,-40}}, color={0,0,127}));
-  connect(product1.y, sourceMassFlowAir.in_w0) annotation (Line(points={{0.5,-37},
-          {32.25,-37},{32.25,-45},{32,-45}}, color={0,0,127}));
-  connect(const.y, product.u2) annotation (Line(points={{-57.4,0},{-20,0},{-20,54},
-          {-11,54}}, color={0,0,127}));
-  connect(product1.u1, product.u2) annotation (Line(points={{-11,-34},{-20,-34},
-          {-20,54},{-11,54}}, color={0,0,127}));
   connect(sensTFuel.inlet, fuelInlet)
     annotation (Line(points={{-76,50},{-90,50}},  color={159,159,223}));
   connect(sensW1.inlet, sensTAir.outlet)
@@ -182,14 +173,20 @@ equation
     annotation (Line(points={{-59,82},{30,82},{30,55}}, color={0,0,127}));
   connect(sensTFuel.outlet, sinkPressure.flange) annotation (Line(points={{-64,50},
           {-54,50},{-54,50},{-40,50}}, color={159,159,223}));
-  connect(sensTFuel.mf, product.u1)
-    annotation (Line(points={{-63,65},{-11,65},{-11,60}}, color={0,0,127}));
   connect(sensTFuel.x, sourceMassFlowFuel.in_X) annotation (Line(points={{-63,
           57},{-48,57},{-48,74},{36,74},{36,55}}, color={0,0,127}));
   connect(TOutFuelSimp, to_degC.u) annotation (Line(points={{-136,56},{-130,56},{
           -130,88},{-122,88}}, color={0,0,127}));
   connect(TOutAirSimp, to_degC1.u) annotation (Line(points={{-142,4},{-156,4},{-156,
           -46},{-170,-46}}, color={0,0,127}));
+  connect(firstOrder.y, sourceMassFlowFuel.in_w0) annotation (Line(points={{
+          14.3,57},{23.25,57},{23.25,55},{24,55}}, color={0,0,127}));
+  connect(firstOrder1.y, sourceMassFlowAir.in_w0) annotation (Line(points={{
+          18.3,-43},{25.15,-43},{25.15,-45},{32,-45}}, color={0,0,127}));
+  connect(sensTFuel.mf, firstOrder.u) annotation (Line(points={{-63,65},{-27.5,
+          65},{-27.5,57},{7.4,57}}, color={0,0,127}));
+  connect(sensW1.w, firstOrder1.u) annotation (Line(points={{-47,-40},{-18,-40},
+          {-18,-43},{11.4,-43}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={Rectangle(
           extent={{60,80},{-80,-80}},
           lineColor={28,108,200},
@@ -198,4 +195,4 @@ equation
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
 </html>"));
-end FlowInterpolator1D;
+end FlowInterpolator;

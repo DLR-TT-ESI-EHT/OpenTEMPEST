@@ -160,12 +160,6 @@ equation
 <p>If the <tt>in_X</tt> connector is wired, then the source massfraction is given by the corresponding signal, otherwise it is fixed to <tt>Xnom</tt>.</p>
 </html>",
         revisions="<html>
-        <ul>
-<li><i>Jan 2023</i>
-by <a href=\"mailto:Marius.Tomberg@dlr.de\">Marius Tomberg</a>:<br>
-Created 
-
-</ul>
 </html>"),
     Diagram(coordinateSystem(extent={{-100,-100},{100,100}})),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}}), graphics={

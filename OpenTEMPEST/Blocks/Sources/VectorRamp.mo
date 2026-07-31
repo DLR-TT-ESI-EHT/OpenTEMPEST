@@ -37,9 +37,5 @@ annotation (Icon(graphics={     Rectangle(
           fillPattern=FillPattern.Solid),
         Line(points={{-80,-70},{-40,-70},{31,38}}),
         Line(points={{31,38},{86,38}})}), Documentation(revisions="<html>
-<ul>
-<li>&quot;before versioning&quot; by Marius Tomberg: <br>Created</li>
-<li>14-07-2021 by Marius Tomberg:<br>Target can be set as parameters instead of ramp</li>
-</ul>
 </html>"));
 end VectorRamp;

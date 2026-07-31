@@ -8,6 +8,7 @@ model SensGasFlow "Sensor for flow parameters of gas flows"
   parameter Boolean XOutput = true "Sensor has output for mass fractions";
   parameter Boolean YOutput = true "Sensor has output for molar fractions";
   parameter Boolean HfOutput = true "Sensor has output for enthalpy flow";
+  parameter Boolean nfOutput = true "Sensor has output for molar flow";
 
   //Modelica.Media.Interfaces.PartialMedium
   replaceable package Medium = OpenTEMPEST.Medium.Fuel_CH4
@@ -19,6 +20,7 @@ model SensGasFlow "Sensor for flow parameters of gas flows"
     annotation(Evaluate=true);
 
   Modelica.SIunits.MolarMass M = 1/sum(outlet.Xi_outflow[:]./Medium.MMX[:]);
+  Modelica.SIunits.MolarFlowRate n_f = inlet.m_flow/M;
 
   outer ThermoPower.System system "System wide properties";
   ThermoPower.Gas.FlangeA inlet(redeclare package Medium = Medium, m_flow(min=
@@ -46,6 +48,9 @@ model SensGasFlow "Sensor for flow parameters of gas flows"
   Modelica.Blocks.Interfaces.RealOutput y[Medium.nXi] if YOutput annotation (
       Placement(transformation(extent={{56,-18},{76,2}}, rotation=0),
         iconTransformation(extent={{60,0},{80,20}})));
+  Modelica.Blocks.Interfaces.RealOutput nf if mfOutput annotation (Placement(
+        transformation(extent={{56,90},{76,110}}, rotation=0),
+        iconTransformation(extent={{60,100},{80,120}})));
 protected
   Modelica.Blocks.Sources.RealExpression realExpression_p(y=if pOutput then inlet.p else -1)
     annotation (Placement(transformation(extent={{-8,68},{12,88}})));
@@ -62,6 +67,9 @@ protected
     annotation (Placement(transformation(extent={{-12,-6},{8,14}})));
   Modelica.Blocks.Sources.RealExpression realExpression_Y[Medium.nXi](y=outlet.Xi_outflow[
         :]./Medium.MMX[:]*M) annotation (Placement(transformation(extent={{-14,-20},{6,0}})));
+  Modelica.Blocks.Sources.RealExpression realExpression_nf(y=if nfOutput then
+        n_f else -1)
+    annotation (Placement(transformation(extent={{-10,92},{10,112}})));
 equation
   inlet.m_flow + outlet.m_flow = 0 "Mass balance";
   inlet.p = outlet.p "Momentum balance";
@@ -73,6 +81,8 @@ equation
   // Independent composition mass balances
   inlet.Xi_outflow = inStream(outlet.Xi_outflow);
   inStream(inlet.Xi_outflow) = outlet.Xi_outflow;
+
+
 
   // Sensor output
   for i in 1:Medium.nXi loop
@@ -91,16 +101,10 @@ equation
   connect(realExpression_h.y, h) annotation (Line(points={{11,22},{36,22},{36,24},
           {66,24}}, color={0,0,127}));
 
+  connect(realExpression_nf.y, nf) annotation (Line(points={{11,102},{52,102},{52,
+          100},{66,100}}, color={0,0,127}));
   annotation (
     Documentation(revisions="<html>
-<ul>
-<li><i>20 Dec 2004</i>
-    by <a href=\"mailto:francesco.casella@polimi.it\">Francesco Casella</a>:<br>
-      Adapted to Modelica.Media.</li>
-<li><i>5 Mar 2004</i>
-    by <a href=\"mailto:francesco.casella@polimi.it\">Francesco Casella</a>:<br>
-       First release.</li>
-</ul>
 </html>",
         info="<html>
 <p>This component can be inserted in a hydraulic circuit to measure the flowrate of the fluid flowing through it.

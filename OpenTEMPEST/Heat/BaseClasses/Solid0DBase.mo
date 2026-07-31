@@ -1,13 +1,18 @@
 within OpenTEMPEST.Heat.BaseClasses;
 partial model Solid0DBase
 
-  import SI = Modelica.SIunits;
   replaceable package SolidMat = OpenTEMPEST.Solid.SolidMatBase  annotation(choicesAllMatching = true);
+  SolidMat.BaseProperties solid(
+    T=T, 
+    kCustom_trans=kCustom_trans, 
+    kCustom_long=kCustom_long, 
+    rhoCustom=rhoCustom, 
+    cpCustom=cpCustom) "Material properties object";
 
-  // Initial Values
-  parameter SI.Temperature TStartbar=773.15 "Uniform initial temperature of the solid" annotation(Dialog(group="Initialisation"));
-  parameter Boolean force_der_T_Start=false annotation(Dialog(group="Initialisation"));
-  parameter SI.TemperatureSlope der_T_Start=0 annotation(Dialog(group="Initialisation"));
+  import SI = Modelica.SIunits;
+
+    // Initial Values
+  parameter SI.Temperature Tstartbar = 1073.15 "Uniform initial temperature of the solid" annotation(Dialog(group="Initialisation"));
 
   // Dimensions
   parameter SI.Length lX = 1 "Total length of solid" annotation(Dialog(group="Dimensions"));
@@ -19,28 +24,22 @@ partial model Solid0DBase
   parameter SI.Area Ay = lX*lZ "Cross sectional area in y-plane"  annotation(Dialog(group="Dimensions Extra"));
   parameter SI.Area Az = lX*lY "Cross sectional area in z-plane"  annotation(Dialog(group="Dimensions Extra"));
 
-  SI.Temperature T(start=TStartbar) "Temperature";
+  parameter SI.ThermalConductivity kCustom_trans = 1 annotation(Dialog(group="Custom Material Only"));
+  parameter SI.ThermalConductivity kCustom_long = kCustom_trans annotation(Dialog(group="Custom Material Only"));
+  parameter SI.Density rhoCustom=1   annotation(Dialog(group="Custom Material Only"));
+  parameter SI.SpecificHeatCapacity cpCustom = 1 annotation(Dialog(group="Custom Material Only"));
 
-  SolidMat.BaseProperties Solid(
-    T=T,
-    kCustom_trans=kCustom_trans,
-    kCustom_long=kCustom_long,
-    rhoCustom=rhoCustom,
-    cpCustom=cpCustom) "Material properties object";
+
+  SI.Temperature T(start=Tstartbar) "Temperature";
+
 
   // Solid properties
-  SI.ThermalConductivity k_trans = Solid.k_trans "Effective Thermal Conductivity across layers";
-  SI.ThermalConductivity k_long= Solid.k_long "Effective Thermal Conductivity in plane of layers (=k_trans for homogeneous materials)";
-  SI.Density rho = Solid.rho "Density";
-  SI.SpecificHeatCapacity cp = Solid.cp "Specific heat capacity";
+  SI.ThermalConductivity k_trans  "Effective Thermal Conductivity across layers";
+  SI.ThermalConductivity k_long "Effective Thermal Conductivity in plane of layers (=k_trans for homogeneous materials)";
+  SI.Density rho  "Density";
+  SI.SpecificHeatCapacity cp "Specific heat capacity";
 
   SI.HeatFlowRate Qext "User-defined heat source or sink for each CV";
-
-  // Custom material properties
-  parameter SI.ThermalConductivity kCustom_trans = 1 "Thermal Conductivity across layers" annotation(Dialog(group="Custom Material Only"));
-  parameter SI.ThermalConductivity kCustom_long = 1 "Thermal Conductivity in plane of layers (=k_trans for homogeneous materials)" annotation(Dialog(group="Custom Material Only"));
-  parameter SI.Density rhoCustom = 1   "Density" annotation(Dialog(group="Custom Material Only"));
-  parameter SI.SpecificHeatCapacity cpCustom = 1 "Specific Heat Capacity" annotation(Dialog(group="Custom Material Only"));
 
   // Thermal ports
   ThermoPower.Thermal.HT hT_xN annotation (Placement(transformation(extent={{100,-10},
@@ -55,21 +54,14 @@ partial model Solid0DBase
             {60,80}}),  iconTransformation(extent={{40,60},{60,80}})));
   ThermoPower.Thermal.HT hT_int annotation (Placement(transformation(extent={{-10,-10},
             {10,10}}), iconTransformation(extent={{-10,-10},{10,10}})));
-
   ThermoPower.Thermal.HT hT_x0 annotation (Placement(transformation(extent={{-120,
             -10},{-100,10}}),
                          iconTransformation(extent={{-120,-10},{-100,10}})));
-initial equation
-  if force_der_T_Start then
-  der(T)=der_T_Start;
-  else
-  T = TStartbar;
-  end if;
 
 equation
 
   // Energy Balance
-  rho*cp*dV*der(T) = hT_x0.Q_flow + hT_xN.Q_flow + hT_zN.Q_flow +  hT_z0.Q_flow + hT_yN.Q_flow + hT_y0.Q_flow + hT_int.Q_flow;
+  rho*cp*dV*der(T) = hT_x0.Q_flow + hT_xN.Q_flow + hT_zN.Q_flow +  hT_z0.Q_flow + hT_yN.Q_flow + hT_y0.Q_flow + hT_int.Q_flow + Qext;
 
   // Boundary Conditions
   hT_z0.Q_flow = (k_trans/(0.5*lZ))*lY*lX * (hT_z0.T - T); // Conductive Flow up
@@ -79,6 +71,9 @@ equation
   hT_x0.Q_flow = (k_long/(0.5*lX))*lY*lZ * (hT_x0.T -T); // Conductive Flow In
   hT_xN.Q_flow = (k_long/(0.5*lX))*lY*lZ * (hT_xN.T -T); // Conductive Flow Out
   hT_int.T = T; // Internal HT
+
+initial equation
+  T = Tstartbar;
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
         Rectangle(

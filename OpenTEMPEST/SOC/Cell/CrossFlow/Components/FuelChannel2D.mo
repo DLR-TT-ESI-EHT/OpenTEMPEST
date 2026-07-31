@@ -1,4 +1,4 @@
-﻿within OpenTEMPEST.SOC.Cell.CrossFlow;
+﻿within OpenTEMPEST.SOC.Cell.CrossFlow.Components;
 model FuelChannel2D
   extends Channel2DBase(
     redeclare package Medium = OpenTEMPEST.Medium.Fuel_CH4);

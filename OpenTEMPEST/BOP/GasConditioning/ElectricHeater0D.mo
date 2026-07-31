@@ -108,8 +108,5 @@ equation
         coordinateSystem(extent={{-100,-100},{100,100}}), graphics={
                    Text(extent={{-100,-40},{100,-80}}, textString="%name")}),
     Documentation(revisions="<html>
-<ul>
-<li>12.08.22 by Marius Tomberg:<br>Heat capacity and heat loss port added</li>
-</ul>
 </html>"));
 end ElectricHeater0D;

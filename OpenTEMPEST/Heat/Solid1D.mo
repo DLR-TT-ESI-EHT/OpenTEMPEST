@@ -4,6 +4,12 @@ model Solid1D
 
 equation
 
+  k_trans = solid.k_trans;
+  k_long= solid.k_long;
+  rho = solid.rho;
+  cp = solid.cp;
+
+
   Qext = zeros(N);
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={

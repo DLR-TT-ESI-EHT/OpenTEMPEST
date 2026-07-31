@@ -1,6 +1,6 @@
-within OpenTEMPEST.SOC.Cell.Cell1D;
+within OpenTEMPEST.SOC.Cell.Cell1D.Components;
 model FuelChannel
-  extends OpenTEMPEST.SOC.Cell.Cell1D.Channel1DBase(
+  extends OpenTEMPEST.SOC.Cell.Cell1D.Components.Channel1DBase(
     redeclare package Medium = OpenTEMPEST.Medium.Fuel_CH4);
 
   import SI = Modelica.SIunits;
@@ -19,7 +19,6 @@ model FuelChannel
   constant Real Ea_MSRf = 231266*0.875  annotation(Dialog(tab="Kinetics"));
 
   // Pressure Drop
-  SI.PressureDifference dp[N] "pressure loss";
   parameter SI.PressureDifference dpNom=0.01 "nominal pressure loss for initialization";
   SI.Length hAbsetzen;
 
@@ -117,9 +116,6 @@ equation
       3e-9);
   end for;
 
-  Gas[1].p = infl.p - dp[1];
-  Gas[2:N].p = Gas[1:N-1].p - dp[2:N];
-  outfl.p = Gas[N].p; // Pressure is upwinded for the last control volume
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
           Rectangle(

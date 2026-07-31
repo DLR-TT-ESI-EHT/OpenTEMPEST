@@ -5,7 +5,7 @@ model Solid0DvarArea
   import SI = Modelica.SIunits;
   replaceable package SolidMat = OpenTEMPEST.Solid.SolidMatBase annotation(choicesAllMatching = true);
 
-  SolidMat.BaseProperties Solid(T=T, kCustom_trans=kCustom, kCustom_long=kCustom, rhoCustom=rhoCustom, cpCustom=cpCustom);
+  SolidMat.BaseProperties solid(T=T, kCustom_trans=kCustom, kCustom_long=kCustom, rhoCustom=rhoCustom, cpCustom=cpCustom);
 
   // Initial Values
   parameter SI.Temperature TstartIn=773.15 annotation(Dialog(group="Initialisation"));
@@ -23,9 +23,9 @@ model Solid0DvarArea
   SI.Temperature T "Average Temperature in CV";
 
   // Solid Properties
-  SI.ThermalConductivity k = Solid.k_long "Thermal Conductivity";
-  SI.Density rho = Solid.rho "Density";
-  SI.SpecificHeatCapacity cp = Solid.cp "Specific Heat Capacity";
+  SI.ThermalConductivity k = solid.k_long "Thermal Conductivity";
+  SI.Density rho = solid.rho "Density";
+  SI.SpecificHeatCapacity cp = solid.cp "Specific Heat Capacity";
 
   parameter SI.ThermalConductivity kCustom = 1 annotation(Dialog(group="Custom Material Only"));
   parameter SI.Density rhoCustom = 1 annotation(Dialog(group="Custom Material Only"));

@@ -18,6 +18,6 @@ equation
 
   // Voltage calculation
   Uideal = (-delGr/(2*Modelica.Constants.F));
-  Uop = Uideal - J*asrobj.ASR*1e-4;
+  Uop = Uideal - J*asrobj.ASR;
 
 end ASR_ElectrochemBase;

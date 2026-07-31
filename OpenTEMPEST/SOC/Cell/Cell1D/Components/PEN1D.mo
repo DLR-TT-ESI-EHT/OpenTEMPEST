@@ -1,4 +1,4 @@
-﻿within OpenTEMPEST.SOC.Cell.Cell1D;
+﻿within OpenTEMPEST.SOC.Cell.Cell1D.Components;
 model PEN1D
   extends Heat.BaseClasses.Solid1DBase;
 
@@ -6,14 +6,12 @@ model PEN1D
 
   parameter SI.CurrentDensity Jstart = 0;
 
-  constant SI.AbsolutePressure p0 = 1e5 "Standard Pressure";
-
   replaceable model Electrochem =
       OpenTEMPEST.SOC.Electrochem.Components.BV_Steam          constrainedby
     OpenTEMPEST.SOC.Electrochem.Components.ElectrochemBase
       annotation (Placement(transformation(extent={{78,50},{98,70}})), choicesAllMatching=true);
 
-  Electrochem electrochem[N](Tpen=T, J=J, P_A=PEN_ina.P, P_F=PEN_in.P, p0=fill(p0,N), yA=PEN_ina.Y, yF=PEN_in.Y);
+  Electrochem electrochem[N](Tpen=T, J=J, P_A=PEN_ina.P, P_F=PEN_in.P, yA=PEN_ina.Y, yF=PEN_in.Y);
 
   SI.Voltage Uop[N] "Operating Voltage of Cell";
   SI.CurrentDensity J[N](each start=Jstart) "Current Density of Control Volume";
@@ -50,6 +48,11 @@ model PEN1D
 
 equation
   // Thermal
+  k_long = solid.k_long;
+  k_trans = solid.k_trans;
+  cp = solid.cp;
+  rho  =solid.rho;
+
   Qext = Qrad_FI.Q .+ Qrad_AI.Q .- dx*lY*(Uop.*J) .+ q_electrochem;
   Qrad_FI.T = T; // Radiative Flow
   Qrad_AI.T = T; // Radiative Flow

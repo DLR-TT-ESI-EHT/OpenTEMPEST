@@ -87,10 +87,5 @@ algorithm
     Calculated the water gas shift equilibrium (CH4 is consumed).
 </html>",
         revisions="<html>
-<ul>
-<li><i>19-01-2021</i>
-by <a href=\"mailto:marius.tomberg@dlr.de\">Marius Tomberg</a>:<br>
-       Changed variable type from real to molar and mass fractions</li>
-</ul>
 </html>"));
 end simpleWGSEqn;

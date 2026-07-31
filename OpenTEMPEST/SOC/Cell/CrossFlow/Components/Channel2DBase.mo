@@ -1,4 +1,4 @@
-﻿within OpenTEMPEST.SOC.Cell.CrossFlow;
+﻿within OpenTEMPEST.SOC.Cell.CrossFlow.Components;
 partial model Channel2DBase
 
   import SI = Modelica.SIunits;
@@ -10,8 +10,8 @@ partial model Channel2DBase
   constant Integer nSpecies = Medium.nXi;
 
   replaceable function fluxInterp =
-      Flow.FluxInterpolators.UDSinterp              constrainedby
-    Flow.FluxInterpolators.DifferencingSchemeInterpBase                                  annotation(choicesAllMatching = true);
+      Flow.FluxInterpolators.UDSinterp              constrainedby Flow.FluxInterpolators.DifferencingSchemeInterpBase
+                                                                                         annotation(choicesAllMatching = true);
 
   parameter Boolean heatTransferCorrelationFormDuct=true "true for Nusselt correlation duct geometry with characteristic length=2*lZ (default), false for plate geometry with characteristic length=lX";
 
