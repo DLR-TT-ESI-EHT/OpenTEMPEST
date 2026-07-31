@@ -1,7 +1,7 @@
 within OpenTEMPEST.SOC.Electrochem.Components;
 model ASR_Steam
-  extends OpenTEMPEST.SOC.Electrochem.Components.ASR_ElectrochemBase(redeclare replaceable model
-                        ASRobj = OpenTEMPEST.SOC.Electrochem.ASR.ASR_log (A=
+  extends OpenTEMPEST.SOC.Electrochem.Components.ASR_ElectrochemBase(redeclare replaceable model ASRobj =
+                                 OpenTEMPEST.SOC.Electrochem.ASR.ASR_log (A=
             6000, B=7));
 
   import SI = Modelica.SIunits;

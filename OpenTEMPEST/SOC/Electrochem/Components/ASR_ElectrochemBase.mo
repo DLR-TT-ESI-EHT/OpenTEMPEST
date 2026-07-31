@@ -5,8 +5,7 @@ partial model ASR_ElectrochemBase "Base model for electrochemistry with only ASR
   import SI = Modelica.SIunits;
 
   replaceable model ASRobj = OpenTEMPEST.SOC.Electrochem.ASR.ASR_Base
-                                            constrainedby
-    OpenTEMPEST.SOC.Electrochem.ASR.ASR_Base                                                                         annotation(choicesAllMatching=true);
+                                            constrainedby OpenTEMPEST.SOC.Electrochem.ASR.ASR_Base                   annotation(choicesAllMatching=true);
 
   ASRobj asrobj(Tpen=Tpen);
   SI.Voltage Uideal;

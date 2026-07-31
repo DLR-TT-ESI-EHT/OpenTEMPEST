@@ -252,7 +252,7 @@ equation
     Documentation(info="<html>
 <p>
 This model represents a simplified crossflow cell model based on the detailed cell model already present in the library
-<a href=\"TEMPEST.ECReactorModels.Cell.CrossFlow.Cell\">Detailed CF Cell Model</a>.
+<a href=\"TEMPEST.SOC.Cell.CrossFlow.Cell\">Detailed CF Cell Model</a>.
 <p>
 This simplification approach consists in combining 1D discretised air and fuel channel in their respective flow direction with 2D discretised PEN and interconnect models.
 The adaptations needed for connecting and interfacing the 2D models with the 1D models are managed internally, specifically inside the channel models.

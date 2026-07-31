@@ -3,11 +3,9 @@ partial model ElectrochemBase "Base model for electrochemical models"
 
   import SI = Modelica.SIunits;
 
-  replaceable package MediumF = Medium.Fuel_CH4         constrainedby
-    Modelica.Media.IdealGases.Common.MixtureGasNasa
+  replaceable package MediumF = Medium.Fuel_CH4         constrainedby Modelica.Media.IdealGases.Common.MixtureGasNasa
   annotation(choicesAllMatching=true);
-  replaceable package MediumA = Medium.Air_Medium         constrainedby
-    Modelica.Media.IdealGases.Common.MixtureGasNasa
+  replaceable package MediumA = Medium.Air_Medium         constrainedby Modelica.Media.IdealGases.Common.MixtureGasNasa
   annotation(choicesAllMatching=true);
 
   constant Integer nSpeciesF=MediumF.nX;

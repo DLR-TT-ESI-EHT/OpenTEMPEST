@@ -12,8 +12,7 @@ model SensGasFlow "Sensor for flow parameters of gas flows"
 
   //Modelica.Media.Interfaces.PartialMedium
   replaceable package Medium = OpenTEMPEST.Medium.Fuel_CH4
-                                                        constrainedby
-    Modelica.Media.Interfaces.PartialMedium
+                                                        constrainedby Modelica.Media.Interfaces.PartialMedium
     annotation(choicesAllMatching = true);
   parameter Boolean allowFlowReversal=system.allowFlowReversal
     "= true to allow flow reversal, false restricts to design direction"

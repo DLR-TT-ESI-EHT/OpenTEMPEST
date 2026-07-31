@@ -1,13 +1,13 @@
 within OpenTEMPEST.BOP.GasConditioning;
 model ElectricHeater0D
   extends ThermoPower.Icons.Gas.Tube;
-  replaceable package Medium = Modelica.Media.Interfaces.PartialMedium
+  replaceable package Medium = OpenTEMPEST.Medium.Fuel_CH4 constrainedby Modelica.Media.Interfaces.PartialMedium
     "Medium model"
     annotation(choicesAllMatching = true);
 
   parameter Modelica.SIunits.Power PMax = 5000 "Maximal power";
 
-  parameter Real PI_k(min=0, unit="1") = 20 "Gain of controller";
+  parameter Real PI_k(unit="1")=20          "Gain of controller";
   parameter Modelica.SIunits.Time PI_Ti(min=Modelica.Constants.small)=300
     "Time constant of controller's Integrator block" annotation (Dialog(enable=
           controllerType == .Modelica.Blocks.Types.SimpleController.PI or

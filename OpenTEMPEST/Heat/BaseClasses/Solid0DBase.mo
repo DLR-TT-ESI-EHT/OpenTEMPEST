@@ -3,10 +3,10 @@ partial model Solid0DBase
 
   replaceable package SolidMat = OpenTEMPEST.Solid.SolidMatBase  annotation(choicesAllMatching = true);
   SolidMat.BaseProperties solid(
-    T=T, 
-    kCustom_trans=kCustom_trans, 
-    kCustom_long=kCustom_long, 
-    rhoCustom=rhoCustom, 
+    T=T,
+    kCustom_trans=kCustom_trans,
+    kCustom_long=kCustom_long,
+    rhoCustom=rhoCustom,
     cpCustom=cpCustom) "Material properties object";
 
   import SI = Modelica.SIunits;

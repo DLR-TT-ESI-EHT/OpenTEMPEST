@@ -256,7 +256,6 @@ public
     each k_solidCustomLong=kSimpleLong,
     each k_solidCustomTrans=kSimpleTrans)
     annotation (Placement(transformation(extent={{-12,14},{8,34}})));
-    //each matOpt=TEMPEST.ECReactorModels.Cell.baseModelsFV_SOC.solidMaterialOptions.Crofer22APU,
 
   Cell.Cell1D.Cell detailedCells[NdetailedCell](
     redeclare model Electrochem = Electrochem,

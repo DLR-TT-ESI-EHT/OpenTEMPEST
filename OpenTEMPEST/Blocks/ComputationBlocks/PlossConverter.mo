@@ -9,7 +9,7 @@ model PlossConverter "Is needed to take the power loss in PowerElectronics into 
   parameter Real etaAC=0.95 "If constACLoss=true. Constant rectifier/inverter loss";
   parameter Real pAC[3] = {4.50434939e-03, 5.73763570e-03, 7.53027504e-05}  "If constACLoss=false. p[1]+x² + p[2]+x +p[3]. Default from fit to TNPC L5 IGBT curve in Fig 10 in DOI: 10.30420/566262171";
 
-  parameter TEMPEST.Blocks.Enumerations.SwitchingMethod converterType "Select the type of converter";
+  parameter OpenTEMPEST.Enumerations.SwitchingMethod converterType "Select the type of converter";
 
 // protected
 // GaNFET parameters fitted to data in Fig 7 of DOI: 10.1051/e3sconf/20171618003:
@@ -45,14 +45,13 @@ equation
         PACloss = (1 - etaAC)*P;
         x = (P - PACloss)/Pdesign;
 
-  else
-        PACloss =pAC[1]*(P/Pdesign)^2 + pAC[2]*(P/Pdesign) + pAC[3];
+  else  PACloss =pAC[1]*(P/Pdesign)^2 + pAC[2]*(P/Pdesign) + pAC[3];
         x = (P - PACloss)/Pdesign;
   end if;
 
-  if converterType == TEMPEST.Blocks.Enumerations.SwitchingMethod.old then
+  if converterType == OpenTEMPEST.Enumerations.SwitchingMethod.old then
       PDClossRel = 0.04821255*x^2 + 0.00984646*x + 0.01151456;
-  elseif converterType == TEMPEST.Blocks.Enumerations.SwitchingMethod.GaNFets then
+  elseif converterType == OpenTEMPEST.Enumerations.SwitchingMethod.GaNFets then
       if P >=0 then
           PDClossRel = pGan_pos[1]*x^2 + pGan_pos[2]*x + pGan_pos[3];
       else

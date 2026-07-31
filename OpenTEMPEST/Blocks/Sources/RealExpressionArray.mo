@@ -1,4 +1,4 @@
-within TEMPEST.Blocks.Sources;
+within OpenTEMPEST.Blocks.Sources;
 block RealExpressionArray "Set output signal to a time varying Real expression"
   parameter Integer nAxes = 4 "number of axes of output array y";
   parameter Integer arrayOut[nAxes] = {3,4,30,5} "shape of output array y";

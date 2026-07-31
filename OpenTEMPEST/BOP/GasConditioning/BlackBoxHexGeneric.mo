@@ -3,21 +3,17 @@ model BlackBoxHexGeneric
 
    import SI = Modelica.SIunits;
 
-  replaceable package MediumA = Medium.Air_Medium         constrainedby
-    Modelica.Media.Interfaces.PartialMedium
+  replaceable package MediumA = Medium.Air_Medium         constrainedby Modelica.Media.Interfaces.PartialMedium
     annotation(choicesAllMatching = true);
-  replaceable package MediumB = Medium.Air_Medium         constrainedby
-    Modelica.Media.Interfaces.PartialMedium
+  replaceable package MediumB = Medium.Air_Medium         constrainedby Modelica.Media.Interfaces.PartialMedium
     annotation(choicesAllMatching = true);
 
   parameter SI.HeatCapacity C = 1;
-  replaceable model etaType = HexEtaTypes.ConstantEta                                        constrainedby
-    HexEtaTypes.EtaBase
+  replaceable model etaType = HexEtaTypes.ConstantEta                                        constrainedby HexEtaTypes.EtaBase
       annotation (choicesAllMatching=true);
 
   etaType eta(C_min=Cmin, C_max=Cmax, mf_A=sensAIn.mf, mf_B=sensBIn.mf, lambda_A=sensAIn.lambda, lambda_B=sensBIn.lambda, mu_A=sensAIn.eta, mu_B=sensBIn.eta,
-              cp_A=sensAIn.cp, cp_B=sensBIn.cp, redeclare package MediumA = MediumA, redeclare package
-              MediumB =                                                                                          MediumB);
+              cp_A=sensAIn.cp, cp_B=sensBIn.cp, redeclare package MediumA = MediumA, redeclare package MediumB = MediumB);
   Real Cmin(start=1);
   Real Cmax(start=1);
 

@@ -1,4 +1,4 @@
-within TEMPEST.Blocks.ComputationBlocks;
+within OpenTEMPEST.Blocks.ComputationBlocks;
 block GainVariable "Output the product of a gain value with the input signal"
 
   parameter Real k(start=1,unit="1")=0.7  "Gain value multiplied with input signal";
