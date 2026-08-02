@@ -2,6 +2,11 @@
   <img src="./Misc/TEMPESTlogo.svg" alt="TEMPEST logo" width="500">
 </p>
 
+This is a mirror of the OpenTEMPEST Repo, the main hosting point is https://codeberg.org/DLR-TT-ESI-EHT/OpenTEMPEST
+We'll try to keep the mirrors up to date as possible.
+
+Please feel free to use the issues here or on codeberg for reporting any issues you may have or suggestions.
+
 # OpenTempest
 
 Thank you for visiting. We will be adding documentation very soon!
