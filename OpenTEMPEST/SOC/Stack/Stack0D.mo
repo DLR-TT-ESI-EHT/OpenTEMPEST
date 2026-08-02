@@ -1,5 +1,5 @@
 ﻿within OpenTEMPEST.SOC.Stack;
-model BlackBoxStack
+model Stack0D
   "0D stack based on lumped ASR expression assuming full internal steam reforming (CH4 outlet is 0) with no pressure loss."
 
   import SI = Modelica.SIunits;
@@ -22,7 +22,7 @@ model BlackBoxStack
                                                                            constrainedby
     OpenTEMPEST.SOC.Electrochem.Components.ASR_Steam                               annotation(Placement(transformation(extent={{78,50},{98,70}})), choicesAllMatching=true, dialog(group="Electrochemistry"));
 
-  Electrochem electrochem(Tpen=TASR, J=J, P_A=(sensAirIn.p + sensAirOut.p)/2, P_F=(sensFuelIn.p + sensFuelOut.p)/2, p0=Po, yA=(sensAirIn.y + sensAirOut.y)/2, yF=(sensFuelIn.y + sensFuelOut.y)/2);
+  Electrochem electrochem(Tpen=TASR, J=J, P_A=(sensAirIn.p + sensAirOut.p)/2, P_F=(sensFuelIn.p + sensFuelOut.p)/2, yA=(sensAirIn.y + sensAirOut.y)/2, yF=(sensFuelIn.y + sensFuelOut.y)/2);
 
   parameter SI.MassFraction [Fuel.nXi] XStartGas=Fuel.X_default;
   parameter SI.MassFraction [Air.nXi] XStartAir=Air.X_default;
@@ -42,7 +42,6 @@ model BlackBoxStack
   Real RC "Reactant conversion";
   Real z "Effective electron number depending on FC or EC mode";
 
-  SI.AbsolutePressure Po = 1e5;
   parameter Real eps=Modelica.Constants.eps "compare vs. 0 in a conform way, needed for FMU import since other environments implement it differently with different eps. eps=1e-6 needed for simulink import as model exchange";
 
   ThermoPower.Gas.FlangeA airInlet(redeclare package Medium = Air) annotation (
@@ -171,7 +170,7 @@ model BlackBoxStack
         transformation(extent={{-10,-100},{10,-80}}), iconTransformation(extent=
            {{-10,-80},{10,-60}})));
   ThermoPower.Thermal.DHTVolumes dhtTop(N=n) annotation (Placement(
-        transformation(extent={{-10,80},{10,100}}), iconTransformation(extent={{
+        transformation(extent={{4,88},{24,108}}),   iconTransformation(extent={{
             -10,60},{10,80}})));
   ThermoPower.Thermal.DHTVolumes dhtInlet(N=if useDhtInletOutlet then nCells else 1)        annotation (
       Placement(transformation(extent={{-100,-10},{-80,10}}),
@@ -209,6 +208,9 @@ model BlackBoxStack
         (0.112*2/(0.0017*0.07143))*(4.2e-5/(63876e-3*1e5*0.367))))
     if calcPressureDrop
     annotation (Placement(transformation(extent={{-16,-60},{4,-40}})));
+  Modelica.Blocks.Continuous.FirstOrder firstOrder(T=10,   y_start=1e-3) annotation (Placement(transformation(extent={{10,-16},{16,-10}})));
+  Modelica.Blocks.Continuous.FirstOrder firstOrder1(T=10,   y_start=1e-3)
+                                                                         annotation (Placement(transformation(extent={{-28,82},{-22,88}})));
 protected
   parameter Real zFC[Fuel.nX] = {2,8,0,2,0,0} "Stoichiometric coefficients for fuel cell mode";
   parameter Real zEC[Fuel.nX] = {0,0,2,0,2,0} "Stoichiometric coefficients for electrolysis mode";
@@ -276,8 +278,6 @@ equation
           58},{72,58},{72,68},{-22.45,68},{-22.45,55.95}},
                                            color={0,0,127}));
   end if;
-  connect(sensFuelIn.mf, add.u1) annotation (Line(points={{-39,65},{-39,83.6},{-1.2,
-          83.6}}, color={0,0,127}));
   connect(rexMfO2cr.y, add.u2) annotation (Line(points={{-39,26},{-32,26},{-32,76.4},
           {-1.2,76.4}}, color={0,0,127}));
   connect(sourceMassFlowFuel.in_w0, add.y)
@@ -292,8 +292,6 @@ equation
           {-2.6,-14.8}}, color={0,0,127}));
   connect(rexMfO2cr.y, add1.u1) annotation (Line(points={{-39,26},{-22,26},{-22,
           -11.2},{-2.6,-11.2}}, color={0,0,127}));
-  connect(add1.y, sourceMassFlowAir.in_w0)
-    annotation (Line(points={{4.3,-13},{24,-13},{24,-25}}, color={0,0,127}));
   connect(rexXOutAir.y, sourceMassFlowAir.in_X) annotation (Line(points={{33,-70},
           {50,-70},{50,-25},{36,-25}}, color={0,0,127}));
   if calcPressureDrop then
@@ -312,6 +310,10 @@ equation
   connect(sensFuelIn.T, sinkPressure.in_T) annotation (
     Line(points={{-37,60},{-26,60},{-26,59},{-16,59}},
                                           color = {0, 0, 127}));
+  connect(add1.y, firstOrder.u) annotation (Line(points={{4.3,-13},{9.4,-13}}, color={0,0,127}));
+  connect(firstOrder.y, sourceMassFlowAir.in_w0) annotation (Line(points={{16.3,-13},{24,-13},{24,-25}}, color={0,0,127}));
+  connect(sensFuelIn.mf, firstOrder1.u) annotation (Line(points={{-39,65},{-39,83},{-28.6,83}}, color={0,0,127}));
+  connect(firstOrder1.y, add.u1) annotation (Line(points={{-21.7,83},{-6,83},{-6,83.6},{-1.2,83.6}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={Rectangle(pattern = LinePattern.None,
             fillPattern =                                                                                                     FillPattern.Solid, extent = {{-60, 60}, {60, -60}}), Text(lineColor = {255, 255, 255}, pattern = LinePattern.None,
             fillPattern =                                                                                                                                                                                                        FillPattern.Solid, extent = {{40, 40}, {-40, -40}}, textString = "0D-Stack")}),                              Diagram(
@@ -342,4 +344,4 @@ Area Specific Resistance (ASR) formulation. The model assumes:
 <li>Lumped heat capacity represents the full stack.</li>
 </ul>
 </html>"));
-end BlackBoxStack;
+end Stack0D;

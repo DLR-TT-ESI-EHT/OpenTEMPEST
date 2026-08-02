@@ -22,7 +22,7 @@ partial model Solid1DBase
 
   SI.Temperature T[N] "Temperature in each CV";
 
-  SolidMat.BaseProperties Solid[N](
+  SolidMat.BaseProperties solid[N](
     T=T,
     each kCustom_trans=kCustom_trans,
     each kCustom_long=kCustom_long,
@@ -30,10 +30,10 @@ partial model Solid1DBase
     each cpCustom=cpCustom) "Material properties object for each CV";
 
   // Solid Properties
-  SI.ThermalConductivity k_trans[N] = Solid[:].k_trans "Thermal conductivities in CV";
-  SI.ThermalConductivity k_long[N] = Solid[:].k_long "Thermal conductivities in CV";
-  SI.Density rho[N] = Solid[:].rho "Density of CV";
-  SI.SpecificHeatCapacity cp[N] = Solid[:].cp "heat capacity of CV";
+  SI.ThermalConductivity k_trans[N]  "Thermal conductivities in CV";
+  SI.ThermalConductivity k_long[N] "Thermal conductivities in CV";
+  SI.Density rho[N] "Density of CV";
+  SI.SpecificHeatCapacity cp[N]  "heat capacity of CV";
 
   SI.ThermalConductivity kv_long[N-1] "Harmonic mean of thermal conductivities at internal CV boundaries";  // https://doi.org/10.1016/S1018-3639(18)30628-7
 

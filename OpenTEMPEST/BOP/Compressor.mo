@@ -7,8 +7,8 @@ model Compressor
   parameter Real etaE = 0.98 "Electrical efficiency";
 
   replaceable package Medium = OpenTEMPEST.Medium.Air_Medium
-                                                         constrainedby
-    Modelica.Media.Interfaces.PartialMedium "Medium model"
+                                                         constrainedby Modelica.Media.Interfaces.PartialMedium
+                                            "Medium model"
     annotation(choicesAllMatching = true);
 
   Medium.BaseProperties gasIn;

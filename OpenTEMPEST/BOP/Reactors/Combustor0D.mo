@@ -86,11 +86,11 @@ equation
 
   // Boundary conditions
   ina.p = fluegas.p;
-  ina.h_outflow = 0;
-  ina.Xi_outflow = Air.reference_X[1:Air.nXi];
+  ina.h_outflow = hia;
+  ina.Xi_outflow =ina_X;// Air.reference_X[1:Air.nXi];
   inf.p = fluegas.p;
-  inf.h_outflow = 0;
-  inf.Xi_outflow = Fuel.reference_X[1:Fuel.nXi];
+  inf.h_outflow = hif;
+  inf.Xi_outflow = inf_X;//Fuel.reference_X[1:Fuel.nXi];
   hia = inStream(ina.h_outflow);
   hif = inStream(inf.h_outflow);
 

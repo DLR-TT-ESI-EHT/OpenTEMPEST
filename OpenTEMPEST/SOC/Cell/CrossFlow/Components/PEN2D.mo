@@ -1,4 +1,4 @@
-﻿within OpenTEMPEST.SOC.Cell.CrossFlow;
+﻿within OpenTEMPEST.SOC.Cell.CrossFlow.Components;
 model PEN2D
   extends Heat.BaseClasses.Solid2DBase(        redeclare package SolidMat =
         OpenTEMPEST.Solid.Material.Custom);
@@ -6,14 +6,14 @@ model PEN2D
   import SI = Modelica.SIunits;
 
   parameter SI.CurrentDensity Jstart=0;
-  constant SI.AbsolutePressure p0=1e5 "Standard Pressure";
+
 
   replaceable model Electrochem =
-       OpenTEMPEST.SOC.Electrochem.Components.Crossflow_Electrochem     constrainedby
+      OpenTEMPEST.SOC.Electrochem.Components.Crossflow_Electrochem      constrainedby
     OpenTEMPEST.SOC.Electrochem.Components.ElectrochemBase
        annotation (Placement(transformation(extent={{78,50},{98,70}})), choicesAllMatching=true);
 
-   Electrochem electrochem[nX, nY](Tpen=T, J=J, P_A=PEN_ina.P, P_F=PEN_in.P, p0=fill(p0, nX, nY), yA=PEN_ina.Y, yF=PEN_in.Y);
+   Electrochem electrochem[nX, nY](Tpen=T, J=J, P_A=PEN_ina.P, P_F=PEN_in.P, yA=PEN_ina.Y, yF=PEN_in.Y);
 
    SI.Voltage Uop[nX,nY] "Operating Voltage of Cell";
    SI.CurrentDensity J[nX,nY](each start=Jstart) "Current Density of Control Volume";

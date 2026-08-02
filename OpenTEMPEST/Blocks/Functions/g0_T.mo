@@ -2,7 +2,7 @@ within OpenTEMPEST.Blocks.Functions;
 function g0_T
   "Calculating the gibbs energy at given Temperature and Standard pressure of a gas
   
-  Example: G_h2o = TEMPEST.Blocks.Functions.g0_T(T=T, data=Modelica.Media.IdealGases.Common.SingleGasesData.H2O);
+  Example: G_h2o = g0_T(T=T, data=Modelica.Media.IdealGases.Common.SingleGasesData.H2O);
   "
   extends Modelica.Icons.Function;
   import SI = Modelica.SIunits;

@@ -34,9 +34,6 @@ Example:
 </pre>
 
 </html>", revisions="<html>
-<ul>
-<li><i>14-07-2021</i> by Marius Tomberg: <br>First release</li>
-</ul>
 </html>"),
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,
             100}}), graphics={

@@ -92,10 +92,5 @@ equation
     annotation (Line(points={{-3.3,56},{-7,56}}, color={0,0,127}));
   annotation (
     Documentation(revisions="<html>
-<ul>
-<li><i>29 Okt 2021</i>
-by <a href=\"mailto:marius.tomberg@dlr.de\">Marius Tomberg</a>:<br>
-      Adapted/Simplified from <tt>ThermoPower.Gas.FanMech</tt> model.</li>
-</ul>
 </html>"));
 end FanSimple;

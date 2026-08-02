@@ -93,10 +93,6 @@ equation
 
   annotation(choicesAllMatching = true,
         Documentation(revisions="<html>
-<ul>
-<li><i>28 Okt 2021</i>
-by <a href=\"mailto:Marius.Tomberg@dlr.de\">Marius Tomberg</a>:<br>
-Created
 </html>"),
     Diagram(coordinateSystem(extent={{-100,-100},{100,100}})),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}})));

@@ -36,28 +36,29 @@ import SI = Modelica.SIunits;
                                        "HT through cylindrical wall" annotation (Placement(
         transformation(extent={{-80,30},{80,50}}),iconTransformation(extent={{-80,34},
             {80,50}})));
-
+initial equation
+  mfv[N+1]=mfv[1]; // otherwise mfv[N+1] might be 0 at start
 equation
 
 // Reaction kinetics
   for i in 1:N loop
     r1[i] = krf[i]*(Gas[i].p*Yi[i, 2]*Gas[i].p*Yi[i, 5] - (Gas[i].p*Yi[i, 1])^3*(Gas[i].p*Yi[i,4])/Kref[i]); //mol/m3.s
     r2[i] = ksf[i]*(Gas[i].p*Yi[i, 4]*Gas[i].p*Yi[i, 5] - Gas[i].p*Yi[i, 1]*Gas[i].p*Yi[i, 3]/Kwgs[i]); //mol/m3.s
-    Qref[i] = ((Gas[i].p*Yi[i, 1])^3*(Gas[i].p*Yi[i,4]))/(Gas[i].p*Yi[i, 2]*Gas[i].p*Yi[i, 5]);
+    Qref[i] = ((Yi[i, 1]^3)*Yi[i,4])*Gas[i].p^2/(Yi[i, 2]*Yi[i, 5]);
     Eq_ref[i] = Qref[i]/Kref[i];
 
     DeltaG_ref[i] = -252.642810968035.*Gas[i].T + 225215.698063031;
-    Kref[i] = 1e10*exp(-DeltaG_ref[i]/Modelica.Constants.R/Gas[i].T);
+    Kref[i] = 1e10*Modelica.Math.exp(-DeltaG_ref[i]/Modelica.Constants.R/Gas[i].T);
     krf[i] = A_rf*Modelica.Math.exp(-Ea_rf/(8.314*Gas[i].T));
 
     DeltaG_wgs[i] = 32.1153*(Gas[i].T) - 3.5211E4; // Marius' shortcut from NASA
-    Kwgs[i] = exp(-DeltaG_wgs[i]/Modelica.Constants.R/Gas[i].T);
+    Kwgs[i] = Modelica.Math.exp(-DeltaG_wgs[i]/Modelica.Constants.R/Gas[i].T);
     ksf[i] = A_sf*Modelica.Math.exp(-Ea_sf/(8.314*Gas[i].T));
 
     Yi[i,:] = Gas[i].Xi[:]./Medium.MMX[:]/sum(Gas[i].Xi[:]./Medium.MMX[:]); // this line is able to be compiled by openmodelica (1.14), enabling FMU use.
 
     for j in 1:nSpecies loop
-      R[i, j] =  Medium.MMX[j]*(dV*por*a[j, 1]*r1[i] .+ dV*por*a[j, 2]*r2[i]);
+      R[i, j] =  Medium.MMX[j]*(dV*por*(a[j, 1]*r1[i] .+ a[j, 2]*r2[i]));
     end for;
   end for;
 

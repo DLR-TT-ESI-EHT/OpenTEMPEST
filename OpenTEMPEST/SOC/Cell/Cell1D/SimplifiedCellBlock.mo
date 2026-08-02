@@ -2,7 +2,6 @@ within OpenTEMPEST.SOC.Cell.Cell1D;
 model SimplifiedCellBlock
   import SI = Modelica.SIunits;
   parameter Integer N(min=3)=5 "number of CVs in each layer";
-  //parameter TEMPEST.ECReactorModels.Cell.baseModelsFV_SOC.solidMaterialOptions matOpt=TEMPEST.ECReactorModels.Cell.baseModelsFV_SOC.solidMaterialOptions.Crofer22APU "options for interconnect material";
   parameter Integer nCellVertMult=1 "number of cells this object is representing in z direction";
 
   parameter SI.Temperature TStart "Starting temperature";
@@ -14,12 +13,9 @@ model SimplifiedCellBlock
   parameter SI.SpecificHeatCapacity cp_solidCustom=463.8 "Specific heat capacity of solid parallel to windows" annotation (Dialog(tab="Interconnect"));
   parameter SI.Density rho_solidCustom(displayUnit="kg/m3") = 1330 "Density of solid parallel to windows" annotation (Dialog(tab="Interconnect"));
 
-  parameter SI.Density rho_custom = 1 "Density of custom material" annotation (Dialog(enable=matOpt ==
-          TEMPEST.ECReactorModels.Cell.BaseModelsFV.solidMaterialOptions.Other));
-  parameter SI.SpecificHeatCapacity cp_custom = 1 "Specific Heat capacity of custom material" annotation (Dialog(enable=matOpt ==
-          TEMPEST.ECReactorModels.Cell.BaseModelsFV.solidMaterialOptions.Other));
-  parameter SI.ThermalConductivity k_custom = 1 "Thermal condusctivity of custom material" annotation (Dialog(enable=matOpt ==
-          TEMPEST.ECReactorModels.Cell.BaseModelsFV.solidMaterialOptions.Other));
+  parameter SI.Density rho_custom = 1 "Density of custom material";
+  parameter SI.SpecificHeatCapacity cp_custom = 1 "Specific Heat capacity of custom material";
+  parameter SI.ThermalConductivity k_custom = 1 "Thermal condusctivity of custom material";
 
   OpenTEMPEST.Heat.Solid1D solid1D(
     redeclare package SolidMat = OpenTEMPEST.Solid.Material.Custom,

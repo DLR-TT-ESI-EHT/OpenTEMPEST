@@ -49,7 +49,7 @@ protected
         currentFactor)
     annotation (Placement(transformation(extent={{-6,-6},{6,6}},
         rotation=-90,
-        origin={-12,56})));
+        origin={-16,54})));
 public
   ThermoPower.Electrical.PowerConnection gridConnectionAC "AC grid connection"
     annotation (Placement(transformation(rotation=0, extent={{80,-40},{100,-20}}),
@@ -67,7 +67,7 @@ public
  if useVoltageInput
     annotation (Placement(transformation(extent={{10,-34},{-10,-14}})));
   Modelica.Electrical.Analog.Sensors.MultiSensor multiSensor[nChannels]
-    annotation (Placement(transformation(extent={{-82,-44},{-62,-24}})));
+    annotation (Placement(transformation(extent={{-40,-60},{-20,-40}})));
 protected
   Blocks.ComputationBlocks.AddX addPower(n=nChannels)
     annotation (Placement(transformation(extent={{40,20},{60,40}})));
@@ -128,7 +128,9 @@ protected
     annotation (Placement(transformation(extent={{76,4},{80,8}})));
 equation
 
-  UAvg = abs(PDC) / nCells / (abs(sum(multiSensor.i)+Modelica.Constants.small)/nChannels);
+//   UAvg = abs(PDC) / nCells / (abs(sum(productCurrent.y)+Modelica.Constants.small)/nChannels);
+  UAvg = abs(sum(pinN[:].v))/nCells;
+// develop:  UAvg = abs(PDC) / nCells / (abs(sum(multiSensor.i)+Modelica.Constants.small)/nChannels);
 
   for i in 1:nChannels loop
     connect(pinP[i], ground.p)
@@ -141,9 +143,8 @@ equation
 
   connect(currentInput, productCurrent.u1)
     annotation (Line(points={{4,62},{4,35.2},{3.6,35.2}}, color={0,0,127}));
-  connect(constCurrentFactor.y, productCurrent.u2) annotation (Line(points={{-12,
-          49.4},{-4,49.4},{-4,35.2},{-3.6,35.2}},
-                                                color={0,0,127}));
+  connect(constCurrentFactor.y, productCurrent.u2) annotation (Line(points={{-16,47.4},{-4,47.4},{
+          -4,35.2},{-3.6,35.2}},                color={0,0,127}));
   connect(productCurrent.y, signalCurrent.i) annotation (Line(points={{-3.33067e-16,
           21.4},{-3.33067e-16,13.75},{0,13.75},{0,12}},color={0,0,127}));
   connect(load.port, gridConnectionAC) annotation (Line(
@@ -166,19 +167,18 @@ equation
   connect(signalVoltage.p, pinN)
     annotation (Line(points={{10,-24},{40,-24},{40,-80}}, color={0,0,255}));
   connect(multiSensor.pv, pinN)
-    annotation (Line(points={{-72,-24},{40,-24},{40,-80}}, color={0,0,255}));
+    annotation (Line(points={{-30,-40},{40,-40},{40,-80}}, color={0,0,255}));
   connect(multiSensor.nv, pinP)
-    annotation (Line(points={{-72,-44},{-72,-80},{-40,-80}}, color={0,0,255}));
+    annotation (Line(points={{-30,-60},{-30,-80},{-40,-80}}, color={0,0,255}));
   connect(multiSensor.pc, pinP)
-    annotation (Line(points={{-82,-34},{-82,-66},{-40,-66},{-40,-80}},
-                                                   color={0,0,255}));
+    annotation (Line(points={{-40,-50},{-40,-80}}, color={0,0,255}));
   connect(multiSensor.nc, signalVoltage.n)
-    annotation (Line(points={{-62,-34},{-62,-24},{-10,-24}}, color={0,0,255}));
+    annotation (Line(points={{-20,-50},{-20,-24},{-10,-24}}, color={0,0,255}));
   connect(multiSensor.nc, signalCurrent.p)
-    annotation (Line(points={{-62,-34},{-62,0},{-10,0}}, color={0,0,255}));
+    annotation (Line(points={{-20,-50},{-20,0},{-10,0}}, color={0,0,255}));
 
-  connect(multiSensor.power, addPower.u) annotation (Line(points={{-83,-40},{
-          -40,-40},{-40,30},{38,30}},
+  connect(multiSensor.power, addPower.u) annotation (Line(points={{-41,-56},{
+          -40,-56},{-40,30},{38,30}},
                                 color={0,0,127}));
   connect(addPower.y, PDC) annotation (Line(points={{61,30},{64,30},{64,66},{46,
           66}}, color={0,0,127}));

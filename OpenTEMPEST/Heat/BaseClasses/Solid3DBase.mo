@@ -27,7 +27,7 @@ partial model Solid3DBase
   SI.Temperature T[nX,nY,nZ] "Temperature in each CV";
 
   // Solid Properties
-  SolidMat.BaseProperties Solid[nX,nY,nZ](
+  SolidMat.BaseProperties solid[nX,nY,nZ](
     T=T,
     each kCustom_trans=kCustom_trans,
     each kCustom_long=kCustom_long,
@@ -35,10 +35,10 @@ partial model Solid3DBase
     each cpCustom=cpCustom);
 
   // Solid properties
-  SI.ThermalConductivity k_trans[nX, nY, nZ] = Solid.k_trans "Thermal conductivity in z-direction";
-  SI.ThermalConductivity k_long[nX, nY, nZ] = Solid.k_long "Thermal conductivity in x/y-plane";
-  SI.Density rho[nX,nY,nZ]=Solid.rho "Density of each CV";
-  SI.SpecificHeatCapacity cp[nX,nY,nZ]=Solid.cp "Specific heat capacity of each CV";
+  SI.ThermalConductivity k_trans[nX, nY, nZ] = solid.k_trans "Thermal conductivity in z-direction";
+  SI.ThermalConductivity k_long[nX, nY, nZ] = solid.k_long "Thermal conductivity in x/y-plane";
+  SI.Density rho[nX,nY,nZ]=solid.rho "Density of each CV";
+  SI.SpecificHeatCapacity cp[nX,nY,nZ]=solid.cp "Specific heat capacity of each CV";
 
   SI.ThermalConductivity kx[nX-1, nY, nZ] "Interface thermal conductivity in x direction";
   SI.ThermalConductivity ky[nX, nY-1, nZ] "Interface thermal conductivity in y direction";

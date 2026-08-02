@@ -68,7 +68,7 @@ model CellCFSimp
   parameter SI.Density rhoIC = 7233   "Interconnect density" annotation(Dialog(tab="Interconnects"));
   parameter SI.SpectralEmissivity epsilonIC = 0.1 "Emissivity of interconnects" annotation(Dialog(tab="Interconnects"));
 
-  OpenTEMPEST.SOC.Cell.CrossFlow.FuelChannel2DSimp fuelChannel(
+  OpenTEMPEST.SOC.Cell.CrossFlow.Components.FuelChannel2DSimp fuelChannel(
     nX=nX,
     nY=nY,
     TStart=TStart,
@@ -84,7 +84,7 @@ model CellCFSimp
     heatTransferCorrelationFormDuct=heatTransferCorrelationFormDuct)
     annotation (Placement(transformation(extent={{-34,68},{34,116}})));
 
-  OpenTEMPEST.SOC.Cell.CrossFlow.AirChannel2DSimp airChannel(
+  OpenTEMPEST.SOC.Cell.CrossFlow.Components.AirChannel2DSimp airChannel(
     nX=nY,
     nY=nX,
     TStart=TStart,
@@ -148,7 +148,7 @@ model CellCFSimp
     annotation (Placement(transformation(extent={{-5,-16},{5,16}},
                                                                  origin={135,4}),
         iconTransformation(extent={{122,-20},{140,20}})));
-  PEN2D pen(
+  Components.PEN2D pen(
     nX=nX,
     nY=nY,
     Tstartbar=TStart,
@@ -160,8 +160,7 @@ model CellCFSimp
     rhoCustom=rhoPEN,
     cpCustom=cpPEN,
     Jstart=Jstart,
-    redeclare model Electrochem = Electrochem)
-    annotation (Placement(transformation(extent={{-36,-6},{24,44}})));
+    redeclare model Electrochem = Electrochem) annotation (Placement(transformation(extent={{-36,-6},{24,44}})));
 
   Heat.DHTVolumes2D dHT2_z0(i=nX, j=nY) annotation (Placement(transformation(
           extent={{-90,-118},{-40,-96}}), iconTransformation(extent={{-82,-60},
@@ -171,18 +170,16 @@ model CellCFSimp
           extent={{48,118},{174,138}}), iconTransformation(extent={{-82,52},{86,
             74}})));
 
-  CrossFlowTopology crossFlowTopologyPENAC(
+  Components.CrossFlowTopology crossFlowTopologyPENAC(
     nX=nX,
     nY=nY,
     nSpecies=Medium.Air_Medium.nX,
-    includeVarStream=true)
-    annotation (Placement(transformation(extent={{-14,-44},{22,-18}})));
-  CrossFlowTopology crossFlowTopologyACIC(
+    includeVarStream=true) annotation (Placement(transformation(extent={{-14,-44},{22,-18}})));
+  Components.CrossFlowTopology crossFlowTopologyACIC(
     nX=nY,
     nY=nX,
     nSpecies=Medium.Air_Medium.nX,
-    includeVarStream=false)
-    annotation (Placement(transformation(extent={{-6,-110},{32,-84}})));
+    includeVarStream=false) annotation (Placement(transformation(extent={{-6,-110},{32,-84}})));
 equation
 
   // Pins connections
@@ -255,7 +252,7 @@ equation
     Documentation(info="<html>
 <p>
 This model represents a simplified crossflow cell model based on the detailed cell model already present in the library
-<a href=\"TEMPEST.ECReactorModels.Cell.CrossFlow.Cell\">Detailed CF Cell Model</a>.
+<a href=\"TEMPEST.SOC.Cell.CrossFlow.Cell\">Detailed CF Cell Model</a>.
 <p>
 This simplification approach consists in combining 1D discretised air and fuel channel in their respective flow direction with 2D discretised PEN and interconnect models.
 The adaptations needed for connecting and interfacing the 2D models with the 1D models are managed internally, specifically inside the channel models.

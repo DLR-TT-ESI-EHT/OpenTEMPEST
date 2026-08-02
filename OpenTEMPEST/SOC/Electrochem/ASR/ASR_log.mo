@@ -4,6 +4,6 @@ model ASR_log "Logarithmic ASR relationship: ln(ASR/(ohm cm^2)) = A/Tpen - B"
 
 equation
 
-  Modelica.Math.log(ASR) = (A/Tpen) - B;
+  Modelica.Math.log(ASR*1e4) = (A/Tpen) - B;
 
 end ASR_log;

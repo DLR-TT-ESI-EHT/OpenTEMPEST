@@ -4,8 +4,8 @@ model ElectricalHeater0D
   import SI = Modelica.SIunits;
 
   replaceable package Medium = OpenTEMPEST.Medium.Fuel_CH4
-                                                        constrainedby
-    Modelica.Media.Interfaces.PartialMedium annotation (choicesAllMatching=true);
+                                                        constrainedby Modelica.Media.Interfaces.PartialMedium
+                                            annotation (choicesAllMatching=true);
 
   parameter SI.Length l=1 "length of flow channel";
   parameter SI.Length d=0.02 "diameter of flow channel";

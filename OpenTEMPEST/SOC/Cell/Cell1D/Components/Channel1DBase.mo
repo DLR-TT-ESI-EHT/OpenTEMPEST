@@ -1,4 +1,4 @@
-within OpenTEMPEST.SOC.Cell.Cell1D;
+within OpenTEMPEST.SOC.Cell.Cell1D.Components;
 partial model Channel1DBase
 
   import SI = Modelica.SIunits;
@@ -8,8 +8,8 @@ partial model Channel1DBase
   constant Integer nSpecies = Medium.nXi;
 
   replaceable function fluxInterp =
-      Flow.FluxInterpolators.UDSinterp              constrainedby
-    Flow.FluxInterpolators.DifferencingSchemeInterpBase                                  annotation(choicesAllMatching = true);
+      Flow.FluxInterpolators.UDSinterp              constrainedby Flow.FluxInterpolators.DifferencingSchemeInterpBase
+                                                                                         annotation(choicesAllMatching = true);
 
   // Initial Values
   parameter SI.Temperature TStartIn = 773.15 annotation (Dialog(tab="Initialisation"));
@@ -47,6 +47,7 @@ partial model Channel1DBase
   SI.MassFlowRate mf[N] "Mass flow rate in and leaving CV";
   SI.EnergyFlowRate QgasExt[N] "Gas phase heat flows in CV";
   Real Ycell[N, nSpecies];
+  Real Y0[nSpecies];
 
   // Vertex Values
   SI.MassFlowRate mfv[N+1] "Mass flow rate CV Vertices/Nodes";
@@ -56,6 +57,8 @@ partial model Channel1DBase
   // Kinetics
   SI.MassFlowRate R[N, nSpecies]
     "net Rate of production and consumption of products and reactants in the reactor - from thermochemical AND electrochemical reactions";
+
+  SI.AbsolutePressure dp[N];
 
   SI.Energy Emg[N] "Energy density in control volume";
   SI.MassFlowRate massTransfer[N] "ion transfer rate";
@@ -101,6 +104,7 @@ equation
    for i in 1:nSpecies loop
       dV.*por*der(Gas[:].d.*Gas[:].Xi[i]) = mfv[1:N].*xiv[1:N, i] .- mfv[2:N+1].*xiv[2:N+1, i].+ R[:, i];
    end for;
+   Y0[:] = xiv[1,:]./Medium.MMX[:]/sum(xiv[1,:]./Medium.MMX[:]);
 
   for i in 1:N loop
     Ycell[i,:] = Gas[i].Xi[:]./Medium.MMX[:]/sum(Gas[i].Xi[:]./Medium.MMX[:]);
@@ -138,6 +142,11 @@ equation
     PEN_in[i].P = Gas[i].p;
     PEN_in[i].Y[:] = Ycell[i, :];
   end for;
+
+  // Pressure balance - need to define dp at level above
+  Gas[1].p = infl.p - dp[1];
+  Gas[2:N].p = Gas[1:N-1].p - dp[2:N];
+  outfl.p = Gas[N].p; // Pressure is upwinded for the last control volume
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
           Rectangle(

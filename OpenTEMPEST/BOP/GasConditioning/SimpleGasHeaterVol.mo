@@ -1,5 +1,5 @@
-within OpenTEMPEST.BOP;
-model simpleGasHeaterVol
+within OpenTEMPEST.BOP.GasConditioning;
+model SimpleGasHeaterVol
   extends Flow.BaseClasses.simpleGasHeaterBase;
 
   import SI = Modelica.SIunits;
@@ -75,4 +75,4 @@ equation
           fillColor={175,175,175},
           fillPattern=FillPattern.Solid),
         Text(extent={{-100,-30},{100,-54}},  textString="%name")}));
-end simpleGasHeaterVol;
+end SimpleGasHeaterVol;

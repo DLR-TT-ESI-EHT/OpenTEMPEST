@@ -4,5 +4,5 @@
 *.obj
 *.exe
 *.bak-mo
-.opentempest_scripts/
+.mirror.*.env
 

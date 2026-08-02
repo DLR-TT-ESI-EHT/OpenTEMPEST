@@ -1,4 +1,4 @@
-﻿within OpenTEMPEST.SOC.Cell.CrossFlow;
+﻿within OpenTEMPEST.SOC.Cell.CrossFlow.Components;
 partial model Channel2DBaseSimp
   "Base model for SOC cell channels 1D discretised with 2D interfaces - need to give pressure drop at top level"
 
@@ -13,8 +13,8 @@ partial model Channel2DBaseSimp
   // Selections
   parameter Boolean heatTransferCorrelationFormDuct = true "True for Nusselt correlation duct geometry with characteristic length=2*lZ (default), false for plate geometry with characteristic length=lX";
   replaceable function fluxInterp =
-      Flow.FluxInterpolators.UDSinterp              constrainedby
-    Flow.FluxInterpolators.DifferencingSchemeInterpBase                                  annotation(choicesAllMatching = true);
+      Flow.FluxInterpolators.UDSinterp              constrainedby Flow.FluxInterpolators.DifferencingSchemeInterpBase
+                                                                                         annotation(choicesAllMatching = true);
 
   // Initial Values
   parameter SI.Temperature TStart=773.15 annotation (Dialog(tab="Initialisation"));
@@ -112,7 +112,6 @@ equation
 
   // Energy Balance
   der(Emg[:]) = mfv[1:nX].*hv[1:nX] .- mfv[2:nX+1].*hv[2:nX+1] .+ QgasExt[:];
-
 
   for i in 1:nX loop
     for j in 1:nY loop

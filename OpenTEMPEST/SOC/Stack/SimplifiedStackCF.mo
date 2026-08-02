@@ -283,17 +283,15 @@ public
           extent={{114,-38},{128,-24}}), iconTransformation(extent={{114,-38},{
             128,-24}})));
 
-  DummyManifold Fuel_Manifold(
+  Components.DummyManifold Fuel_Manifold(
     redeclare package Medium = Medium.Fuel_CH4,
     final nPorts_b=Ncell,
-    nDummyPorts_b=Ncell - NdetailedCell)
-    annotation (Placement(transformation(extent={{-66,4},{-56,30}})));
+    nDummyPorts_b=Ncell - NdetailedCell) annotation (Placement(transformation(extent={{-66,4},{-56,30}})));
 
-  DummyManifold Air_Manifold(
+  Components.DummyManifold Air_Manifold(
     redeclare package Medium = Medium.Air_Medium,
     final nPorts_b=Ncell,
-    nDummyPorts_b=Ncell - NdetailedCell)
-    annotation (Placement(transformation(extent={{-68,-96},{-56,-66}})));
+    nDummyPorts_b=Ncell - NdetailedCell) annotation (Placement(transformation(extent={{-68,-96},{-56,-66}})));
 
   ThermoPower.Gas.FlangeA fuelIn(redeclare package Medium = Medium.Fuel_CH4)
     annotation (Placement(transformation(extent={{-130,38},{-110,58}})));
@@ -379,15 +377,14 @@ public
   Heat.DHTVolumes2D dHT2_y0(i=Ncell, j=nX) annotation (Placement(transformation(
           extent={{52,-146},{66,-132}}), iconTransformation(extent={{52,-146},{
             66,-132}})));
-  FlowInterpolator1D flowInterpolator1D(
+  Components.FlowInterpolator1D flowInterpolator1D(
     nCell=Ncell,
     N=nY,
     nSimplified=Ncell - NdetailedCell,
     nNonUnitOrSimpCells=0,
     isRedu=isSimpl,
     TStart=TStart,
-    pStart=pStart)
-    annotation (Placement(transformation(extent={{74,-6},{98,18}})));
+    pStart=pStart) annotation (Placement(transformation(extent={{74,-6},{98,18}})));
   OpenTEMPEST.Heat.PrescribedTemperature1D TdetailedToFVI1D[NdetailedCell](
       each N=nY) annotation (Placement(transformation(
         extent={{-8,-8},{8,8}},

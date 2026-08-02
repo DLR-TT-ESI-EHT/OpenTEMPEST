@@ -15,7 +15,6 @@ model MeOHEnergyBalance
   parameter Real fac = 1 "factor for accoutning for additional heat sinks";
   parameter SI.SpecificEnthalpy dhvMeOH=1165000 " [J/kg] latent heat of evaporization Methanol at respective T,p";
             //https://www.engineeringtoolbox.com/methanol-methyl-alcohol-properties-CH3OH-d_2031.html
-//   parameter SI.SpecificEnthalpy dhvWater=2256000 " [J/kg] latent heat of evaporization H2O at respective T,p";
             //https://www.engineeringtoolbox.com/methanol-methyl-alcohol-properties-CH3OH-d_2031.html
   SI.MolarFlowRate nfMeOH " molar flow rate of methanol";
   SI.SpecificEnthalpy hPurge " specific enthalpy of Purge stream";
@@ -30,8 +29,6 @@ model MeOHEnergyBalance
   Real XIn[Medium.nXi] "mass fractions inflow"; // (start={0.117773596,0.05271881,0.261454681,0.55718662,0.003588371,0.007277923,1e-6}) ;
   Real YPurge[Medium.nXi]; //(start = {0.30143255,7.99E-05,0.003377404,0.09457149,0.60049284,4.58E-05,0}) "molar fractions in Purge";
   Real YDry[Medium.nXi]; //(start = {0.69590056,0,0.07502401,0.22907542,0,0,0})  "molar fractions of dry inflow (water removed)";
-  //   SI.MolarFlowRate nfProduct[Medium.nXi];
-  //   Real YProduct[Medium.nXi] "molar fractions in Product stream";
   SI.MolarMass MMDry "mean molar mass of inflow";
   SI.MolarMass MMPurge "mean molar mass of Purge gas";
   SI.MolarMass MMProduct " mean molar mass of Product fluid";
@@ -67,7 +64,6 @@ model MeOHEnergyBalance
                                                     annotation (Placement(transformation(extent={{24,40},{38,54}})));
   Modelica.Blocks.Sources.RealExpression realTPurge(y=TPurge)
                                                     annotation (Placement(transformation(extent={{30,50},{44,66}})));
-//   RealVector realXPurge(n=7, y=XPurge) annotation (Placement(transformation(extent={{36,62},{50,78}})));
 
   inner ThermoPower.System system annotation (Placement(transformation(extent={{-134,56},{-114,76}})));
   ThermoPower.Gas.SinkPressure sinkPressure(redeclare package Medium =
@@ -117,10 +113,9 @@ protected
 equation
   XPurge =Modelica.Media.Interfaces.PartialMixtureMedium.moleToMassFractions(
     YPurge, OpenTEMPEST.Medium.Fuel_MethanolReactor.MMX);
-  //   XProduct = Modelica.Media.Interfaces.PartialMixtureMedium.moleToMassFractions(YProduct, TEMPEST.Medium.Fuel_MethanolReactor.MMX);
   MMPurge = sum(YPurge[:]* Medium.MMX[:]);
   MMDry    = sum(YDry[:]   * Medium.MMX[:]);
-  MMProduct = Medium.MMX[7]; //sum(YProduct[:] * Medium.MMX[:]);
+  MMProduct = Medium.MMX[7];
   mfPurge   = nfPurgeTot*MMPurge;
   mfProduct = nfMeOH*MMProduct;
   nfPurgeTot = sum(nfPurge[:]);
@@ -148,7 +143,7 @@ equation
   nfPurge[7] = 0;
   Kwgs = pReactor*YPurge[4]*pReactor*YPurge[5] / (pReactor*YPurge[1]*pReactor*YPurge[3]);
 
-  dGwgs= 32.1153*(TReactor) - 3.5211E4; // Marius' shortcut from NASA
+  dGwgs= 32.1153*(TReactor) - 3.5211E4;
   Kwgs = exp(-dGwgs/Modelica.Constants.R/TReactor);
 
 // Energy balance:
@@ -166,7 +161,6 @@ equation
 
   connect(realWPurge.y, sourceMFPurge.in_w0) annotation (Line(points={{38.7,47},{44,47},{44,45}}, color={0,0,127}));
   connect(realTPurge.y, sourceMFPurge.in_T) annotation (Line(points={{44.7,58},{50,58},{50,45}}, color={0,0,127}));
-//   connect(realXPurge.y, sourceMFPurge.in_X) annotation (Line(points={{50.7,70},{56,70},{56,45}}, color={0,0,127}));
   connect(realWProduct.y, outMfProduct) annotation (Line(points={{66.6,0},{100,0}}, color={0,0,127}));
   connect(sourceMFPurge.flange, outflPurge) annotation (Line(points={{60,40},
           {88,40},{88,14},{114,14}},                                                    color={159,159,223}));

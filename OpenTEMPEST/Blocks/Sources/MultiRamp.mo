@@ -66,8 +66,5 @@ The Real output y is a ramp signal:
 If parameter duration is set to 0.0, the limiting case of a Step signal is achieved.
 </p>
 </html>", revisions="<html>
-<ul>
-<li>&quot;before versioning&quot; by Marius Tomberg: <br>Created</li>
-</ul>
 </html>"));
 end MultiRamp;

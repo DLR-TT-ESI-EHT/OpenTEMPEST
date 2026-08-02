@@ -4,6 +4,7 @@ ElectricalHeater0D
 ElectricHeater0D
 ElectricHeater1D
 SimpleGasHeater
+SimpleGasHeaterVol
 BlackBoxHexGeneric
 Separator
 HexEtaTypes

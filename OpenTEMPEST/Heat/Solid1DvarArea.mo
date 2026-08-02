@@ -5,7 +5,7 @@ model Solid1DvarArea
   import SI = Modelica.SIunits;
   replaceable package SolidMat = OpenTEMPEST.Solid.SolidMatBase annotation(choicesAllMatching = true);
 
-  SolidMat.BaseProperties Solid[N](T=T, each kCustom_trans=kCustom_trans, each kCustom_long=kCustom_long, each rhoCustom=rhoCustom, each cpCustom=cpCustom);
+  SolidMat.BaseProperties solid[N](T=T, each kCustom_trans=kCustom_trans, each kCustom_long=kCustom_long, each rhoCustom=rhoCustom, each cpCustom=cpCustom);
 
   parameter Integer N(min=3) = 5 "Number of CVs in the solid";
 
@@ -31,10 +31,10 @@ model Solid1DvarArea
   // SI.ThermalConductivity kv_long[N-1] "harmonic mean of conductivites between CVs";
 
   // Solid Properties
-  SI.ThermalConductivity k_trans[N] = Solid[:].k_trans;
-  SI.ThermalConductivity k_long[N] = Solid[:].k_long;
-  SI.Density rho[N] = Solid[:].rho;
-  SI.SpecificHeatCapacity cp[N] = Solid[:].cp;
+  SI.ThermalConductivity k_trans[N] = solid[:].k_trans;
+  SI.ThermalConductivity k_long[N] = solid[:].k_long;
+  SI.Density rho[N] = solid[:].rho;
+  SI.SpecificHeatCapacity cp[N] = solid[:].cp;
 
   parameter SI.ThermalConductivity kCustom_trans = 1 annotation(Dialog(group="Custom Material Only"));
   parameter SI.ThermalConductivity kCustom_long = kCustom_trans annotation(Dialog(group="Custom Material Only"));

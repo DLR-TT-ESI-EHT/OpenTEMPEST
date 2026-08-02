@@ -15,8 +15,7 @@ model Manifold_out
   parameter Integer nPorts_a = 0
     "Number of outlet ports (mass is distributed evenly between the outlet ports"                       annotation (
     Dialog(connectorSizing = true));
-  Modelica.Fluid.Interfaces.FluidPorts_a ports_a[nPorts_a](redeclare package
-      Medium =                                                                        Medium) annotation (
+  Modelica.Fluid.Interfaces.FluidPorts_a ports_a[nPorts_a](redeclare package Medium = Medium) annotation (
     Placement(transformation(extent = {{-36, -40}, {-16, 40}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium = Medium) annotation (
     Placement(transformation(extent = {{40, -10}, {60, 10}}), iconTransformation(extent = {{40, -10}, {60, 10}})));

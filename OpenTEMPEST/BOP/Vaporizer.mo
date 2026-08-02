@@ -7,8 +7,7 @@ model Vaporizer
   replaceable package MediumInput = Modelica.Media.Water.StandardWater constrainedby
     Modelica.Media.Interfaces.PartialTwoPhaseMedium
     annotation(choicesAllMatching = true);
-  replaceable package MediumOutput = Medium.Fuel_CH4          constrainedby
-    Modelica.Media.Interfaces.PartialMedium
+  replaceable package MediumOutput = Medium.Fuel_CH4          constrainedby Modelica.Media.Interfaces.PartialMedium
    annotation(choicesAllMatching = true);
 
    parameter SI.MassFlowRate mfNom = 8/1000 "Massflowrate";

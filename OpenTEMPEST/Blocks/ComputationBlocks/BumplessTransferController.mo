@@ -1,4 +1,4 @@
-﻿within OpenTEMPEST.Blocks.ComputationBlocks;
+within OpenTEMPEST.Blocks.ComputationBlocks;
 model BumplessTransferController
   "Changes the setpoint of an external controller to reduce controller error peaks and toggles a switch between automatic and manual tracking for the reference variable"
 
@@ -91,10 +91,5 @@ The model is created to achieve a smooth transition between two signals: it is o
 It requires two real inputs (setPoint1 and setPoint2), and a boolean input (in_setPoint2Active) that when TRUE will use setPoint2, and when false setPoint1. 
 The transition is regulated by a ramp that smoothen the differences between the signal, and the tuning parameter is the duration of said ramp (rampCompensatorDuration)
 </html>", revisions="<html>
-<ul>
-<li><i>19-11-2021</i> by <a href=\"mailto:daniele.fortunati@dlr.de\">Daniele Fortunati</a>: <br> First release</li>
-<li><i>19-01-2022</i> by <a href=\"mailto:marius.tomberg@dlr.de\">Marius Tomberg</a>: <br>Icon updated</li>
-<li><i>19-11-2024</i> by <a href=\"mailto:rene.lorenz@dlr.de\">René Lorenz</a>: <br>Bugfix: transition was immediate not smooth (lin. ramp). And in_setPoint2Active is always required now</li>
-</ul>
 </html>"));
 end BumplessTransferController;

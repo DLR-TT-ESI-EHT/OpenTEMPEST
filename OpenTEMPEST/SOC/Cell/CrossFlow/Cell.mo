@@ -61,7 +61,7 @@ model Cell
   parameter SI.Density rhoIC = 7233   "Interconnect density" annotation(Dialog(tab="Interconnects"));
   parameter SI.SpectralEmissivity epsilonIC = 0.1 "Emissivity of interconnects" annotation(Dialog(tab="Interconnects"));
 
-  PEN2D pen(
+  Components.PEN2D pen(
     nX=nX,
     nY=nY,
     Tstartbar=TStart,
@@ -73,9 +73,8 @@ model Cell
     rhoCustom=rhoPEN,
     cpCustom=cpPEN,
     Jstart=Jstart,
-    redeclare model Electrochem = Electrochem)
-    annotation (Placement(transformation(extent={{-34,-20},{34,44}})));
-  OpenTEMPEST.SOC.Cell.CrossFlow.AirChannel2D airChannel(
+    redeclare model Electrochem = Electrochem) annotation (Placement(transformation(extent={{-34,-20},{34,44}})));
+  OpenTEMPEST.SOC.Cell.CrossFlow.Components.AirChannel2D airChannel(
     nX=nY,
     nY=nX,
     TStart=TStart,
@@ -90,15 +89,13 @@ model Cell
     rhoRibs=rhoIC,
     pDrop=pDrop,
     Nu_PEN=NuACPEN,
-    Nu_IC=NuACIC)
-    annotation (Placement(transformation(extent={{-38,-24},{44,-92}})));
-  CrossFlowTopology crossFlowTopology(
+    Nu_IC=NuACIC) annotation (Placement(transformation(extent={{-38,-24},{44,-92}})));
+  Components.CrossFlowTopology crossFlowTopology(
     nX=nX,
     nY=nY,
     nSpecies=Medium.Air_Medium.nX,
-    includeVarStream=true)
-    annotation (Placement(transformation(extent={{-14,-42},{16,-22}})));
-  OpenTEMPEST.SOC.Cell.CrossFlow.FuelChannel2D fuelChannel(
+    includeVarStream=true) annotation (Placement(transformation(extent={{-14,-42},{16,-22}})));
+  OpenTEMPEST.SOC.Cell.CrossFlow.Components.FuelChannel2D fuelChannel(
     nX=nX,
     nY=nY,
     TStart=TStart,
@@ -176,12 +173,11 @@ model Cell
   ThermoPower.Thermal.DHTVolumes dHT_xN(N=nY)
     annotation (Placement(transformation(extent={{86,-20},{100,20}}),
         iconTransformation(extent={{86,-20},{100,20}})));
-  CrossFlowTopology crossFlowTopology1(
+  Components.CrossFlowTopology crossFlowTopology1(
     nX=nY,
     nY=nX,
     nSpecies=Medium.Air_Medium.nX,
-    includeVarStream=false)
-    annotation (Placement(transformation(extent={{-12,-100},{18,-80}})));
+    includeVarStream=false) annotation (Placement(transformation(extent={{-12,-100},{18,-80}})));
 
   OpenTEMPEST.Heat.RadHT2DFV radHT2DFV(
     nX=nX,

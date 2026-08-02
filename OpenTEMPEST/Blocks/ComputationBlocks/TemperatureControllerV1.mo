@@ -105,8 +105,5 @@ equation
         fillPattern=FillPattern.Solid)}), Diagram(coordinateSystem(
           preserveAspectRatio=false)),
     Documentation(revisions="<html>
-<ul>
-<li>10.08.2022 by Marius Tomberg<br>Isothermal option added</li>
-</ul>
 </html>"));
 end TemperatureControllerV1;
