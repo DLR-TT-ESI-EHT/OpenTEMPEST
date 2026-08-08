@@ -34,22 +34,22 @@ model FuelChannel2D
 protected
   constant Real a[4, nSpecies]={{3,-1,0,1,-1,0}, {1,0,1,-1,-1,0}, {-1,0,0,0,1,0}, {0,0,1,-1,0,0}} "Stoichiometric coefficients for 1) MSR, 2) WGS, 3) H2 Fuel Cell, 4) CO Fuel Cell reactions";
   SI.MolarEnthalpy H_h2o[nX,nY]=Medium.MMX[5]*Modelica.Media.IdealGases.Common.Functions.h_T(
-      T=Gas[:, :].T,
+      T=Q_PEN.T,
       exclEnthForm=false,
       refChoice=Modelica.Media.Interfaces.Choices.ReferenceEnthalpy.ZeroAt25C,
       data=Modelica.Media.IdealGases.Common.SingleGasesData.H2O);
   SI.MolarEnthalpy H_h2[nX,nY]=Medium.MMX[1]*Modelica.Media.IdealGases.Common.Functions.h_T(
-      T=Gas[:, :].T,
+      T=Q_PEN.T,
       exclEnthForm=false,
       refChoice=Modelica.Media.Interfaces.Choices.ReferenceEnthalpy.ZeroAt25C,
       data=Modelica.Media.IdealGases.Common.SingleGasesData.H2);
   SI.MolarEnthalpy H_co2[nX,nY]=Medium.MMX[3]*Modelica.Media.IdealGases.Common.Functions.h_T(
-      T=Gas[:, :].T,
+      T=Q_PEN.T,
       exclEnthForm=false,
       refChoice=Modelica.Media.Interfaces.Choices.ReferenceEnthalpy.ZeroAt25C,
       data=Modelica.Media.IdealGases.Common.SingleGasesData.CO2);
   SI.MolarEnthalpy H_co[nX,nY]=Medium.MMX[4]*Modelica.Media.IdealGases.Common.Functions.h_T(
-      T=Gas[:, :].T,
+      T=Q_PEN.T,
       exclEnthForm=false,
       refChoice=Modelica.Media.Interfaces.Choices.ReferenceEnthalpy.ZeroAt25C,
       data=Modelica.Media.IdealGases.Common.SingleGasesData.CO);
@@ -75,12 +75,12 @@ equation
   rCEL = PEN_in.I_C./(2*Modelica.Constants.F);
 
   DeltaG_msr = -252.642810968035*Gas.T .+ 225215.698063031;
-  Kmsr = 1.01325^2*1e10*Modelica.Math.exp(-DeltaG_msr./(Modelica.Constants.R*Gas.T));
-  kfMSR = A_MSRf*Modelica.Math.exp(-Ea_MSRf./(Modelica.Constants.R*Gas.T));
+  Kmsr = 1.01325^2*1e10*Modelica.Math.exp(-DeltaG_msr./(Modelica.Constants.R.*Gas.T));
+  kfMSR = A_MSRf*Modelica.Math.exp(-Ea_MSRf./(Modelica.Constants.R.*Gas.T));
 
   DeltaG_wgs = 32.1153*Gas.T .- 3.5211E4;
-  Kwgs = Modelica.Math.exp(-DeltaG_wgs./(Modelica.Constants.R*Gas.T));
-  kfWGS = A_WGSf*Modelica.Math.exp(-Ea_WGSf./(Modelica.Constants.R*Gas.T));
+  Kwgs = Modelica.Math.exp(-DeltaG_wgs./(Modelica.Constants.R.*Gas.T));
+  kfWGS = A_WGSf*Modelica.Math.exp(-Ea_WGSf./(Modelica.Constants.R.*Gas.T));
 
   for i in 1:nX loop
     for j in 1:nY loop

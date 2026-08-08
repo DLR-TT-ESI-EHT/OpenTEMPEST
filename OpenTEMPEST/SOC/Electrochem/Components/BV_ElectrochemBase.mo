@@ -88,14 +88,24 @@ partial model BV_ElectrochemBase
 
 equation
 
+  r = J/2/Modelica.Constants.F;
   // Voltage balance
   Uop = Uideal - Uohm - UactFE - UactAE - UDiffAE - UDiffFE;
 
   // Nernst
   Uideal = -delGr/(2*Modelica.Constants.F);
 
-  //Calculating Ohmic Voltage Drop
-  ROhm = ROhmFac*(asrobj.ASR -((tauFE_Measure/sigma_a) + (tauAE_Measure/sigma_c) + (tauEl_Measure/sigma_e)) + ((tauFE/sigma_a) + (tauAE/sigma_c) + (tauEl/sigma_e)))*(1+ASROhmDegrationRate*time/1000/3600); // /100^2
+  // Ohmic Voltage Drop
+  ROhm = ROhmFac*(
+              asrobj.ASR -(
+                          (tauFE_Measure/sigma_a) +
+                          (tauAE_Measure/sigma_c) +
+                          (tauEl_Measure/sigma_e))
+                            +
+                          ( (tauFE/sigma_a) +
+                            (tauAE/sigma_c) +
+                            (tauEl/sigma_e)))
+                           *(1+ASROhmDegrationRate*time/1000/3600);
 
   sigma_e = 5.15e7 / Tpen * Modelica.Math.exp(-10300 / Tpen);
   sigma_c = 42e6 / Tpen * Modelica.Math.exp(-1200 / Tpen);
@@ -103,15 +113,12 @@ equation
 
   Uohm = J*ROhm;
 
-  r = J/2/Modelica.Constants.F;
-
   // Air Activation kinetics
   J = Jo_AE*(Modelica.Math.exp(alphaAE * 2 * Modelica.Constants.F / Modelica.Constants.R / Tpen*UactAE) - Modelica.Math.exp(-(1 - alphaAE) * 2 * Modelica.Constants.F / Modelica.Constants.R /Tpen*UactAE));
-  // Exchange current density
-  Jo_AE = gammaAE * Tpen * ((P_A/p0*abs(yA_tpb[1]))^d)* Modelica.Math.exp(-E_ae / (Modelica.Constants.R * Tpen));
+  Jo_AE = gammaAE * Tpen * ((P_A/p0*abs(yA_tpb[1]))^d)* Modelica.Math.exp(-E_ae / (Modelica.Constants.R * Tpen));// Exchange current density
 
-
-  // Diffusivities - for calculating Ohmic overvoltages
+  // Diffusion overvoltage
+  // Diffusivities - for calculating diffusion overvoltages
   if diffusionActive then
    Deff_h2_k  =(dpFE/3)*smooth(1, ThermoPower.Functions.sqrtReg((8*Modelica.Constants.R
       *Tpen)/(Modelica.Constants.pi*Medium.Fuel_CH4.MMX[1])))*(epsiFE/PhsiFE);

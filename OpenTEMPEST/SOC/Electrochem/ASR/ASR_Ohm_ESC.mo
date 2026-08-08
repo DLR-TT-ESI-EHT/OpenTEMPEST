@@ -3,11 +3,11 @@ model ASR_Ohm_ESC "Ohmic ASR for ESC - No dimensions"
 
   extends OpenTEMPEST.SOC.Electrochem.ASR.ASR_OhmBase;
 
-  parameter Real Yo = 27.266e-2 "[Ohm*cm^2]";
+  parameter Real Yo = 27.266e-2 "[Ohm*m^2]";
 
 equation
 
-    ASR = (Yo +A*exp(B*Tpen))/100^2;
+    ASR*1e4 = Yo +A*exp(B*Tpen);
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
