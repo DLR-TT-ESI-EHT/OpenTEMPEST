@@ -72,7 +72,7 @@ equation
   PEN_in.I_C = electrochem.J_C*dx*lY;
   PEN_ina.I_H = zeros(N);
   PEN_ina.I_C = zeros(N);
-  PEN_in.I = 2*Modelica.Constants.F*rEl;  // in metal supported cell J is external circuit only and not whole reaction rate
+  PEN_in.I = 2*Modelica.Constants.F*rEl;  // internal current - reaction rate
   PEN_ina.I = 2*Modelica.Constants.F*rEl;
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(

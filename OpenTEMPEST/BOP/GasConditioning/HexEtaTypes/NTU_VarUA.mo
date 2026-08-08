@@ -25,7 +25,7 @@ model NTU_VarUA
 
   Real UA;
   Real NTU = UA/(C_min + 1e-12);
-  replaceable function NTUmethod = NTUfuns.CounterFlow   constrainedby NTUfuns.NTUbase   annotation(choicesAllMatching=True);
+  replaceable function NTUmethod = NTUfuns.CounterFlow   constrainedby  NTUfuns.NTUbase  annotation(choicesAllMatching=True);
 
 equation
 

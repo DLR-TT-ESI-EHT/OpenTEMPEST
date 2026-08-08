@@ -1,9 +1,9 @@
 within OpenTEMPEST.SOC.Electrochem.ASR;
-model ASR_Linear "Linear ASR relationship: ASR = A*Tpen - B"
+model ASR_Linear "Linear ASR relationship: ASR /(ohm cm^2) = A*Tpen - B"
   extends ASR_Base;
 
 equation
 
-    ASR = A*Tpen - B;
+    ASR*1e4 = A*Tpen - B;
 
 end ASR_Linear;

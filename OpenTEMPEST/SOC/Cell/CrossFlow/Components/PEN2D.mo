@@ -19,8 +19,8 @@ model PEN2D
    SI.CurrentDensity J[nX,nY](each start=Jstart) "Current Density of Control Volume";
    SI.Current Icell "Total current into Cell";
    SI.Current Iv[nX, nY];
-   SI.EnergyFlowRate q_electrochem[nX, nY] = electrochem.q_electroChem*dx*lY;
-   SI.MolarFlowRate rEl[nX, nY] = electrochem.r*dx*lY;
+   SI.EnergyFlowRate q_electrochem[nX, nY] = electrochem.q_electroChem*dx*dy;
+   SI.MolarFlowRate rEl[nX, nY] = electrochem.r*dx*dy;
 
   OpenTEMPEST.SOC.Electrochem.Interfaces.VariablesStream PEN_ina[nX,nY](each
       nspecies=Medium.Air_Medium.nXi) annotation (Placement(transformation(
@@ -51,7 +51,7 @@ equation
    electrochem.Uop   = Uop;
 
   // Thermal
-  Qext[:,:] = Qrad_FI.Q .+ Qrad_AI.Q .+ q_electrochem .- dx*dy*(Uop.*J);
+  Qext[:,:] = Qrad_FI.Q .+ Qrad_AI.Q .+ q_electrochem .- dx*dy.*(Uop.*J);
   Qrad_FI.T[:,:] = T; // Radiative Flow
   Qrad_AI.T[:,:] = T; // Radiative Flow
 

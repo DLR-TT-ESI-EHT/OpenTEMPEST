@@ -19,12 +19,12 @@ model AirChannel2D
   SI.MolarFlowRate rEl[nX, nY];
 
   SI.EnergyFlowRate Qcond[nX, nY];
-  SI.EnergyFlowRate q_electrochem[nX, nY] = rEl .* (0.5*H_o2);
+  SI.EnergyFlowRate q_electrochem[nX, nY] = rEl .* (0.5.*H_o2);
 
 protected
   constant Real a[2] = {-0.5, 0};
   SI.MolarEnthalpy H_o2[nX,nY]=Medium.MMX[1]*Modelica.Media.IdealGases.Common.Functions.h_T(
-      T=Gas[:, :].T,
+      T=Q_PEN.T,
       exclEnthForm=false,
       refChoice=Modelica.Media.Interfaces.Choices.ReferenceEnthalpy.ZeroAt25C,
       data=Modelica.Media.IdealGases.Common.SingleGasesData.O2);
@@ -43,9 +43,9 @@ equation
 
   // Reaction kinetics
   massTransfer = -PEN_in.I ./ (4*Modelica.Constants.F).*Modelica.Media.IdealGases.SingleGases.O2.data.MM;
-  rEl = PEN_in.I/(2*Modelica.Constants.F);
+  rEl = PEN_in.I./(2*Modelica.Constants.F);
   for j in 1:nSpecies loop
-    R[:, :, j] = a[j]*rEl[:,:]*Medium.MMX[j];
+    R[:, :, j] = a[j].*rEl[:,:].*Medium.MMX[j];
   end for;
 
   // Pressure Drop

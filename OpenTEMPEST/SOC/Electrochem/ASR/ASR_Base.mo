@@ -12,9 +12,9 @@ partial model ASR_Base "Base Model for ASR objects"
   
   */
 
-  input Real Tpen(unit = "degC", quantity = "Temperature");
+  input SI.Temperature Tpen;
 
-  Real ASR;
+  OpenTEMPEST.Units.AreaSpecificResistance ASR;
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
         Rectangle(

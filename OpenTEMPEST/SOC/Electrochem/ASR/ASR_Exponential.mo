@@ -5,6 +5,6 @@ model ASR_Exponential
 
 equation
 
-    ASR = A*Modelica.Math.exp(B*(Tpen-273.15));
+    ASR*1e4 = A*Modelica.Math.exp(B*(Tpen-273.15));
 
 end ASR_Exponential;
