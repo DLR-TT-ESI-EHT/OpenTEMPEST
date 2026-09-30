@@ -17,7 +17,9 @@ model Stack0D
   parameter Boolean useDhtInletOutlet = true "Define if dht at inlet and outlet are needed. For FMU, scaling nCells in DHT generates error 'the start values for the following variables could not be set: Ncell' when changing Ncell param";
 
   // Electrochemistry model
-  replaceable model Electrochem = OpenTEMPEST.SOC.Electrochem.Components.ASR_Steam (redeclare model ASRobj =
+  replaceable model Electrochem =
+      OpenTEMPEST.SOC.Electrochem.Components.ASR_Steam (                            redeclare
+        model                                                                                       ASRobj =
           OpenTEMPEST.SOC.Electrochem.ASR.ASR_Exponential (A=alphaASR, B=betaASR))
                                                                            constrainedby
     OpenTEMPEST.SOC.Electrochem.Components.ASR_Steam                               annotation(Placement(transformation(extent={{78,50},{98,70}})), choicesAllMatching=true, dialog(group="Electrochemistry"));
@@ -193,9 +195,9 @@ model Stack0D
         sensFuelIn.mf/nCells/nParallel,
         (sensFuelIn.eta + sensFuelOut.eta)/2,
         (sensFuelIn.rho + sensFuelOut.rho)/2,
-        0.112*2,
-        0.0012*0.07143,
-        (0.112*2/(0.0012*0.07143))*(3.76e-5/(1178917.95007*1e-3*1e5*0.185))))
+        0.1,
+        0.001*0.05,
+        (0.1/(0.001*0.05))*(4e-5/(11490576*0.2))))
     if calcPressureDrop
     annotation (Placement(transformation(extent={{-26,20},{-6,40}})));
   Modelica.Blocks.Sources.RealExpression pair_in(y=sensAirOut.p +
@@ -203,9 +205,9 @@ model Stack0D
         sensAirIn.mf/nCells/nParallel,
         (sensAirIn.eta + sensAirOut.eta)/2,
         (sensAirIn.rho + sensAirOut.rho)/2,
-        0.112*2,
-        0.0017*0.07143,
-        (0.112*2/(0.0017*0.07143))*(4.2e-5/(63876e-3*1e5*0.367))))
+        0.1,
+        0.001*0.05,
+        (0.1/(0.001*0.05))*(4e-5/(295594.91*0.4))))
     if calcPressureDrop
     annotation (Placement(transformation(extent={{-16,-60},{4,-40}})));
   Modelica.Blocks.Continuous.FirstOrder firstOrder(T=10,   y_start=1e-3) annotation (Placement(transformation(extent={{10,-16},{16,-10}})));
@@ -312,8 +314,10 @@ equation
                                           color = {0, 0, 127}));
   connect(add1.y, firstOrder.u) annotation (Line(points={{4.3,-13},{9.4,-13}}, color={0,0,127}));
   connect(firstOrder.y, sourceMassFlowAir.in_w0) annotation (Line(points={{16.3,-13},{24,-13},{24,-25}}, color={0,0,127}));
-  connect(sensFuelIn.mf, firstOrder1.u) annotation (Line(points={{-39,65},{-39,83},{-28.6,83}}, color={0,0,127}));
-  connect(firstOrder1.y, add.u1) annotation (Line(points={{-21.7,83},{-6,83},{-6,83.6},{-1.2,83.6}}, color={0,0,127}));
+  connect(sensFuelIn.mf, firstOrder1.u) annotation (Line(points={{-39,65},{-39,
+          85},{-28.6,85}},                                                                      color={0,0,127}));
+  connect(firstOrder1.y, add.u1) annotation (Line(points={{-21.7,85},{-6,85},{
+          -6,83.6},{-1.2,83.6}},                                                                     color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={Rectangle(pattern = LinePattern.None,
             fillPattern =                                                                                                     FillPattern.Solid, extent = {{-60, 60}, {60, -60}}), Text(lineColor = {255, 255, 255}, pattern = LinePattern.None,
             fillPattern =                                                                                                                                                                                                        FillPattern.Solid, extent = {{40, 40}, {-40, -40}}, textString = "0D-Stack")}),                              Diagram(
