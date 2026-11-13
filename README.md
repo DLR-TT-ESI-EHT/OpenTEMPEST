@@ -5,10 +5,6 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21771899.svg)](https://doi.org/10.5281/zenodo.21771899)
 
 
-
-Thank you for visiting. We're still working on the documentation!
-For now feel free to try out the models in your Modelica environment (We have tested it with dymola so far)
-
 **openTEMPEST** (**T**ransient **E**lectrochemical **M**odel for **P**rocess and **E**nergy **S**ys**T**ems) is an open-source Modelica/Dymola simulation framework for modeling and analyzing electrochemical systems at multiple scales from single cells to full integrated systems. The framework enables the detailed investigation of steady-state and transient performance and allows a reliable extrapolation of cell to stack and multi-stack behavior. As of now, openTEMPEST covers high temperature solid oxide cell fuel cell and electrolysis (SOFC/SOEC) as well as alkaline electrolysis (AEL) systems. 
 
 ## Requirements
