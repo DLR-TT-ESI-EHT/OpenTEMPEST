@@ -1,5 +1,5 @@
 within OpenTEMPEST.Blocks.Sources;
-model MultiRamp "Generate signal with n ramps"
+model MultiRamp "Sum of n ramps, for example a stepwise load profile"
   parameter Integer n=3 "number of ramps";
   parameter Real height[n]=ones(n) "Height of ramps";
   parameter Modelica.SIunits.Time duration[n](min=zeros(n), start=2*ones(n))=zeros(n)
@@ -53,18 +53,10 @@ equation
         preserveAspectRatio=true,
         extent={{-100,-100},{100,100}})),
     Documentation(info="<html>
-<p>
-The Real output y is a ramp signal:
-</p>
-
-<p>
-<img src=\"modelica://Modelica/Resources/Images/Blocks/Sources/Ramp.png\"
-     alt=\"Ramp.png\">
-</p>
-
-<p>
-If parameter duration is set to 0.0, the limiting case of a Step signal is achieved.
-</p>
+<p>The output <code>y</code> is the sum of <code>n</code> ramps added to <code>offset</code>. Ramp <code>i</code> starts at
+<code>startTime[i]</code>, lasts <code>duration[i]</code> and changes the output by <code>height[i]</code>.
+A duration of 0 gives a step.</p>
+<p>Useful for load profiles, for example a current that is increased in several steps.</p>
 </html>", revisions="<html>
 </html>"));
 end MultiRamp;

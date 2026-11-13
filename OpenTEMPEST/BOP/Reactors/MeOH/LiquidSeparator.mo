@@ -1,6 +1,5 @@
 within OpenTEMPEST.BOP.Reactors.MeOH;
-model LiquidSeparator
-  "Model that allows for representing plant components that separate specific components of a mixture flow"
+model LiquidSeparator "Separator removing selected components from a mixture flow"
 
   import SI = Modelica.SIunits;
   replaceable package GasMix = Medium.Fuel_MethanolReactor;

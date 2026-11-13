@@ -1,5 +1,5 @@
 within OpenTEMPEST.Flow.BaseClasses;
-partial model simpleGasHeaterBase
+partial model simpleGasHeaterBase "Base class for simple gas heaters with geometry and heat transfer correlation"
 
   import SI = Modelica.SIunits;
 

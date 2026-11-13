@@ -1,5 +1,5 @@
 within OpenTEMPEST.BOP.Reactors;
-model Reformer1D
+model Reformer1D "1D plug flow pre-reformer for methane (steam reforming and water gas shift)"
   extends Flow.BaseClasses.PFRBaseClass(redeclare package Medium =
         OpenTEMPEST.Medium.Fuel_CH4);
 import SI = Modelica.SIunits;

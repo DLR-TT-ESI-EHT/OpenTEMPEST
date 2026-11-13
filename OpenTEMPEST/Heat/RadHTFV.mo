@@ -1,5 +1,5 @@
 within OpenTEMPEST.Heat;
-model RadHTFV "Distributed Radiation block model - uses multiple single blocks"
+model RadHTFV "Distributed radiative heat transfer between two 1D finite volume surfaces"
 
   parameter Integer N(min=1) "Number of discretisation Units";
   replaceable parameter Enumerations.RadiationSpecialCases specialCase=

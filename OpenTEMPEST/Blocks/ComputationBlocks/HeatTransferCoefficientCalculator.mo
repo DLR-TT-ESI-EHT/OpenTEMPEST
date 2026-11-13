@@ -1,5 +1,5 @@
 ﻿within OpenTEMPEST.Blocks.ComputationBlocks;
-model HeatTransferCoefficientCalculator
+model HeatTransferCoefficientCalculator "Heat transfer coefficient of a gas flow in a pipe or between parallel plates"
 
   import SI = Modelica.SIunits;
 

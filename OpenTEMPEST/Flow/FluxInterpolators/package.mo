@@ -1,3 +1,3 @@
 within OpenTEMPEST.Flow;
-package FluxInterpolators
+package FluxInterpolators "Differencing schemes for interpolating fluxes at control volume faces"
 end FluxInterpolators;

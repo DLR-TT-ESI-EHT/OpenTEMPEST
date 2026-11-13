@@ -1,6 +1,5 @@
 within OpenTEMPEST.BOP.Reactors.MeOH;
-model MeOHReactorSystem
-  "System representing a MeOH reactor process with separation, compression and heat transfer for heat balancing purposes"
+model MeOHReactorSystem "Methanol synthesis process with reactor, separation, compression and heat transfer"
   extends Modelica.Icons.UnderConstruction;
 
   import SI = Modelica.SIunits;

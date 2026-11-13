@@ -1,6 +1,5 @@
 within OpenTEMPEST.Blocks.Functions;
-function pressureDropDarcy
-  "Calculates the pressure drop in a porous medium using Darcy's law"
+function pressureDropDarcy "Pressure drop in a porous medium from Darcy's law"
   extends Modelica.Icons.Function;
 
   input Modelica.SIunits.MassFlowRate mf "Mass flow rate of the fluid";

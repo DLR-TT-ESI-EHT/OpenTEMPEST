@@ -1,5 +1,5 @@
 within OpenTEMPEST.Flow;
-model LambdaSensor "\"Enter Desc\""
+model LambdaSensor "Sensor for the air-fuel equivalence ratio (lambda) of a fuel and an air flow"
   import SI = Modelica.SIunits;
   replaceable package Fuel = Medium.Fuel_CH4;
   SI.MoleFraction x_out[Fuel.nX] "molar fractions in outgoing stream / -";

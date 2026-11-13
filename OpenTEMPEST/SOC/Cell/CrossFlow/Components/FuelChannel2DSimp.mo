@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Cell.CrossFlow.Components;
-model FuelChannel2DSimp "Fuel channel model 1D discretised with 2D interfaces"
+model FuelChannel2DSimp "Fuel channel discretised in 1D with 2D interfaces"
 
   import SI = Modelica.SIunits;
 
@@ -104,8 +104,6 @@ equation
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
 </html>", info="<html>
-<h2>FuelChannel2DSimp</h2>
-
 <p>
 Top-level simplified fuel channel model.
 The model extends <code>Channel2DBaseSimp</code> by adding internal
@@ -113,7 +111,7 @@ reforming chemistry, electrochemical source terms, and an axial
 Darcy-based pressure drop formulation.
 </p>
 
-<h3>Spatial Discretisation</h3>
+<h4>Spatial Discretisation</h4>
 <ul>
 <li>1D finite-volume discretisation in streamwise direction (X)</li>
 <li>2D thermal and electrochemical coupling to PEN and interconnect (Y)</li>

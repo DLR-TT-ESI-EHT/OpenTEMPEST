@@ -1,5 +1,5 @@
 ﻿within OpenTEMPEST.SOC.Cell.CrossFlow.Components;
-model PEN2D
+model PEN2D "2D PEN with replaceable electrochemistry for the cross-flow cell"
   extends Heat.BaseClasses.Solid2DBase(        redeclare package SolidMat =
         OpenTEMPEST.Solid.Material.Custom);
 
@@ -72,8 +72,6 @@ equation
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
-<h2>PEN2D</h2>
-
 <p>
 The model represents a two-dimensional discretized 
 Positive Electrode–Electrolyte–Negative Electrode (PEN) structure. The model couples:

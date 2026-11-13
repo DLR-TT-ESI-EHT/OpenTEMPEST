@@ -1,5 +1,5 @@
 within OpenTEMPEST.Flow;
-model SensGasProperty
+model SensGasProperty "Sensor for gas properties (cp, lambda, viscosity, temperature, density)"
   extends OpenTEMPEST.Flow.SensGasFlow;
 
   Medium.BaseProperties gas(p(start = pstart, fixed=false), T(start = Tstart, fixed=false), Xi(start = Xstart[1:Medium.nXi], each fixed=false));

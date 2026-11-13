@@ -1,5 +1,5 @@
 within OpenTEMPEST.BOP.GasConditioning;
-model ElectricalHeater0D
+model ElectricalHeater0D "0D electrical gas heater with nominal power and heating elements"
 
   import SI = Modelica.SIunits;
 

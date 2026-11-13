@@ -1,5 +1,5 @@
 within OpenTEMPEST.BOP.Reactors;
-model Reformer1D_C3
+model Reformer1D_C3 "1D plug flow pre-reformer for fuels containing C3 hydrocarbons"
 
   extends Flow.BaseClasses.PFRBaseClass(
     cpCat=710,

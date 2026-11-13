@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Electrochem.ASR;
-model ASR_Linear "Linear ASR relationship: ASR /(ohm cm^2) = A*Tpen - B"
+model ASR_Linear "Linear ASR correlation, ASR/(Ohm.cm2) = A*T - B"
   extends ASR_Base;
 
 equation

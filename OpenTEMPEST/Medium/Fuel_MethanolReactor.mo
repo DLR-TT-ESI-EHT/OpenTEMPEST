@@ -1,5 +1,5 @@
 within OpenTEMPEST.Medium;
-package Fuel_MethanolReactor "TEMPEST: Methane and methanol gas mixture"
+package Fuel_MethanolReactor "Fuel gas with methanol (H2, CH4, CO2, CO, H2O, N2, CH3OH)"
   extends Modelica.Media.IdealGases.Common.MixtureGasNasa(
     mediumName = "NaturalGasMixture",
     data = {Modelica.Media.IdealGases.Common.SingleGasesData.H2,

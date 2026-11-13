@@ -1,5 +1,5 @@
 within OpenTEMPEST.Blocks.Functions;
-function simpleWGSEqn
+function simpleWGSEqn "Water gas shift equilibrium composition (CH4 is consumed)"
 
   extends Modelica.Icons.Function;
   import SI=Modelica.SIunits;

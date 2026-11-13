@@ -1,5 +1,5 @@
 within OpenTEMPEST.BOP.GasConditioning.HexEtaTypes;
-partial model EtaBase
+partial model EtaBase "Base model for heat exchanger effectiveness models"
 
   Real eta;
   input Real C_min;

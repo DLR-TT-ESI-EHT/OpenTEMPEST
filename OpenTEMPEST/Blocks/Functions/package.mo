@@ -1,4 +1,4 @@
 within OpenTEMPEST.Blocks;
-package Functions
+package Functions "Helper functions"
 
 end Functions;

@@ -1,5 +1,5 @@
 within OpenTEMPEST.Flow;
-model SensGasFlow "Sensor for flow parameters of gas flows"
+model SensGasFlow "Sensor for mass flow and composition of a gas flow"
   extends ThermoPower.Icons.Gas.SensThrough;
 
   parameter Boolean mfOutput = true "Sensor has output for mass flow";

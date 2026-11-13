@@ -1,5 +1,5 @@
 within OpenTEMPEST.BOP;
-model Compressor
+model Compressor "Gas compressor with polytropic, mechanical and electrical efficiencies"
 
   //parameter Real Pi "Pressure ratio";
   parameter Real eta=0.8 "Polytropic efficiency";

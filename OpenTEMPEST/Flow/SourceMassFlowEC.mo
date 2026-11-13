@@ -1,6 +1,5 @@
 within OpenTEMPEST.Flow;
-model SourceMassFlowEC
-  "Flow rate source for gas flows in electrochemical processes"
+model SourceMassFlowEC "Gas source whose mass flow follows the cell current and reactant conversion"
   extends ThermoPower.Icons.Gas.SourceW;
   replaceable package Medium = OpenTEMPEST.Medium.Fuel_CH4;
                                                          //Modelica.Media.Interfaces.PartialMedium

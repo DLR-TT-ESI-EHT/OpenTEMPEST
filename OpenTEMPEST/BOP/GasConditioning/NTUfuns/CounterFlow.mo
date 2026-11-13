@@ -1,5 +1,5 @@
 within OpenTEMPEST.BOP.GasConditioning.NTUfuns;
-function CounterFlow
+function CounterFlow "Effectiveness-NTU relation for counter-flow"
   extends NTUbase;
 
 algorithm

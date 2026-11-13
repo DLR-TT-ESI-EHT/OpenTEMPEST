@@ -1,5 +1,5 @@
 ﻿within OpenTEMPEST.SOC.Cell.CrossFlow.Components;
-model AirChannel2D
+model AirChannel2D "2D air channel for the cross-flow cell"
   extends Channel2DBase(
     redeclare package Medium = OpenTEMPEST.Medium.Air_Medium);
 
@@ -55,9 +55,6 @@ equation
   outfl.p = Gas[nX,:].p; // Pressure is upwinded for the last control volume
 
   annotation (Documentation(info="<html>
-<h2>AirChannel2D</h2>
-
-
 <p>
 Two-dimensional finite-volume air channel model extending 
 <code>Channel2DBase</code>. The model describes coupled mass, energy, 
@@ -66,7 +63,7 @@ streamwise (x) and transverse (y) directions, including oxygen
 electrochemical reaction and distributed pressure losses.
 </p>
 
-<h3>Modeling Assumptions</h3>
+<h4>Modeling Assumptions</h4>
 <ul>
 <li>2D discretization in x–y plane</li>
 <li>Primary flow in x-direction</li>
@@ -74,7 +71,7 @@ electrochemical reaction and distributed pressure losses.
 <li>Axial solid rib conduction in x-direction</li>
 </ul>
 
-<h3>Included Phenomena</h3>
+<h4>Included Phenomena</h4>
 <ul>
 <li>Oxygen electrochemical reaction coupled via <code>PEN_in</code></li>
 <li>Electrochemical heat source term</li>

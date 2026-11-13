@@ -1,5 +1,5 @@
 within OpenTEMPEST.Heat;
-model HTs_DHTVolumes2D "HT to DHT adaptor"
+model HTs_DHTVolumes2D "Adaptor from several HT ports to a DHTVolumes2D port"
   parameter Integer i=1 "number of volumes in direction 1";
   parameter Integer j=1 "number of volumes in direction 2";
   ThermoPower.Thermal.HT HT_ports[i,j] annotation (Placement(transformation(extent={{-140,-20},{-100,20}}, rotation=0),

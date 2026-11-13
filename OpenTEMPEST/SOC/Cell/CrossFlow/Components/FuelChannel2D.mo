@@ -1,5 +1,5 @@
 ﻿within OpenTEMPEST.SOC.Cell.CrossFlow.Components;
-model FuelChannel2D
+model FuelChannel2D "2D fuel channel for the cross-flow cell with reforming and water gas shift"
   extends Channel2DBase(
     redeclare package Medium = OpenTEMPEST.Medium.Fuel_CH4);
 
@@ -96,8 +96,6 @@ equation
   outfl[:].p = Gas[nX, :].p; // Pressure is upwinded for the last control volume
 
   annotation (Documentation(info="<html>
-<h2>FuelChannel2D</h2>
-
 <p>
 Two-dimensional finite-volume fuel channel model extending 
 <code>Channel2DBase</code>. The model describes coupled mass, energy, 
@@ -106,7 +104,7 @@ streamwise (x) and transverse (y) directions, including reforming
 and electrochemical reactions.
 </p>
 
-<h3>Modeling Assumptions</h3>
+<h4>Modeling Assumptions</h4>
 <ul>
 <li>2D discretization in x–y plane</li>
 <li>Primary flow in x-direction with distributed pressure losses</li>
@@ -114,7 +112,7 @@ and electrochemical reactions.
 <li>Axial solid rib conduction in x-direction</li>
 </ul>
 
-<h3>Included Phenomena</h3>
+<h4>Included Phenomena</h4>
 <ul>
 <li>Methane Steam Reforming (MSR)</li>
 <li>Water-Gas Shift (WGS)</li>

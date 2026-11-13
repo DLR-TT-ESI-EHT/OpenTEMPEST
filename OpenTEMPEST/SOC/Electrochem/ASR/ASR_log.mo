@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Electrochem.ASR;
-model ASR_log "Logarithmic ASR relationship: ln(ASR/(ohm cm^2)) = A/Tpen - B"
+model ASR_log "Logarithmic ASR correlation, ln(ASR/(Ohm.cm2)) = A/T - B"
   extends ASR_Base;
 
 equation

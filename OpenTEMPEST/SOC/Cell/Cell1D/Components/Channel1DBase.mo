@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Cell.Cell1D.Components;
-partial model Channel1DBase
+partial model Channel1DBase "Base model for 1D gas channels with mass, momentum and energy balances"
 
   import SI = Modelica.SIunits;
   replaceable package Medium = Modelica.Media.IdealGases.Common.MixtureGasNasa
@@ -156,14 +156,12 @@ equation
           fillPattern=FillPattern.HorizontalCylinder)}),         Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
-<h2>Channel1DBase</h2>
-
 <p>
 Partial finite-volume base model for one-dimensional gas flow channels. The channel is discretized into N control volumes 
 (CVs) along its length.
 </p>
 
-<h3>Governing Equations</h3>
+<h4>Governing Equations</h4>
 <ul>
 <li>Total mass conservation (finite-volume form)</li>
 <li>Species mass conservation for each gas component</li>

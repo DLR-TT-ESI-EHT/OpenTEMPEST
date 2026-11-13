@@ -1,6 +1,5 @@
 within OpenTEMPEST.Examples.Stack;
-model SimplifiedStackTest
-  "Simple example model using the model blackBoxStack, adiabatic"
+model SimplifiedStackTest "Example of the simplified 1D stack model SimplifiedStack1D, adiabatic"
   extends Modelica.Icons.Example;
 
   import SI = Modelica.SIunits;

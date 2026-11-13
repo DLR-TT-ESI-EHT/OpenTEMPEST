@@ -1,5 +1,5 @@
 within OpenTEMPEST.Heat;
-model Solid3D
+model Solid3D "3D finite volume solid with temperature dependent material properties"
   extends OpenTEMPEST.Heat.BaseClasses.Solid3DBase;
 
 equation

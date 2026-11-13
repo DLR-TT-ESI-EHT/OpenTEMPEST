@@ -1,9 +1,9 @@
 within OpenTEMPEST.SOC.Stack;
-model Stack1D
+model Stack1D "Stack of 1D co-flow cells with end plates and manifolds"
   import SI = Modelica.SIunits;
 
-  parameter Integer N(min=3)=3;
-  parameter Integer Ncell(min=2)=5;
+  parameter Integer N(min=3)=3 "Number of control volumes along the flow direction";
+  parameter Integer Ncell(min=2)=5 "Number of cells in the stack";
   replaceable function fluxInterp =
       Flow.FluxInterpolators.UDSinterp              constrainedby Flow.FluxInterpolators.DifferencingSchemeInterpBase
                                                                                          annotation(choicesAllMatching = true);
@@ -348,8 +348,6 @@ equation
       OutputFlatModelica=false),
     Documentation(revisions="<html>
 </html>", info="<html>
-<h2>Stack1D</h2>
-
 <p>
 This model represents a detailed 1D stack composed of <code>Ncell</code> cells, each discretized in the x-direction with <code>N</code> control volumes. 
 It includes full thermal, electrical, and gas flow interactions for fuel and air channels, as well as interconnects and end/intermediate plates.

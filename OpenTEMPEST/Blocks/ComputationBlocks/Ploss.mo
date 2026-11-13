@@ -1,6 +1,5 @@
 within OpenTEMPEST.Blocks.ComputationBlocks;
-model Ploss
-  "Is needed to take the power loss in PowerElectronics into account."
+model Ploss "Power loss of the power electronics"
 extends Modelica.Blocks.Interfaces.SISO;
 
   parameter Modelica.SIunits.Power Pdesign = 2377;

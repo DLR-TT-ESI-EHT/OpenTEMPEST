@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Cell.Cell1D;
-model Cell
+model Cell "1D co-flow cell repeating unit with PEN, fuel and air channels and interconnects"
   import SI = Modelica.SIunits;
   replaceable package FCMedium = OpenTEMPEST.Medium.Fuel_CH4
                                                          annotation (Dialog(tab="Fuel Channel"));
@@ -8,27 +8,27 @@ model Cell
 
   // General parameters
   parameter Integer N(min=3) "number of CVs in each layer" annotation (Dialog(tab="General"));
-  parameter SI.Length lX=0.1 annotation (Dialog(tab="General"));
-  parameter SI.Length lY=0.15 annotation (Dialog(tab="General"));
-  constant SI.AbsolutePressure p0=1e5 annotation (Dialog(tab="General"));
+  parameter SI.Length lX=0.1 "Cell length in flow direction" annotation (Dialog(tab="General"));
+  parameter SI.Length lY=0.15 "Cell width" annotation (Dialog(tab="General"));
+  constant SI.AbsolutePressure p0=1e5 "Reference pressure" annotation (Dialog(tab="General"));
   replaceable function fluxInterp =
       OpenTEMPEST.Flow.FluxInterpolators.UDSinterp  constrainedby OpenTEMPEST.Flow.FluxInterpolators.DifferencingSchemeInterpBase
                                                                                          annotation(choicesAllMatching = true, Dialog(tab="General"));
 
   //initialization
-  parameter SI.Temperature TStart=1073.15 annotation (Dialog(tab="Initialization"));
-  parameter SI.Temperature TStart_pen=TStart annotation (Dialog(tab="Initialization"));
-  parameter SI.Temperature TStart_FCin=TStart annotation (Dialog(tab="Initialization"));
-  parameter SI.Temperature TStart_FCout=TStart annotation (Dialog(tab="Initialization"));
-  parameter SI.Temperature TStart_ACin=TStart annotation (Dialog(tab="Initialization"));
-  parameter SI.Temperature TStart_ACout=TStart annotation (Dialog(tab="Initialization"));
-  parameter SI.Temperature TStart_IC=TStart annotation (Dialog(tab="Initialization"));
-  parameter SI.AbsolutePressure pStartAC=101325 annotation (Dialog(tab="Initialization"));
-  parameter SI.AbsolutePressure pStartInFC=101325 annotation (Dialog(tab="Initialization"));
-  parameter SI.AbsolutePressure pStartOutFC=pStartInFC annotation (Dialog(tab="Initialization"));
-  parameter SI.CurrentDensity Jstart annotation (Dialog(tab="Initialization"));
-  parameter SI.MassFraction xStartAC[ACMedium.nXi]=ACMedium.reference_X annotation (Dialog(tab="Initialization"));
-  parameter SI.MassFraction xStartFC[FCMedium.nX]=FCMedium.reference_X annotation (Dialog(tab="Initialization"));
+  parameter SI.Temperature TStart=1073.15 "Uniform start temperature" annotation (Dialog(tab="Initialization"));
+  parameter SI.Temperature TStart_pen=TStart "Start temperature of the PEN" annotation (Dialog(tab="Initialization"));
+  parameter SI.Temperature TStart_FCin=TStart "Start temperature at the fuel channel inlet" annotation (Dialog(tab="Initialization"));
+  parameter SI.Temperature TStart_FCout=TStart "Start temperature at the fuel channel outlet" annotation (Dialog(tab="Initialization"));
+  parameter SI.Temperature TStart_ACin=TStart "Start temperature at the air channel inlet" annotation (Dialog(tab="Initialization"));
+  parameter SI.Temperature TStart_ACout=TStart "Start temperature at the air channel outlet" annotation (Dialog(tab="Initialization"));
+  parameter SI.Temperature TStart_IC=TStart "Start temperature of the interconnects" annotation (Dialog(tab="Initialization"));
+  parameter SI.AbsolutePressure pStartAC=101325 "Start pressure in the air channel" annotation (Dialog(tab="Initialization"));
+  parameter SI.AbsolutePressure pStartInFC=101325 "Start pressure at the fuel channel inlet" annotation (Dialog(tab="Initialization"));
+  parameter SI.AbsolutePressure pStartOutFC=pStartInFC "Start pressure at the fuel channel outlet" annotation (Dialog(tab="Initialization"));
+  parameter SI.CurrentDensity Jstart "Start value of the current density" annotation (Dialog(tab="Initialization"));
+  parameter SI.MassFraction xStartAC[ACMedium.nXi]=ACMedium.reference_X "Start mass fractions in the air channel" annotation (Dialog(tab="Initialization"));
+  parameter SI.MassFraction xStartFC[FCMedium.nX]=FCMedium.reference_X "Start mass fractions in the fuel channel" annotation (Dialog(tab="Initialization"));
   parameter SI.PressureDifference dpNomFC=0.01 "nominal pressure loss for initialization" annotation (Dialog(tab="Initialization"));
 
   // PEN parameters
@@ -36,32 +36,32 @@ model Cell
       OpenTEMPEST.SOC.Electrochem.Components.BV_Steam
   constrainedby OpenTEMPEST.SOC.Electrochem.Components.ElectrochemBase
      annotation (Placement(transformation(extent={{78,50},{98,70}})),choicesAllMatching=true);
-  parameter SI.Length lXpen=lX annotation (Dialog(tab="PEN"));
-  parameter SI.Length lYpen=lY annotation (Dialog(tab="PEN"));
-  parameter SI.Length lZpen=1.51e-4 annotation (Dialog(tab="PEN"));
-  parameter SI.ThermalConductivity kPen=2 annotation (Dialog(tab="PEN"));
-  parameter SI.Density rhoPen=5900 annotation (Dialog(tab="PEN"));
-  parameter SI.SpecificHeatCapacity cpPen=500.0 annotation (Dialog(tab="PEN"));
+  parameter SI.Length lXpen=lX "Length of the PEN" annotation (Dialog(tab="PEN"));
+  parameter SI.Length lYpen=lY "Width of the PEN" annotation (Dialog(tab="PEN"));
+  parameter SI.Length lZpen=1.51e-4 "Thickness of the PEN" annotation (Dialog(tab="PEN"));
+  parameter SI.ThermalConductivity kPen=2 "Thermal conductivity of the PEN" annotation (Dialog(tab="PEN"));
+  parameter SI.Density rhoPen=5900 "Density of the PEN" annotation (Dialog(tab="PEN"));
+  parameter SI.SpecificHeatCapacity cpPen=500.0 "Specific heat capacity of the PEN" annotation (Dialog(tab="PEN"));
   parameter SI.SpectralEmissivity epsilon_pen=0.8 "emissivity of Anode-Electrolyte-Cathode unit" annotation (Dialog(tab="PEN"));
   // FC parameters
-  parameter SI.Length lXfc=lX annotation (Dialog(tab="Fuel Channel"));
-  parameter SI.Length lYfc=lY annotation (Dialog(tab="Fuel Channel"));
-  parameter SI.Length lZfc=1e-3 annotation (Dialog(tab="Fuel Channel"));
-  parameter Real porFC=0.9 annotation (Dialog(tab="Fuel Channel"));
+  parameter SI.Length lXfc=lX "Length of the fuel channel" annotation (Dialog(tab="Fuel Channel"));
+  parameter SI.Length lYfc=lY "Width of the fuel channel" annotation (Dialog(tab="Fuel Channel"));
+  parameter SI.Length lZfc=1e-3 "Height of the fuel channel" annotation (Dialog(tab="Fuel Channel"));
+  parameter Real porFC=0.9 "Porosity of the fuel channel (open fraction of the width)" annotation (Dialog(tab="Fuel Channel"));
   parameter Real Nu_PENfc=12 "Nusselt number fuel channel on PEN side" annotation (Dialog(tab="Fuel Channel"));
   parameter Real Nu_ICfc=10 "Nusselt Number fuel channel on IC side" annotation (Dialog(tab="Fuel Channel"));
-  parameter SI.ThermalConductivity kFoam=4 annotation (Dialog(tab="Fuel Channel"));
-  parameter SI.SpecificHeatCapacity cpFoam=400 annotation (Dialog(tab="Fuel Channel"));
-  parameter SI.Density rhoFoam=9000 annotation (Dialog(tab="Fuel Channel"));
+  parameter SI.ThermalConductivity kFoam=4 "Thermal conductivity of the nickel foam in the fuel channel" annotation (Dialog(tab="Fuel Channel"));
+  parameter SI.SpecificHeatCapacity cpFoam=400 "Specific heat capacity of the nickel foam" annotation (Dialog(tab="Fuel Channel"));
+  parameter SI.Density rhoFoam=9000 "Density of the nickel foam" annotation (Dialog(tab="Fuel Channel"));
   parameter ThermoPower.Units.HydraulicResistance HyR_Fuel=50000000 "Hydraulic resistance of fuel channel of each single cell in stack"
     annotation (Dialog(tab="Fuel Channel"));
 
   // AC parameters
-  parameter SI.Length lXac=lX annotation (Dialog(tab="Air Channel"));
-  parameter SI.Length lYac=0.08 annotation (Dialog(tab="Air Channel"));
-  parameter SI.Length lZac=1e-3 annotation (Dialog(tab="Air Channel"));
-  parameter Real porAC=1 annotation (Dialog(tab="Air Channel"));
-  parameter Real pDropAC=0.04 annotation (Dialog(tab="Air Channel"));
+  parameter SI.Length lXac=lX "Length of the air channel" annotation (Dialog(tab="Air Channel"));
+  parameter SI.Length lYac=0.08 "Width of the air channel" annotation (Dialog(tab="Air Channel"));
+  parameter SI.Length lZac=1e-3 "Height of the air channel" annotation (Dialog(tab="Air Channel"));
+  parameter Real porAC=1 "Porosity of the air channel (open fraction of the width)" annotation (Dialog(tab="Air Channel"));
+  parameter Real pDropAC=0.04 "Pressure drop in the air channel as a fraction of the inlet pressure" annotation (Dialog(tab="Air Channel"));
   parameter Real Nu_PENac=8 "Nusselt number air channel on PEN side" annotation (Dialog(tab="Air Channel"));
   parameter Real Nu_ICac=8 "Nusselt Number air channel on IC side" annotation (Dialog(tab="Air Channel"));
   parameter ThermoPower.Units.HydraulicResistance HyR_Air=6000000 "Hydraulic resistance of air channel of each single cell in stack" annotation (Dialog(tab="Air Channel"));
@@ -221,8 +221,6 @@ equation
           fillPattern=FillPattern.CrossDiag)}),
     Diagram(coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
-<h2>1D Cell</h2>
-
 <p>
 The model represents a one-dimensional discretized 
 into N control volumes along the channel direction.

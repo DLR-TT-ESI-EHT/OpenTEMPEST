@@ -1,6 +1,5 @@
 ﻿within OpenTEMPEST.SOC.Electrochem.Components;
-partial model BV_ElectrochemBase
-  "Air and Ohmic Overvoltages calculated here. Voltage Balance equation also here. Fuel side overvoltages calculated at level above as well as q_electroChem"
+partial model BV_ElectrochemBase "Base model for detailed electrochemistry with Butler-Volmer, ohmic and diffusion losses"
   extends OpenTEMPEST.SOC.Electrochem.Components.ElectrochemBase;
   import SI = Modelica.SIunits;
 
@@ -188,12 +187,13 @@ equation
   end if;
 
   annotation (Documentation(info="<html>
-  <body>
-    <p>References for parameters:</p>
-    <ul>
-      <li>DOI: 10.1149/1945-7111/ab6820</li>
-      <li>DOI: 10.1149/1945-7111/ad5e01</li>
-    </ul>
-  </body>
+<p>Base model for detailed electrochemistry. The air electrode and ohmic overpotentials and the voltage balance
+are calculated here. The fuel electrode overpotentials and the reaction heat <code>q_electroChem</code> are calculated
+in the extending models (for example <a href=\"modelica://OpenTEMPEST.SOC.Electrochem.Components.BV_Steam\">BV_Steam</a>).</p>
+<p>References for parameters:</p>
+<ul>
+      <li><a href=\"https://doi.org/10.1149/1945-7111/ab6820\">doi:10.1149/1945-7111/ab6820</a></li>
+      <li><a href=\"https://doi.org/10.1149/1945-7111/ad5e01\">doi:10.1149/1945-7111/ad5e01</a></li>
+</ul>
 </html>"));
 end BV_ElectrochemBase;

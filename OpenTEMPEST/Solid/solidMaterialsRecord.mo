@@ -1,6 +1,5 @@
 ﻿within OpenTEMPEST.Solid;
-record solidMaterialsRecord
-  "record holding sets of coefficients of selected solid materials for calculating material parameters"
+record solidMaterialsRecord "Record of coefficients for the temperature dependent properties of a solid material"
 
   extends Modelica.Icons.Record;
   String name "Name of solid material";

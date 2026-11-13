@@ -1,5 +1,5 @@
 within OpenTEMPEST.Blocks.Functions;
-function smoothHeaviside
+function smoothHeaviside "Smooth approximation of the Heaviside step function"
   input Real u;
   output Real y;
 algorithm

@@ -1,5 +1,5 @@
 ﻿within OpenTEMPEST.SOC.Cell.CrossFlow;
-model CellGeneral "Crossflow generalized cell model with possibility to select 2D or 1D channels"
+model CellGeneral "Cross-flow cell with a choice between 2D and 1D (simplified) channels"
 
   import SI = Modelica.SIunits;
 

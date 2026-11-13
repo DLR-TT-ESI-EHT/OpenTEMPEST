@@ -1,5 +1,5 @@
 within OpenTEMPEST.Flow;
-model gasHeaterAndJoiner
+model gasHeaterAndJoiner "Flow joiner with convective heat transfer in the inlet and outlet ducts"
 
   import SI = Modelica.SIunits;
 

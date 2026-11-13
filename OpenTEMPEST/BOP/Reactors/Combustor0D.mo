@@ -1,6 +1,5 @@
 within OpenTEMPEST.BOP.Reactors;
-model Combustor0D
-  "0D combustor assuming complete combustion of fuels. Needs lambda >=1"
+model Combustor0D "0D combustor assuming complete combustion of the fuel (requires lambda >= 1)"
 
   import SI = Modelica.SIunits;
   package Air = Medium.Air_Medium;

@@ -1,6 +1,5 @@
 within OpenTEMPEST.Flow.BaseClasses;
-partial model Flow1DBaseClass
-  "Base class model for 1D flow model based on FVM or FDM. Can be used to build PFR models or heterogeneous catalytic reactor models"
+partial model Flow1DBaseClass "Base class for 1D finite volume flow models, used for plug flow and catalytic reactors"
 
   import SI = Modelica.SIunits;
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium

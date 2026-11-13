@@ -1,6 +1,5 @@
 within OpenTEMPEST.Heat;
-model HeatSource2DNonUniformFV
-  "Distributed Heat Flow Source for Finite Volume models with non-uniformly distributed flow"
+model HeatSource2DNonUniformFV "Non-uniformly distributed heat flow source for 2D finite volume models"
   extends ThermoPower.Icons.HeatFlow;
   parameter Integer nX = 1 "Number of volumes x-direction";
   parameter Integer nY = 1 "Number of volumes y-direction";

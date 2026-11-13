@@ -1,6 +1,5 @@
 ﻿within OpenTEMPEST.Blocks.ComputationBlocks;
-model WGS_MSR_Equilibrium
-  "Model computing equilibrium considering WGS and MSR reactions, for above 500°C"
+model WGS_MSR_Equilibrium "Equilibrium composition for water gas shift and methane steam reforming (above 500 degC)"
 
 //   extends Modelica.Icons.Function;
   import SI = Modelica.SIunits;

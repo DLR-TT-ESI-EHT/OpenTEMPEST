@@ -1,6 +1,5 @@
 within OpenTEMPEST.Flow;
-model ThreeWayValve
-  "time controlled three-way valve for switching between two flow paths 'purge' and 'use'"
+model ThreeWayValve "Time controlled three-way valve switching between the 'purge' and 'use' flow paths"
 
   import SI = Modelica.SIunits;
   parameter Boolean useTimeInput = true "Use the input connector for opening direction";

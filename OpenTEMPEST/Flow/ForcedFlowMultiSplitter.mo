@@ -1,5 +1,5 @@
 within OpenTEMPEST.Flow;
-model ForcedFlowMultiSplitter
+model ForcedFlowMultiSplitter "Splitter forcing an equal mass flow into each of n outlets"
 
   parameter Integer nOutlets(min = 2)=3;
   //parameter Real flowCoeff[nOutlets-1] = {1,1} "mulitplicator for the flows of the first n-1 outlets";

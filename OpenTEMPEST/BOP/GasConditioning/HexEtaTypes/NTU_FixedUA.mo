@@ -1,5 +1,5 @@
 within OpenTEMPEST.BOP.GasConditioning.HexEtaTypes;
-model NTU_FixedUA
+model NTU_FixedUA "Effectiveness from the NTU method with constant UA"
   extends EtaBase;
 
   parameter Real UA=1;

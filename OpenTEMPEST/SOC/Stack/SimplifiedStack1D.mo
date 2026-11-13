@@ -1,8 +1,8 @@
 within OpenTEMPEST.SOC.Stack;
-model SimplifiedStack1D
+model SimplifiedStack1D "1D stack with a few detailed cells and simplified cell blocks in between"
   import SI = Modelica.SIunits;
-  parameter Integer N(min=3)=3 annotation (Dialog(tab = "General"));
-  parameter Integer Ncell(min=2)=30 annotation (Dialog(tab = "General"));
+  parameter Integer N(min=3)=3 "Number of control volumes along the flow direction" annotation (Dialog(tab = "General"));
+  parameter Integer Ncell(min=2)=30 "Number of cells in the stack" annotation (Dialog(tab = "General"));
   parameter Integer[:] verticalBlockSize={3, 3, 2, 2, 2, 1, 1, 1, 1, 2, 2, 3, 3} "Vertical size of the simplified blocks (e. g. 3 represents three cells merged in one simplfied block). Sum needs to be Ncell-NdetailedCell" annotation (Dialog(tab = "General"));
   parameter Integer NdetailedCell(min=1, max=Ncell) = 4 "number of cells that are calculated in detail" annotation (Dialog(tab = "General"));
   replaceable function fluxInterp =
@@ -635,8 +635,6 @@ equation
       OutputFlatModelica=false),
     Documentation(revisions="<html>
 </html>", info="<html>
-<h2>SimplifiedStack1D</h2>
-
 <p>
 This model represents a 1D stack of solid oxide fuel cells using a combination of detailed and simplified cells. 
 It consists of <code>Ncell</code> total cells, where <code>NdetailedCell</code> are calculated in detail and the remaining are grouped into <code>nSimpMult</code> simplified vertical blocks. 

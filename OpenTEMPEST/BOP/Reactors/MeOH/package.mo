@@ -1,4 +1,4 @@
 within OpenTEMPEST.BOP.Reactors;
-package MeOH
+package MeOH "Methanol synthesis reactor system models"
 
 end MeOH;

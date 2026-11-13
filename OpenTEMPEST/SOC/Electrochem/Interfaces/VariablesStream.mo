@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Electrochem.Interfaces;
-connector VariablesStream "Connector for connecting the cell model layers"
+connector VariablesStream "Connector between PEN and gas channels (pressure, composition, currents)"
   parameter Integer nspecies;
   Modelica.Media.Interfaces.Types.MoleFraction Y[nspecies];
   Modelica.SIunits.AbsolutePressure P;

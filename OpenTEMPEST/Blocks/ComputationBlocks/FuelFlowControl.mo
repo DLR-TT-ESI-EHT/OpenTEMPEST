@@ -1,6 +1,5 @@
 within OpenTEMPEST.Blocks.ComputationBlocks;
-model FuelFlowControl
-  "Flow rate source for gas flows in electrochemical processes"
+model FuelFlowControl "Fuel mass flow set point from cell current and reactant conversion"
 
   replaceable package Medium = OpenTEMPEST.Medium.Fuel_CH4;
   extends Modelica.Blocks.Icons.Block;

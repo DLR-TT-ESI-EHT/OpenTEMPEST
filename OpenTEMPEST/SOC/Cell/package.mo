@@ -1,3 +1,3 @@
 within OpenTEMPEST.SOC;
-package Cell
+package Cell "Cell (repeating unit) models"
 end Cell;

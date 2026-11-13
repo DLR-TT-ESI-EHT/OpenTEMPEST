@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Cell.CrossFlow.Components;
-model CrossFlowTopology
+model CrossFlowTopology "Index mapping between fuel side (x) and air side (y) grids of the cross-flow cell"
 
     parameter Integer nX(min=1)=5;
     parameter Integer nY(min=1)=5;
@@ -59,7 +59,6 @@ equation
           origin={-23,6},
           rotation=0)}),                                         Diagram(coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
-<h2>CrossFlowTopology</h2>
 <p>
 Structural model that maps the discretised temperature and heat-flux fields between two
 heat-transfer surfaces arranged in a cross-flow configuration. The model performs no
@@ -74,7 +73,7 @@ thermodynamic calculations; it only rewrites array indices to couple the two cha
 <li>Heat-flux sign is inverted across sides to enforce energy conservation:
     <code>Q_side1[i,j] = -Q_side2[j, nX+1-i]</code>.</li>
 </ul>
-<h3>Index Mapping</h3>
+<h4>Index Mapping</h4>
 <ul>
 <li><b>CW</b> (<code>includeVarStream = true</code>):&nbsp;
     <code>T_side1[i,j] = T_side2[j, nX+1-i]</code></li>

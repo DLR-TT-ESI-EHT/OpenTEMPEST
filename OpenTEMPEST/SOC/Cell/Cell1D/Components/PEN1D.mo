@@ -1,5 +1,5 @@
 ﻿within OpenTEMPEST.SOC.Cell.Cell1D.Components;
-model PEN1D
+model PEN1D "1D PEN (positive electrode, electrolyte, negative electrode) with replaceable electrochemistry"
   extends Heat.BaseClasses.Solid1DBase;
 
   import SI = Modelica.SIunits;
@@ -78,8 +78,6 @@ equation
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
-<h2>PEN1D</h2>
-
 <p>
 The model represents a one-dimensional discretized 
 Positive Electrode–Electrolyte–Negative Electrode (PEN) structure. The model couples:

@@ -1,4 +1,4 @@
 within OpenTEMPEST.Blocks;
-package Sources
+package Sources "Signal sources"
 
 end Sources;

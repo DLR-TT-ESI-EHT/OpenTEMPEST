@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Cell.CrossFlow.Components;
-model AirChannel2DSimp "Air channel model 1D discretised with 2D interfaces"
+model AirChannel2DSimp "Air channel discretised in 1D with 2D interfaces"
 
   import SI = Modelica.SIunits;
 
@@ -66,8 +66,6 @@ equation
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
 </html>", info="<html>
-<h2>AirChannel2DSimp</h2>
-
 <p>
 Top-level air channel simplified model.
 The model extends <code>Channel2DBaseSimp</code> and represents the
@@ -75,7 +73,7 @@ oxygen electrode side including electrochemical oxygen
 reduction/evolution and axial pressure losses.
 </p>
 
-<h3>Spatial Discretisation</h3>
+<h4>Spatial Discretisation</h4>
 <ul>
 <li>1D finite-volume discretisation in streamwise direction (X)</li>
 <li>2D thermal and electrochemical coupling to PEN and interconnect (Y)</li>

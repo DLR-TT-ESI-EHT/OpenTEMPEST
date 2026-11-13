@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Stack;
-model SimplifiedStackCF
+model SimplifiedStackCF "Cross-flow stack with a few detailed cells and simplified cell blocks in between"
   import SI = Modelica.SIunits;
 
   parameter Integer nX(min=3)=5   "Number of control volumes in the x-direction" annotation (Dialog(tab = "General"));
@@ -716,8 +716,6 @@ equation
           lineThickness=0.5)}),                                 Diagram(
         coordinateSystem(preserveAspectRatio=false, extent={{-120,-140},{120,100}})),
     Documentation(info="<html>
-<h2>SimplifiedStackCF</h2>
-
 <p>
 This model represents a crossflow fuel cell stack with a simplified approach. Out of a total of 
 <code>Ncell</code> cells, <code>NdetailedCell</code> are modeled in full detail, while the remaining 

@@ -1,6 +1,5 @@
 within OpenTEMPEST.Heat;
-model TempSource2DUniform
-  "Uniformly Distributed Temperature Source for 2D Finite Volume models"
+model TempSource2DUniform "Uniformly distributed temperature source for 2D finite volume models"
   extends OpenTEMPEST.Heat.BaseClasses.TempSource2DBase;
 
   Modelica.Blocks.Interfaces.RealInput temperature( unit="K", displayUnit = "degC") "Temperature [K]" annotation (Placement(

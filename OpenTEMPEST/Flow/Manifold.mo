@@ -1,5 +1,5 @@
 within OpenTEMPEST.Flow;
-model Manifold
+model Manifold "Manifold distributing one inlet flow evenly over n outlet ports"
   function positiveMax
     extends Modelica.Icons.Function;
     input Real x;

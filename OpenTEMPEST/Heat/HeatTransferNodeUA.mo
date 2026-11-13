@@ -1,5 +1,5 @@
 within OpenTEMPEST.Heat;
-model HeatTransferNodeUA
+model HeatTransferNodeUA "Heat transfer between two distributed heat ports with UA scaled by mass flow"
   extends OpenTEMPEST.Heat.BaseClasses.HeatTransferNodeBase;
 
     import SI = Modelica.SIunits;

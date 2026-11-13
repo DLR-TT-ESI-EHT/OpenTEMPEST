@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Electrochem.Components;
-model ASR_Steam
+model ASR_Steam "Lumped ASR electrochemistry for the H2/H2O reaction"
   extends OpenTEMPEST.SOC.Electrochem.Components.ASR_ElectrochemBase(redeclare replaceable model
                         ASRobj = OpenTEMPEST.SOC.Electrochem.ASR.ASR_log (A=
             6000, B=7));

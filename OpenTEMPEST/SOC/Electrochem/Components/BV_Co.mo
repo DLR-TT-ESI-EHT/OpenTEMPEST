@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Electrochem.Components;
-model BV_Co "Co-Electrolysis with B-V, Ohmic ASR and Diffusion"
+model BV_Co "Detailed electrochemistry for co-electrolysis (Butler-Volmer, ohmic ASR, diffusion)"
   extends OpenTEMPEST.SOC.Electrochem.Components.BV_ElectrochemBase;
 
 import SI = Modelica.SIunits;
@@ -86,11 +86,9 @@ equation
     yF_tpb = yF;
   end if;
   annotation (Documentation(info="<html>
-  <body>
-    <p>References for parameters:</p>
+  <p>References for parameters:</p>
     <ul>
-      <li>DOI: 10.1149/1945-7111/ad5e01</li>
+      <li><a href=\"https://doi.org/10.1149/1945-7111/ad5e01\">doi:10.1149/1945-7111/ad5e01</a></li>
     </ul>
-  </body>
-</html>"));
+  </html>"));
 end BV_Co;

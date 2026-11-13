@@ -1,5 +1,5 @@
 within OpenTEMPEST.Flow;
-model Flow1D2w
+model Flow1D2w "1D finite volume gas flow model with two distributed heat ports"
   extends OpenTEMPEST.Flow.Flow1D(
                         Qext = wall.Q .+ wall2.Q);
 

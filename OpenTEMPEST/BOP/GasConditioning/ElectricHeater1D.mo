@@ -1,5 +1,5 @@
 within OpenTEMPEST.BOP.GasConditioning;
-model ElectricHeater1D
+model ElectricHeater1D "1D discretised electric tube heater for gas flows"
 
   import SI = Modelica.SIunits;
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium

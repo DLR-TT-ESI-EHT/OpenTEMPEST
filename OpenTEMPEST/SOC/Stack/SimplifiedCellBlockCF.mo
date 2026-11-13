@@ -1,5 +1,5 @@
 ﻿within OpenTEMPEST.SOC.Stack;
-model SimplifiedCellBlockCF
+model SimplifiedCellBlockCF "Simplified cross-flow block of cells represented by one thermal solid"
   import SI = Modelica.SIunits;
   parameter Integer nX=5    "number of CVs in the x-direction";
   parameter Integer nY=5    "number of CVs in the y-direction";
@@ -209,8 +209,6 @@ equation
         coordinateSystem(preserveAspectRatio=false)),
     experiment(__Dymola_Algorithm="Cvode"),
     Documentation(info="<html>
-<h2>SimplifiedCellBlockCF</h2>
-
 <p>
 This model represents a simplified 2D block of crossflow cells with equivalent thermal conductivities. 
 It discretizes the block into <code>nX × nY</code> control volumes and can represent multiple cells stacked 

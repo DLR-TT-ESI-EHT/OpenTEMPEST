@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Electrochem.Components;
-partial model ASR_ElectrochemBase "Base model for electrochemistry with only ASR approach"
+partial model ASR_ElectrochemBase "Base model for lumped electrochemistry using an ASR"
   extends OpenTEMPEST.SOC.Electrochem.Components.ElectrochemBase;
 
   import SI = Modelica.SIunits;

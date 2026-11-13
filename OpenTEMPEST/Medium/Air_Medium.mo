@@ -1,5 +1,5 @@
 within OpenTEMPEST.Medium;
-package Air_Medium "TEMPEST: Ideal air model (O2/N2)"
+package Air_Medium "Air as ideal gas mixture (O2, N2)"
   extends Modelica.Media.IdealGases.Common.MixtureGasNasa(
     mediumName = "AirMixture",
     data = {Modelica.Media.IdealGases.Common.SingleGasesData.O2,

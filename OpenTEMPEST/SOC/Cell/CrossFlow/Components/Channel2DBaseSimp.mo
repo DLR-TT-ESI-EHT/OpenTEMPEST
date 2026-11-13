@@ -1,6 +1,5 @@
 ﻿within OpenTEMPEST.SOC.Cell.CrossFlow.Components;
-partial model Channel2DBaseSimp
-  "Base model for SOC cell channels 1D discretised with 2D interfaces - need to give pressure drop at top level"
+partial model Channel2DBaseSimp "Base model for channels discretised in 1D with 2D interfaces (pressure drop set at top level)"
 
   import SI = Modelica.SIunits;
   replaceable package Medium = Modelica.Media.IdealGases.Common.MixtureGasNasa
@@ -152,8 +151,6 @@ equation
 
   annotation (Documentation(revisions="<html>
 </html>", info="<html>
-<h2>Channel2DBaseSimp</h2>
-
 <p>
 Simplified channel base model for Solid Oxide Cell (SOC) applications.
 The model resolves the flow and thermodynamic state in the streamwise
@@ -161,7 +158,7 @@ direction (X) using a 1D finite-volume discretisation, while maintaining
 a 2D interface in the transverse direction (Y) for thermal and
 electrochemical coupling.
 </p>
-<h3>Discretisation Concept</h3>
+<h4>Discretisation Concept</h4>
 <ul>
 <li>1D finite-volume formulation in X-direction (<code>nX</code> control volumes)</li>
 <li>2D heat-transfer and electrochemical interface in Y-direction (<code>nY</code>)</li>

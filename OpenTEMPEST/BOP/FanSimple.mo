@@ -1,5 +1,5 @@
 within OpenTEMPEST.BOP;
-model FanSimple
+model FanSimple "Simple fan/blower with prescribed mass flow and polytropic efficiency"
   extends ThermoPower.Icons.Gas.Fan;
   import SI = Modelica.SIunits;
 

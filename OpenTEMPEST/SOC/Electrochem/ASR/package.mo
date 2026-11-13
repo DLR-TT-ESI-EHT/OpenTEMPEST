@@ -1,3 +1,3 @@
 within OpenTEMPEST.SOC.Electrochem;
-package ASR
+package ASR "Area specific resistance (ASR) correlations"
 end ASR;

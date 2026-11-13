@@ -1,5 +1,5 @@
 within OpenTEMPEST.Medium;
-package SimpleExhaust "TEMPEST: Exhaust gas [O2, CO2, H2O, N2]"
+package SimpleExhaust "Exhaust gas as ideal gas mixture (O2, CO2, H2O, N2)"
   extends Modelica.Media.IdealGases.Common.MixtureGasNasa(
     mediumName = "NaturalGasMixture",
     data = {Modelica.Media.IdealGases.Common.SingleGasesData.O2,

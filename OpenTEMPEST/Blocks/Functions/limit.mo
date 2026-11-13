@@ -1,6 +1,5 @@
 within OpenTEMPEST.Blocks.Functions;
-function limit
-  "Limits the input variable between two boundaries"
+function limit "Limit a value between two boundaries"
   extends Modelica.Icons.Function;
   input Real minVal;
   input Real u;

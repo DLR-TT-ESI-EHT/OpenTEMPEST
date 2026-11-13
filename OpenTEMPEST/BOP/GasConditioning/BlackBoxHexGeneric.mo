@@ -1,5 +1,5 @@
 within OpenTEMPEST.BOP.GasConditioning;
-model BlackBoxHexGeneric
+model BlackBoxHexGeneric "Generic 0D gas-gas heat exchanger with replaceable effectiveness model"
 
    import SI = Modelica.SIunits;
 

@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Electrochem.ASR;
-partial model ASR_OhmBase "Base Class for Ohmic ASR models"
+partial model ASR_OhmBase "Base model for ohmic ASR correlations"
 
   extends OpenTEMPEST.SOC.Electrochem.ASR.ASR_Base;
 

@@ -1,5 +1,5 @@
 within OpenTEMPEST.Flow;
-model MultiJoin
+model MultiJoin "Join n gas flows into one outlet"
 
   parameter Integer nInlets(min = 2);
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium

@@ -1,6 +1,5 @@
 within OpenTEMPEST.SOC.Stack;
-model StackCFSimpCell
-  "Stack based on the crossflow cell with 1D fuel and air channels"
+model StackCFSimpCell "Stack of simplified cross-flow cells with 1D fuel and air channels"
   import SI = Modelica.SIunits;
 
   // general parameters
@@ -262,8 +261,6 @@ equation
         coordinateSystem(preserveAspectRatio=false)),
     experiment(__Dymola_Algorithm="Cvode"),
     Documentation(info="<html>
-<html>
-<body>
 <!--StartFragment-->&lt;h2&gt;SimplifiedStack1D&lt;/h2&gt;
 &lt;p&gt;
 This model represents a 1D stack of solid oxide fuel cells using a combination of detailed and simplified cells. 
@@ -271,7 +268,6 @@ It consists of &lt;code&gt;Ncell&lt;/code&gt; total cells, where &lt;code&gt;Nde
 The model includes thermal, electrical, and flow interactions for each cell, fuel and air manifolds, interconnects, and stack plates. 
 Simplified cells receive averaged information from corresponding detailed cells to reduce computational cost while preserving stack-level accuracy.
 &lt;/p&gt;<!--EndFragment-->
-</body>
 </html>
 </html>", revisions="<html>
 </html>"));

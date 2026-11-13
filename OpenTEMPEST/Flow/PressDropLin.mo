@@ -1,5 +1,5 @@
 within OpenTEMPEST.Flow;
-model PressDropLin "added dp calculation in thermopower pressure drop lin"
+model PressDropLin "Linear pressure drop with pressure difference output"
   extends ThermoPower.Gas.PressDropLin;
 
   Real dp = inlet.p - outlet.p;

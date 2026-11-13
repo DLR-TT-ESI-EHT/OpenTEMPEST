@@ -1,5 +1,5 @@
 within OpenTEMPEST.Blocks.ComputationBlocks;
-block GainVariable "Output the product of a gain value with the input signal"
+block GainVariable "Gain block with the gain given as an input signal"
 
   parameter Real k(start=1,unit="1")=0.7  "Gain value multiplied with input signal";
 

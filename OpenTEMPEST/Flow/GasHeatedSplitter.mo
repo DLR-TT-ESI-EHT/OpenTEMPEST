@@ -1,5 +1,5 @@
 within OpenTEMPEST.Flow;
-model GasHeatedSplitter
+model GasHeatedSplitter "Flow splitter with convective heat transfer in the inlet and outlet ducts"
 
   import SI = Modelica.SIunits;
 

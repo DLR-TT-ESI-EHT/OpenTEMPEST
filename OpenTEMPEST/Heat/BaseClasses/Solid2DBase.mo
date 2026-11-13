@@ -1,5 +1,5 @@
 within OpenTEMPEST.Heat.BaseClasses;
-partial model Solid2DBase
+partial model Solid2DBase "Base model for a 2D finite volume solid with energy balance"
 
   import SI = Modelica.SIunits;
   replaceable package SolidMat = OpenTEMPEST.Solid.SolidMatBase annotation(choicesAllMatching = true);
@@ -179,7 +179,6 @@ equation
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
 </html>", info="<html>
-<h2>Solid2DBase</h2>
 <p>
 The model represents a two-dimensional solid discretized into control volumes (CVs)
 in the x- and y-directions. It computes the transient temperature distribution 

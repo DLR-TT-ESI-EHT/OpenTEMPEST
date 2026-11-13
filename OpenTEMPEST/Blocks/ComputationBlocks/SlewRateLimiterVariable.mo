@@ -1,5 +1,5 @@
 within OpenTEMPEST.Blocks.ComputationBlocks;
-block SlewRateLimiterVariable "Limits the slew rate of a signal"
+block SlewRateLimiterVariable "Limit the slew rate of a signal"
   extends Modelica.Blocks.Interfaces.SISO;
   import Modelica.Constants.small;
   parameter Modelica.SIunits.Time Td(min=small) = 0.001

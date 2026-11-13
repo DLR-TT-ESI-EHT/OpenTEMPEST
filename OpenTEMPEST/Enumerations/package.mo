@@ -1,3 +1,3 @@
 within OpenTEMPEST;
-package Enumerations
+package Enumerations "Enumeration types used for model options"
 end Enumerations;

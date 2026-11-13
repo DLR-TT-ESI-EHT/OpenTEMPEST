@@ -1,5 +1,5 @@
 ﻿within OpenTEMPEST.SOC.Cell.CrossFlow.Components;
-partial model Channel2DBase
+partial model Channel2DBase "Base model for 2D gas channels with mass, momentum and energy balances"
 
   import SI = Modelica.SIunits;
 
@@ -153,15 +153,13 @@ equation
           fillPattern=FillPattern.HorizontalCylinder)}),         Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
-<h2>Channel2DBase</h2>
-
 <p>
 Partial finite-volume base model for 2D gas flow channels in SOC cells.
 The model discretizes a rectangular channel in the two planar directions using a structured grid of <code>nX × nY</code>
 control volumes.
 </p>
 
-<h3>Governing Equations</h3>
+<h4>Governing Equations</h4>
 <ul>
 <li>Total mass conservation (finite-volume form)</li>
 <li>Species mass conservation for each gas component</li>

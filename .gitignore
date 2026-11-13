@@ -1,8 +1,63 @@
 *.diff
 *.c
-*.mat
 *.obj
 *.exe
 *.bak-mo
 .mirror.*.env
 
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+
+# Dymola outputs
+dsin.txt
+dsmodel.c
+dsmodel*.c
+dymosim
+dymosim.exe
+dsres.mat
+dslog.txt
+dsfinal.txt
+dsu.txt
+buildlog.txt
+status
+failure
+success
+request
+*.dmp
+*.mof
+*.lck
+~$*
+
+# Simulation results
+*.mat
+*.csv
+*.plt
+
+# OpenModelica outputs
+*_init.xml
+*_info.json
+*_res.mat
+*_res.csv
+*_FMU/
+*.fmu
+*.log
+*.o
+*.so
+*.dll
+
+# Docs build / generated
+docs/_build/
+site/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*~

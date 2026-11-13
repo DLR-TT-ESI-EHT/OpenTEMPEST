@@ -1,3 +1,3 @@
 within OpenTEMPEST.SOC.Electrochem;
-package Interfaces
+package Interfaces "Connectors between electrochemistry, PEN and channels"
 end Interfaces;

@@ -1,5 +1,5 @@
 within OpenTEMPEST.Flow;
-model Flow1D "1D flow model FVM, uses UDS and LUDS"
+model Flow1D "1D finite volume gas flow model with a distributed heat port"
   extends Modelica.Icons.UnderConstruction; // use flux interpolator and remove comments
   extends OpenTEMPEST.Flow.BaseClasses.Flow1DBaseClass;
   import SI = Modelica.SIunits;

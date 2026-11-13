@@ -1,5 +1,5 @@
 within OpenTEMPEST.BOP.GasConditioning.HexEtaTypes;
-model NTU_VarUA
+model NTU_VarUA "Effectiveness from the NTU method with UA scaled by flow and gas properties"
   extends EtaBase;
 
   parameter Real b=1;

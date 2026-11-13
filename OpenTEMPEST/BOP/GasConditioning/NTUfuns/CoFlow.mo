@@ -1,5 +1,5 @@
 within OpenTEMPEST.BOP.GasConditioning.NTUfuns;
-function CoFlow
+function CoFlow "Effectiveness-NTU relation for co-flow (parallel flow)"
   extends NTUbase;
 
 algorithm
