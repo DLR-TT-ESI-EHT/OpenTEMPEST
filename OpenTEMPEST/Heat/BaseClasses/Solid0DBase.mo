@@ -11,7 +11,7 @@ partial model Solid0DBase "Base model for a lumped (0D) solid with energy balanc
 
   import SI = Modelica.SIunits;
 
-    // Initial Values
+  // Initial Values
   parameter SI.Temperature Tstartbar = 1073.15 "Uniform initial temperature of the solid" annotation(Dialog(group="Initialisation"));
 
   // Dimensions
