@@ -1,5 +1,5 @@
 within OpenTEMPEST.Heat;
-model InsulationVarArea
+model InsulationVarArea "Insulation layer with variable area (obsolete, use Solid0DvarArea)"
   extends Modelica.Icons.ObsoleteModel; //should be replaced by Solid0DVarArea
   import SI = Modelica.SIunits;
   parameter SI.ThermalConductivity lambda "thermalConductivity";

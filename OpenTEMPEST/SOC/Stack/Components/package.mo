@@ -1,3 +1,3 @@
 within OpenTEMPEST.SOC.Stack;
-package Components
+package Components "Components for stack models"
 end Components;

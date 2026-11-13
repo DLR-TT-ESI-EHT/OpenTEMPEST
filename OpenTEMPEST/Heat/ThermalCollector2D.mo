@@ -1,5 +1,5 @@
 within OpenTEMPEST.Heat;
-model ThermalCollector2D "Collects m heat flows"
+model ThermalCollector2D "Collects m heat flows through 2D thermal ports"
   parameter Integer m(min=1)=3 "Number of collected heat flows";
   parameter Integer n(min=1)=3 "Number of collected heat flows";
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a port_a[m,n]

@@ -1,5 +1,5 @@
 within OpenTEMPEST.Blocks.Functions;
-function sawToothWave
+function sawToothWave "Saw tooth wave"
   input Real u;
   input Real duration;
   input Real duty;

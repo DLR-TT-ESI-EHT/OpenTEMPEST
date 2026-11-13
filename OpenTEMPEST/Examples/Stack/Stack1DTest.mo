@@ -1,5 +1,5 @@
 within OpenTEMPEST.Examples.Stack;
-model Stack1DTest "Simple example model using the model Stack1D, adiabatic"
+model Stack1DTest "Example of the 1D co-flow stack model Stack1D, adiabatic"
   extends Modelica.Icons.Example;
 
   import SI = Modelica.SIunits;

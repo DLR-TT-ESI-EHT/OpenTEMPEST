@@ -1,5 +1,5 @@
 ﻿within OpenTEMPEST.Blocks.ComputationBlocks;
-model PlossConverter "Is needed to take the power loss in PowerElectronics into account."
+model PlossConverter "Power loss of a converter in the power electronics"
   extends Modelica.Blocks.Interfaces.SISO;
   extends Modelica.Icons.UnderConstruction; // comparison on if statment needs to be chacked
 

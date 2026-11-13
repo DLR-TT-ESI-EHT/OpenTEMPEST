@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Stack.Components;
-model FlowInterpolator1D
+model FlowInterpolator1D "Distributes flows between detailed and simplified cells of a 1D stack"
 
   import SI = Modelica.SIunits;
 

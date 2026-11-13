@@ -1,5 +1,5 @@
 within OpenTEMPEST.Heat;
-model Solid0D
+model Solid0D "Lumped (0D) solid with temperature dependent material properties"
   extends OpenTEMPEST.Heat.BaseClasses.Solid0DBase;
 
 equation

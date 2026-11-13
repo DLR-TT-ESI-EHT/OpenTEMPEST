@@ -1,6 +1,5 @@
 within OpenTEMPEST.Heat;
-model RadiativeHeatTransferGenericEnumerate
-  "0D radiative heat transfer with A2>=A1 & A1 is convex or flat"
+model RadiativeHeatTransferGenericEnumerate "0D radiative heat transfer between two surfaces (A2 >= A1, A1 convex or flat)"
   import SI = Modelica.SIunits;
   parameter SI.SpectralEmissivity epsilon1 "emissivity of surface 1";
   parameter SI.SpectralEmissivity epsilon2 "emissivity of surface 2";

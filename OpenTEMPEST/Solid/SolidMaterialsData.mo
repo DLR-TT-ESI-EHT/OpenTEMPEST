@@ -1,6 +1,5 @@
 within OpenTEMPEST.Solid;
-package SolidMaterialsData
-  "package of solid materials, where each holds coefficients for determining its temperature dependant rho, k and cp"
+package SolidMaterialsData "Coefficient records for the temperature dependent properties of solid materials"
   extends Modelica.Icons.Package;
 
    constant OpenTEMPEST.Solid.solidMaterialsRecord Custom(

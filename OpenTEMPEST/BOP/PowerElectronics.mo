@@ -1,6 +1,5 @@
 within OpenTEMPEST.BOP;
-model PowerElectronics
-  "Model of a power electronics unit including AC/DC conversion"
+model PowerElectronics "Power electronics unit with AC/DC conversion losses and current or voltage control"
 
   parameter Integer nChannels=3 "Number of parallel electrical channels";
   parameter Real currentFactor=1 "Liniar factor, which is multiplied with the input current";

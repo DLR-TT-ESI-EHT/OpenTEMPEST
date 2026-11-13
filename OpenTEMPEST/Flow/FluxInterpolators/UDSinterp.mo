@@ -1,6 +1,5 @@
 within OpenTEMPEST.Flow.FluxInterpolators;
-function UDSinterp
-  "UDS: Upwind Differencing Scheme (1st Order)"
+function UDSinterp "Upwind differencing scheme (UDS, 1st order)"
   extends DifferencingSchemeInterpBase;
 algorithm
   // Guard: Ensure we have at least two elements to apply the scheme

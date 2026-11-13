@@ -1,6 +1,5 @@
 within OpenTEMPEST.Blocks.Sources;
-model Pulse
-  "Generate pulses - faster than MSL pulse source. Uses MultiRamp in the background"
+model Pulse "Pulse train built from ramps (faster than the MSL pulse source)"
 
   parameter Integer nPulse=500 "Number of Pulses";
   parameter Real pulseHeight "Height of Pulse";
@@ -74,18 +73,9 @@ equation
         preserveAspectRatio=true,
         extent={{-100,-100},{100,100}})),
     Documentation(info="<html>
-<p>
-The Real output y is a ramp signal:
-</p>
-
-<p>
-<img src=\"modelica://Modelica/Resources/Images/Blocks/Sources/Ramp.png\"
-     alt=\"Ramp.png\">
-</p>
-
-<p>
-If parameter duration is set to 0.0, the limiting case of a Step signal is achieved.
-</p>
+<p>Generates <code>nPulse</code> pulses of height <code>pulseHeight</code> starting at <code>startPulse</code>.
+Each period lasts <code>pulseDuration</code>, of which the fraction <code>dutyCycle</code> is on.
+The pulses are built from steps (ramps with zero duration), which is faster to simulate than the MSL pulse source.</p>
 </html>", revisions="<html>
 </html>"));
 end Pulse;

@@ -1,5 +1,5 @@
 within OpenTEMPEST.Heat;
-model conductiveHTVarLambda
+model conductiveHTVarLambda "Conductive heat transfer through an insulation layer with temperature dependent conductivity"
   extends ThermoPower.Icons.HeatFlow;
   import SI = Modelica.SIunits;
   SI.ThermalConductivity lambda "thermalConductivity";

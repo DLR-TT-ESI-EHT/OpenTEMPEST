@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Electrochem.ASR;
-model ASR_T_Template "Template: see instructions inside"
+model ASR_T_Template "Template for new ASR correlations (see instructions inside)"
 
   /*
   This template can be used to create new ASR models, the base level only assumes

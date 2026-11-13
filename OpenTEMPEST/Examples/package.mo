@@ -1,3 +1,3 @@
 within OpenTEMPEST;
-package Examples
+package Examples "Example models showing how to use the library"
 end Examples;

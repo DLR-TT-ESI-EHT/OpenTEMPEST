@@ -1,5 +1,5 @@
 within OpenTEMPEST.Medium;
-package FlueGas "TEMPEST: Flue Gas"
+package FlueGas "Flue gas as ideal gas mixture (O2, Ar, H2O, CO2, N2)"
   extends Modelica.Media.IdealGases.Common.MixtureGasNasa(
     mediumName="FlueGas",
     data={Modelica.Media.IdealGases.Common.SingleGasesData.O2,

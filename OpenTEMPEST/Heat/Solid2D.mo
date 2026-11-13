@@ -1,5 +1,5 @@
 within OpenTEMPEST.Heat;
-model Solid2D
+model Solid2D "2D finite volume solid with temperature dependent material properties"
   extends OpenTEMPEST.Heat.BaseClasses.Solid2DBase;
 
 equation

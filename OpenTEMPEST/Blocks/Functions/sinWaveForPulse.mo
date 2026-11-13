@@ -1,5 +1,5 @@
 within OpenTEMPEST.Blocks.Functions;
-function sinWaveForPulse
+function sinWaveForPulse "Shifted cosine wave used to build pulse signals"
   input Real u;
   input Real duration;
   input Real duty;

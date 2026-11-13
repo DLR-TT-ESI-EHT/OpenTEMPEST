@@ -1,5 +1,5 @@
 within OpenTEMPEST.BOP.GasConditioning;
-model SimpleGasHeaterVol
+model SimpleGasHeaterVol "Simple gas heater with a gas volume (plenum) and optional pressure loss"
   extends Flow.BaseClasses.simpleGasHeaterBase;
 
   import SI = Modelica.SIunits;

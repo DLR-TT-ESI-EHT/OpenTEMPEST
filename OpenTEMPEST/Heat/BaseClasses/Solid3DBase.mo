@@ -1,5 +1,5 @@
 within OpenTEMPEST.Heat.BaseClasses;
-partial model Solid3DBase
+partial model Solid3DBase "Base model for a 3D finite volume solid with energy balance"
 
   import SI = Modelica.SIunits;
   replaceable package SolidMat = OpenTEMPEST.Solid.SolidMatBase annotation(choicesAllMatching = true);
@@ -312,7 +312,6 @@ equation
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
 </html>", info="<html>
-<h2>Solid3DBase</h2>
 <p>
 The model represents a three-dimensional solid discretized into control volumes (CVs)
 in the x-, y- and z-directions. It computes the transient temperature distribution 

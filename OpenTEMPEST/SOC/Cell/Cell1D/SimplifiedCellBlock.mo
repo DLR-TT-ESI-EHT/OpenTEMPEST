@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Cell.Cell1D;
-model SimplifiedCellBlock
+model SimplifiedCellBlock "Simplified 1D block of cells represented by one thermal solid"
   import SI = Modelica.SIunits;
   parameter Integer N(min=3)=5 "number of CVs in each layer";
   parameter Integer nCellVertMult=1 "number of cells this object is representing in z direction";
@@ -116,8 +116,6 @@ equation
           fillPattern=FillPattern.Solid)}), Diagram(coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
 </html>", info="<html>
-<h2>Simplified 1D Cell Block</h2>
-
 <p>
 This model represents a simplified 1D block of cells and associated thermal volumes. It discretizes 
 the block of cells into N control volumes along the x-direction and optionally represents 

@@ -1,5 +1,5 @@
 within OpenTEMPEST.Blocks.ComputationBlocks;
-block ThermoneutralVoltageCalc
+block ThermoneutralVoltageCalc "Thermoneutral and ideal (Nernst) voltage for steam and CO2 co-electrolysis"
   extends Modelica.Blocks.Icons.Block;
 
   Modelica.Blocks.Interfaces.RealInput in_T

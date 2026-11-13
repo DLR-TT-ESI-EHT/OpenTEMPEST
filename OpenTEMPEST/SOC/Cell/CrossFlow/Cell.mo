@@ -1,5 +1,5 @@
 ﻿within OpenTEMPEST.SOC.Cell.CrossFlow;
-model Cell
+model Cell "2D cross-flow cell repeating unit with PEN, fuel and air channels and interconnects"
 
   import SI = Modelica.SIunits;
 
@@ -275,7 +275,6 @@ equation
           lineThickness=0.5)}),                                  Diagram(coordinateSystem(preserveAspectRatio=false, extent={
             {-100,-120},{100,100}})),
     Documentation(info="<html>
-<h2>2D Crossflow Cell</h2>
 <p>
 The model represents a two-dimensional crossflow cell discretized 
 into control volumes (CVs) in the x- and y-directions.

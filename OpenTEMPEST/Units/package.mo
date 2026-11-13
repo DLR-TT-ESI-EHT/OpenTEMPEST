@@ -1,3 +1,3 @@
 within OpenTEMPEST;
-package Units
+package Units "Additional unit types"
 end Units;

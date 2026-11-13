@@ -1,3 +1,3 @@
 within OpenTEMPEST.SOC;
-package Stack
+package Stack "Stack models"
 end Stack;

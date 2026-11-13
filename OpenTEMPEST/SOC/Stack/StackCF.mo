@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Stack;
-model StackCF
+model StackCF "Stack of 2D cross-flow cells with end plates and manifolds"
 
   import SI = Modelica.SIunits;
 
@@ -253,8 +253,6 @@ equation
         coordinateSystem(preserveAspectRatio=false)),
     experiment(__Dymola_Algorithm="Cvode"),
     Documentation(info="<html>
-<h2>2D Crossflow Stack</h2>
-
 <p>
 This model represents a two-dimensional crossflow stack composed of multiple 
 SOC cells arranged in the z-direction. Each cell includes discretized PEN, air 

@@ -1,5 +1,5 @@
 within OpenTEMPEST.BOP.GasConditioning.HexEtaTypes;
-model ConstantEta
+model ConstantEta "Constant heat exchanger effectiveness"
   extends EtaBase;
   parameter Real etaNom = 0.99;
 

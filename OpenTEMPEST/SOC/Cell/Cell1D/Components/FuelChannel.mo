@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Cell.Cell1D.Components;
-model FuelChannel
+model FuelChannel "1D fuel channel with electrochemical reactions and steam reforming and water gas shift"
   extends OpenTEMPEST.SOC.Cell.Cell1D.Components.Channel1DBase(
     redeclare package Medium = OpenTEMPEST.Medium.Fuel_CH4);
 
@@ -129,8 +129,6 @@ equation
           fillColor={134,134,134})}),                            Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
-<h2>FuelChannel1D</h2>
-
 <p>
 One-dimensional finite-volume fuel channel model extending 
 <code>Channel1DBase</code>. The model describes coupled mass, energy, 
@@ -138,7 +136,7 @@ and momentum balances in a porous nickel foam channel including
 heterogeneous reforming reactions and electrochemical source terms.
 </p>
 
-<h3>Modeling Assumptions</h3>
+<h4>Modeling Assumptions</h4>
 <ul>
 <li>1D discretization in flow direction</li>
 <li>Thermal equilibrium between gas and nickel foam solid phase</li>
@@ -146,7 +144,7 @@ heterogeneous reforming reactions and electrochemical source terms.
 <li>Darcy-based pressure drop formulation</li>
 </ul>
 
-<h3>Included Phenomena</h3>
+<h4>Included Phenomena</h4>
 <ul>
 <li>Methane Steam Reforming (MSR)</li>
 <li>Water-Gas Shift (WGS)</li>

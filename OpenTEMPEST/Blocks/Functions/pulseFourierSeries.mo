@@ -1,5 +1,5 @@
 within OpenTEMPEST.Blocks.Functions;
-function pulseFourierSeries
+function pulseFourierSeries "Pulse wave approximated by a Fourier series"
   input Real u;
   input Real frequency;
   input Real duty;

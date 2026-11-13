@@ -1,6 +1,5 @@
 within OpenTEMPEST.Flow.BaseClasses;
-partial model PFRBaseClass
-  "Base Class for a 1 phase Plug flow reactor with no external mass transfer"
+partial model PFRBaseClass "Base class for a single phase plug flow reactor without external mass transfer"
   extends Flow1DBaseClass;
   import SI = Modelica.SIunits;
 

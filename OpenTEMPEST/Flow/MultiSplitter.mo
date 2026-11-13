@@ -1,5 +1,5 @@
 within OpenTEMPEST.Flow;
-model MultiSplitter
+model MultiSplitter "Split one gas flow into n outlets"
 
   parameter Integer nOutlets(min = 2);
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium

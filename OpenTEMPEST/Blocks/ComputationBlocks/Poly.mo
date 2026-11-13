@@ -1,5 +1,5 @@
 within OpenTEMPEST.Blocks.ComputationBlocks;
-block Poly "Output a polynomical expression, y = c[1] + u*(c[2] + u*(c[3] + u*(c[4] + ...)))"
+block Poly "Polynomial of the input, y = c[1] + u*(c[2] + u*(c[3] + ...))"
   extends Modelica.Blocks.Interfaces.SISO;
 
   parameter Real  c[:] "Polynomial coefficients";
@@ -14,24 +14,8 @@ equation
   y = Modelica.Math.Special.Internal.polyEval(c,u);
   annotation (
     Documentation(info="<html>
-<p>
-This blocks computes output <strong>y</strong> as <em>sum</em> of the
-three input signals <strong>u1</strong>, <strong>u2</strong> and <strong>u3</strong>:
-</p>
-<pre>
-    <strong>y</strong> = k1*<strong>u1</strong> + k2*<strong>u2</strong> + k3*<strong>u3</strong>;
-</pre>
-<p>
-Example:
-</p>
-<pre>
-     parameter:   k1= +2, k2= -3, k3=1;
-
-  results in the following equations:
-
-     y = 2 * u1 - 3 * u2 + u3;
-</pre>
-
+<p>Computes the output <code>y</code> as a polynomial of the input <code>u</code> with coefficients <code>c</code>:</p>
+<pre>    y = c[1] + c[2]*u + c[3]*u^2 + ...</pre>
 </html>"),
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,
             100}}), graphics={Text(

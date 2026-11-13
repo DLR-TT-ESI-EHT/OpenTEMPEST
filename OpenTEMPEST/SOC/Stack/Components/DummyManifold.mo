@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Stack.Components;
-model DummyManifold
+model DummyManifold "Manifold with dummy outlet ports for simplified stacks"
   function positiveMax
     extends Modelica.Icons.Function;
     input Real x;

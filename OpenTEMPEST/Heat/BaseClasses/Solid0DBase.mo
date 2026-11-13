@@ -1,5 +1,5 @@
 within OpenTEMPEST.Heat.BaseClasses;
-partial model Solid0DBase
+partial model Solid0DBase "Base model for a lumped (0D) solid with energy balance"
 
   replaceable package SolidMat = OpenTEMPEST.Solid.SolidMatBase  annotation(choicesAllMatching = true);
   SolidMat.BaseProperties solid(
@@ -133,7 +133,6 @@ initial equation
           textString="%name")}),                                    Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
-<h2>Solid0DBase</h2>
 <p>
 The model represents a zero-dimensional (lumped) solid with a single control volume.
 It computes the transient temperature of the solid based on conduction through all 

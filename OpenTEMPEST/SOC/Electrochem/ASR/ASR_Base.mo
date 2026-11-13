@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Electrochem.ASR;
-partial model ASR_Base "Base Model for ASR objects"
+partial model ASR_Base "Base model for ASR correlations"
 
   import SI = Modelica.SIunits;
 

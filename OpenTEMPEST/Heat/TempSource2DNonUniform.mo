@@ -1,6 +1,5 @@
 within OpenTEMPEST.Heat;
-model TempSource2DNonUniform
-  "Non-uniformly Distributed Temperature Source for 2D Finite Volume models"
+model TempSource2DNonUniform "Non-uniformly distributed temperature source for 2D finite volume models"
   extends OpenTEMPEST.Heat.BaseClasses.TempSource2DBase;
 
   Modelica.Blocks.Interfaces.RealInput temperature[nX, nY] annotation (Placement(

@@ -1,6 +1,5 @@
 within OpenTEMPEST.BOP;
-model Vaporizer
-  "Evaporator model. Input is mass flow in water. Output is water vapor as gas mix. All extensive variables are depending on the mass flow."
+model Vaporizer "Vaporizer converting a liquid water mass flow into water vapour in a gas mixture"
  import SI = Modelica.SIunits;
  parameter Boolean thermalInput = false;
  parameter SI.AbsolutePressure pStart = 101325;

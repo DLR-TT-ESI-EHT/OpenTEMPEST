@@ -1,5 +1,5 @@
 within OpenTEMPEST.Blocks.ComputationBlocks;
-block AddX "Output the sum of the X inputs"
+block AddX "Weighted sum of n input signals"
   extends Modelica.Blocks.Icons.Block;
 
   parameter Integer n = 3 "Number of input signals";
@@ -15,24 +15,8 @@ equation
   y = sum(k*u);
   annotation (
     Documentation(info="<html>
-<p>
-This blocks computes output <strong>y</strong> as <em>sum</em> of the
-three input signals <strong>u1</strong>, <strong>u2</strong> and <strong>u3</strong>:
-</p>
-<pre>
-    <strong>y</strong> = k1*<strong>u1</strong> + k2*<strong>u2</strong> + k3*<strong>u3</strong>;
-</pre>
-<p>
-Example:
-</p>
-<pre>
-     parameter:   k1= +2, k2= -3, k3=1;
-
-  results in the following equations:
-
-     y = 2 * u1 - 3 * u2 + u3;
-</pre>
-
+<p>Computes the output <code>y</code> as the weighted sum of the <code>n</code> inputs:</p>
+<pre>    y = k[1]*u[1] + k[2]*u[2] + ... + k[n]*u[n]</pre>
 </html>", revisions="<html>
 </html>"),
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,

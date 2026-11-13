@@ -1,6 +1,5 @@
 within OpenTEMPEST.Heat;
-model RadHT2DFV
-  "Distributed Radiation block model - uses multiple single blocks"
+model RadHT2DFV "Distributed radiative heat transfer between two 2D finite volume surfaces"
 
   parameter Integer nX = 5 "Number of volumes in x-direction";
   parameter Integer nY = 5 "Number of volumes in y-direction";

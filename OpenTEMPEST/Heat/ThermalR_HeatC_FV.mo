@@ -1,6 +1,5 @@
 within OpenTEMPEST.Heat;
-model ThermalR_HeatC_FV
-  "Modeling thermal resistance between an FV object and an object with lumped T and lumped thermal element storing heat"
+model ThermalR_HeatC_FV "Thermal resistance between a finite volume object and a lumped heat capacity"
   import SI = Modelica.SIunits;
   parameter Integer N(min=1) "Number of nodes of DHT";
   parameter SI.ThermalResistance R "Constant thermal resistance";

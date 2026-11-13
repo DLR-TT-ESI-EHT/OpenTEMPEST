@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Cell.Cell1D.Components;
-model AirChannel
+model AirChannel "1D air channel with oxygen consumption or production at the PEN"
   extends OpenTEMPEST.SOC.Cell.Cell1D.Components.Channel1DBase(
     pStartOut=(1 - pDrop)*pStartIn,
     redeclare package Medium = OpenTEMPEST.Medium.Air_Medium);
@@ -55,8 +55,6 @@ equation
           fillColor={134,134,134})}),                            Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
-<h2>AirChannel</h2>
-
 <p>
 One-dimensional finite-volume air channel model extending 
 <code>Channel1DBase</code>. The model describes coupled mass, energy, 
@@ -64,7 +62,7 @@ and momentum balances in the channel including oxygen electrochemical reaction
 and axial pressure drop.
 </p>
 
-<h3>Included Phenomena</h3>
+<h4>Included Phenomena</h4>
 <ul>
 <li>Oxygen electrochemical reaction via <code>PEN_in</code></li>
 <li>Electrochemical heat source term</li>

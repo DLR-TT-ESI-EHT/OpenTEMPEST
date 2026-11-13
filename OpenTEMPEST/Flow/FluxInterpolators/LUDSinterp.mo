@@ -1,6 +1,5 @@
 within OpenTEMPEST.Flow.FluxInterpolators;
-function LUDSinterp
-  "LUDS: Linear Upwind Differencing Scheme (2nd Order)"
+function LUDSinterp "Linear upwind differencing scheme (LUDS, 2nd order)"
   extends DifferencingSchemeInterpBase;
 algorithm
   // Guard: Ensure we have at least two elements to apply the scheme

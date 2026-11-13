@@ -1,8 +1,5 @@
 within OpenTEMPEST.Blocks.Functions;
-function polySolid
-  "
-  Function to calculate the thermophysical properties of a solid, for a given set of coefficients
-  "
+function polySolid "Thermophysical property of a solid from a set of polynomial coefficients"
 
   input Real Tref;
   input Real c[4];

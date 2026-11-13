@@ -1,6 +1,5 @@
 within OpenTEMPEST.Blocks.ComputationBlocks;
-model FlowSafetyOffsetCalc
-  "Increases/descreases mass flow depending of the trend"
+model FlowSafetyOffsetCalc "Increase or decrease a mass flow depending on the trend of a signal"
 
   extends Modelica.Blocks.Interfaces.SISO;
 

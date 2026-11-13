@@ -1,3 +1,3 @@
 within OpenTEMPEST.Examples;
-package MultiReactor
+package MultiReactor "Multi-stack module examples (to be added)"
 end MultiReactor;

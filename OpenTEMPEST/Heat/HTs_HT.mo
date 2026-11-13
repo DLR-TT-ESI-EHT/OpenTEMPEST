@@ -1,5 +1,5 @@
 within OpenTEMPEST.Heat;
-model HTs_HT "Several HTs to one HT adapter"
+model HTs_HT "Adaptor from several HT ports to one HT port"
   import SI = Modelica.SIunits;
   parameter Integer N(min=1) "Number of HTs (= number of nodes on DHT side)";
 

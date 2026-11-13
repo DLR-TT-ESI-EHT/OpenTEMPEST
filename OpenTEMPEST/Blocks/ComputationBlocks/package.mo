@@ -1,4 +1,4 @@
 within OpenTEMPEST.Blocks;
-package ComputationBlocks
+package ComputationBlocks "Computation, controller and signal processing blocks"
 
 end ComputationBlocks;

@@ -1,5 +1,5 @@
 within OpenTEMPEST.Blocks.Sources;
-block VectorRamp
+block VectorRamp "Vector of ramp signals with individual offsets and targets"
 
   parameter Real height[nout] = target-offset "Height of ramps";
   parameter Real target[nout] = fill(1,nout) "Target of the output signals";

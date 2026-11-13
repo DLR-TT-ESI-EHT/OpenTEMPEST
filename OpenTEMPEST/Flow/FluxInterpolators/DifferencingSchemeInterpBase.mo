@@ -1,5 +1,5 @@
 within OpenTEMPEST.Flow.FluxInterpolators;
-partial function DifferencingSchemeInterpBase
+partial function DifferencingSchemeInterpBase "Base function for differencing schemes"
   input Integer N "Number of points in U";
   input Real U[N] "Field variable values";
   input Real U0 "Ghost cell value (upstream)";

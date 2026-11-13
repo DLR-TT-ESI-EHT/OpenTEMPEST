@@ -1,5 +1,5 @@
 within OpenTEMPEST.Blocks.Functions;
-function pulseWave
+function pulseWave "Smooth pulse wave built from a saw tooth wave"
   input Real u;
   input Real duration;
   input Real duty;

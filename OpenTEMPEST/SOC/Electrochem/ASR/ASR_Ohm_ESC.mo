@@ -1,5 +1,5 @@
 within OpenTEMPEST.SOC.Electrochem.ASR;
-model ASR_Ohm_ESC "Ohmic ASR for ESC - No dimensions"
+model ASR_Ohm_ESC "Ohmic ASR of an electrolyte supported cell (ESC)"
 
   extends OpenTEMPEST.SOC.Electrochem.ASR.ASR_OhmBase;
 
@@ -13,7 +13,6 @@ equation
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
 </html>", info="<html>
-<html><body>
-DOI: 10.1016/j.ijhydene.2018.12.168
+<p>Ohmic ASR as a function of the PEN temperature. Parameters from <a href=\"https://doi.org/10.1016/j.ijhydene.2018.12.168\">doi:10.1016/j.ijhydene.2018.12.168</a>.</p>
 </html>"));
 end ASR_Ohm_ESC;

@@ -1,5 +1,5 @@
 within OpenTEMPEST.Heat;
-connector DHTVolumes2D "Distributed Heat Terminal"
+connector DHTVolumes2D "Distributed heat terminal for 2D finite volume models"
   parameter Integer i=1 "number of volumes in direction 1";
   parameter Integer j=1 "number of volumes in direction 2";
 //   parameter Integer N[i,j] "Number of volumes";

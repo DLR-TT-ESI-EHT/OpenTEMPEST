@@ -1,5 +1,5 @@
 within OpenTEMPEST.BOP.GasConditioning;
-model SimpleGasHeater
+model SimpleGasHeater "Simple gas heater with convective heat transfer to a heat port"
   extends Flow.BaseClasses.simpleGasHeaterBase;
   import SI = Modelica.SIunits;
 

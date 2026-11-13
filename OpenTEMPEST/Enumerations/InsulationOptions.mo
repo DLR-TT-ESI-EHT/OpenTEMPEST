@@ -5,5 +5,4 @@ type InsulationOptions = enumeration(
     Duratec "GoodFellow/Promat Duratec 750",
     Steel "steel 314/1.4841",
     AlOx "Aluminium Oxide Al2O3",
-    Feuerleichtstein "Feuerleichtstein 'Schuba FLS-L4S'")
-  "Choose insulation material";
+    Feuerleichtstein "Feuerleichtstein 'Schuba FLS-L4S'") "Insulation material";

@@ -1,5 +1,5 @@
 within OpenTEMPEST.BOP;
-model Evaporator
+model Evaporator "Drum evaporator producing steam for a gas phase medium (under construction)"
  extends Modelica.Icons.UnderConstruction; // check media
 
   replaceable package gasPhaseMedium =

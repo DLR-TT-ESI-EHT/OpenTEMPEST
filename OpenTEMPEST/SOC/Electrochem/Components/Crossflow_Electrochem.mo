@@ -1,6 +1,5 @@
 within OpenTEMPEST.SOC.Electrochem.Components;
-model Crossflow_Electrochem
-  "Crossflow: Steam Electrolysis with B-V, Ohmic ASR and Diffusion. SOEC paper parameters and equations"
+model Crossflow_Electrochem "Detailed steam electrolysis electrochemistry with the cross-flow cell parameters"
   extends OpenTEMPEST.SOC.Electrochem.Components.ElectrochemBase;
   import SI = Modelica.SIunits;
 
@@ -232,11 +231,9 @@ equation
   end if;
 
   annotation (Documentation(info="<html>
-  <body>
-    <p>References for parameters:</p>
+  <p>References for parameters:</p>
     <ul>
-      <li>DOI: 10.1149/1945-7111/ad5e01</li>
+      <li><a href=\"https://doi.org/10.1149/1945-7111/ad5e01\">doi:10.1149/1945-7111/ad5e01</a></li>
     </ul>
-  </body>
-</html>"));
+  </html>"));
 end Crossflow_Electrochem;

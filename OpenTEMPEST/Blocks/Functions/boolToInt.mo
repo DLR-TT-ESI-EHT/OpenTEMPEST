@@ -1,5 +1,5 @@
 within OpenTEMPEST.Blocks.Functions;
-function boolToInt "return 1 for true and 0 for false entries"
+function boolToInt "Return 1 for true and 0 for false"
   extends Modelica.Icons.Function;
 
   input Boolean boolVec[:] "Boolean vector";

@@ -1,5 +1,5 @@
 within OpenTEMPEST.Heat.BaseClasses;
-partial model Solid1DBase
+partial model Solid1DBase "Base model for a 1D finite volume solid with energy balance"
 
   import SI = Modelica.SIunits;
   replaceable package SolidMat = OpenTEMPEST.Solid.SolidMatBase annotation(choicesAllMatching = true);
@@ -141,7 +141,6 @@ equation
 </html>
 
 ", info="<html>
-<h2>Solid1DBase</h2>
 <p>
 The model represents a one-dimensional solid discretized into control volumes (CVs)
 in the x-direction. It computes the transient temperature distribution 

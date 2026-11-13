@@ -1,6 +1,5 @@
 ﻿within OpenTEMPEST.SOC.Stack;
-model Stack0D
-  "0D stack based on lumped ASR expression assuming full internal steam reforming (CH4 outlet is 0) with no pressure loss."
+model Stack0D "Lumped (0D) stack based on an ASR, with full internal reforming and no pressure loss"
 
   import SI = Modelica.SIunits;
 
@@ -8,8 +7,8 @@ model Stack0D
   parameter Integer nParallel = 1 "Parallel stacks with equal voltage";
   parameter SI.Area ACell = 130/100^2 "Active area per single cell";
   parameter SI.HeatCapacity C = 1 "Capacity of each stack if nParallel>=1";
-  parameter Units.AreaSpecificResistance alphaASR=728;
-  parameter SI.LinearTemperatureCoefficient betaASR=-8.29e-3;
+  parameter Units.AreaSpecificResistance alphaASR=728 "Pre-exponential factor of the ASR correlation";
+  parameter SI.LinearTemperatureCoefficient betaASR=-8.29e-3 "Temperature coefficient of the ASR correlation";
 
   parameter Integer n(min = 1)=10 "Number of axially discretisized units in heat ports";
   parameter Integer intermediatePlateDistance = 10 "Number of cells between two intermediate plates, set to >nCellPerStack to have none" annotation (Dialog(tab="Intermediate and end plates properties"));
@@ -26,8 +25,8 @@ model Stack0D
 
   Electrochem electrochem(Tpen=TASR, J=J, P_A=(sensAirIn.p + sensAirOut.p)/2, P_F=(sensFuelIn.p + sensFuelOut.p)/2, yA=(sensAirIn.y + sensAirOut.y)/2, yF=(sensFuelIn.y + sensFuelOut.y)/2);
 
-  parameter SI.MassFraction [Fuel.nXi] XStartGas=Fuel.X_default;
-  parameter SI.MassFraction [Air.nXi] XStartAir=Air.X_default;
+  parameter SI.MassFraction [Fuel.nXi] XStartGas=Fuel.X_default "Start mass fractions on the fuel side";
+  parameter SI.MassFraction [Air.nXi] XStartAir=Air.X_default "Start mass fractions on the air side";
 
   replaceable package Fuel = OpenTEMPEST.Medium.Fuel_CH4 constrainedby Medium.Fuel_CH4
                               annotation(choicesAllMatching = true);
@@ -324,8 +323,6 @@ equation
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(revisions="<html>
 </html>", info="<html>
-<h2>BlackBoxStack</h2>
-
 <p>
 0D stack model based on a lumped 
 Area Specific Resistance (ASR) formulation. The model assumes:
@@ -338,7 +335,7 @@ Area Specific Resistance (ASR) formulation. The model assumes:
 <li>Uniform current density across all cells.</li>
 </ul>
 
-<h3>Main Modeling Assumptions</h3>
+<h4>Main Modeling Assumptions</h4>
 
 <ul>
 <li>Electrochemical losses are represented by a temperature-dependent ASR:

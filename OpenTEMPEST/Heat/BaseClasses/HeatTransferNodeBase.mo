@@ -1,5 +1,5 @@
 within OpenTEMPEST.Heat.BaseClasses;
-partial model HeatTransferNodeBase
+partial model HeatTransferNodeBase "Base model transferring heat between two distributed heat ports"
 
   parameter Integer N = 5;
 

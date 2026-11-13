@@ -1,5 +1,5 @@
 within OpenTEMPEST.BOP.GasConditioning;
-model ElectricHeater0D
+model ElectricHeater0D "0D electric gas heater with PI temperature control and power limit"
   extends ThermoPower.Icons.Gas.Tube;
   replaceable package Medium = OpenTEMPEST.Medium.Fuel_CH4 constrainedby Modelica.Media.Interfaces.PartialMedium
     "Medium model"

@@ -1,6 +1,5 @@
 within OpenTEMPEST.Blocks.ComputationBlocks;
-model BumplessTransferController
-  "Changes the setpoint of an external controller to reduce controller error peaks and toggles a switch between automatic and manual tracking for the reference variable"
+model BumplessTransferController "Bumpless switching between automatic and manual set point tracking"
 
 //   parameter Boolean use_in_setPoint2 = false "Select to activate manual tracking for controller"  annotation(Dialog(group="External inputs"), choices(checkBox=true));
   parameter Modelica.SIunits.Time rampCompensatorDuration = 180 "Ramp Compensator duration";

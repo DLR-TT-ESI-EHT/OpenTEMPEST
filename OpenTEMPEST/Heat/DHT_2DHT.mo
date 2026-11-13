@@ -1,5 +1,5 @@
 within OpenTEMPEST.Heat;
-model DHT_2DHT
+model DHT_2DHT "Adaptor splitting one distributed heat port into two"
   ThermoPower.Thermal.DHTVolumes DHTSingle(N=n)
     annotation (Placement(transformation(extent={{-10,60},{10,80}}),
         iconTransformation(extent={{-60,40},{60,60}})));

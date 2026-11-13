@@ -1,5 +1,5 @@
 within OpenTEMPEST.BOP.GasConditioning;
-model CoolingCycle "Heat exchanger with integrated water cycle."
+model CoolingCycle "Heat exchanger with integrated water cycle"
   import SI = Modelica.SIunits;
   import Medi = Modelica.Media.Interfaces.PartialMedium;
 

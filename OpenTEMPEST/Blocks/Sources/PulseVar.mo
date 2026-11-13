@@ -1,5 +1,5 @@
 within OpenTEMPEST.Blocks.Sources;
-model PulseVar
+model PulseVar "Pulse wave with amplitude, period and duty cycle given as inputs"
   Real frequency = 2*Modelica.Constants.pi/duration;
   Real out;
 

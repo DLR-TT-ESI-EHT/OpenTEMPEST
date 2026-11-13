@@ -1,5 +1,5 @@
 within OpenTEMPEST.Medium;
-package Fuel_C3 "TEMPEST: FT off gas with C3"
+package Fuel_C3 "Fischer-Tropsch off gas with propane (H2, CH4, CO2, CO, H2O, N2, C3H8)"
   extends Modelica.Media.IdealGases.Common.MixtureGasNasa(
     mediumName = "NaturalGasMixture",
     data = {Modelica.Media.IdealGases.Common.SingleGasesData.H2,

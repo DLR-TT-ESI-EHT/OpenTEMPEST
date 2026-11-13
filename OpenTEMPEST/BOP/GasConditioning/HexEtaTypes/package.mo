@@ -1,3 +1,3 @@
 within OpenTEMPEST.BOP.GasConditioning;
-package HexEtaTypes
+package HexEtaTypes "Effectiveness models for BlackBoxHexGeneric"
 end HexEtaTypes;
